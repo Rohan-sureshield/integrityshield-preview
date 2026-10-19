@@ -54,46 +54,48 @@ const PRICING_FAQ = [
 
 const M = {
   ses: {
-    name: 'IntegrityShield-SES', short: 'SES', crumb: "Sanctions & Exclusion Screening Software", vis: 'sources', visTitle: 'Source sync · tonight',
-    oneliner: "All-in-one sanctions and exclusion screening for employees, vendors and healthcare providers: OFAC, OIG, SAM and 63 official lists, every night.",
-    h1: '63 exclusion lists. Screened nightly. <span class="mark">Owned in-house.</span>',
-    lede: "All-in-one sanctions and exclusion screening software for your workforce, vendors and healthcare providers. Checks OFAC, OIG, SAM and state exclusion lists from official government sources, every night.",
+    name: 'IntegrityShield-SES', short: 'SES', title: 'Integrity Violations Screening Solution', crumb: "Sanctions & Exclusion Screening Software", vis: 'sources', visTitle: 'Source sync · tonight',
+    oneliner: "Continuous screening of providers, vendors and employees for exclusions, sanctions and other violations: OFAC, OIG, SAM and state Medicaid lists, every night.",
+    h1: 'US federal, national and state lists. Screened nightly. <span class="mark">At your command, in-house!</span>',
+    lede: "An integrity violations solution that continuously screens your providers, vendors and employees for exclusions, sanctions and other violations, against OFAC, OIG, SAM and state Medicaid exclusion lists from official government sources.",
     stats: [['63','','Sources, updated nightly'],['440','k','Records checked against'],['90','%','Less than outsourcing'],['100','%','Audit ready']],
-    hTitle: 'Live in under an hour.',
-    steps: [["Load your workforce, vendors and providers", "Import employees, contractors, vendors and healthcare providers, or connect HR, credentialing and vendor systems."], ["We screen every night", "Each record is checked against OFAC, OIG LEIE, SAM.gov and state exclusion lists, 63 official sources, and again whenever a list changes."], ["Review real matches", "Match scoring clears false positives, so you only see what matters."], ["Close with evidence", "Every decision is logged and ready for your next audit."]],
+    hTitle: 'Live in under an hour.', planH: 'Choose a subscription plan <span class="mark">that best suits you.</span>',
+    steps: [["Load your workforce, vendors and providers", "Import employees, contractors, vendors and healthcare providers, or connect HR, credentialing and vendor systems."], ["Nightly automated screenings", "Each record is checked against OFAC, OIG LEIE, SAM.gov and state Medicaid exclusion lists, and again whenever a list changes."], ["Review only matches that need attention", "Match scoring clears false positives, so you only see the identity matches that matter."], ["Manage true positives with configurable workflows", "Route each confirmed match to the right person, track it to closure and keep every decision for your next audit."]],
     featTitle: "Sanctions screening software features",
-    features: ["OFAC SDN, OIG LEIE, SAM.gov and state Medicaid exclusion lists: 63 official government sources", "Employees, contractors, vendors and healthcare providers screened in one place", "Nightly rescreening, plus a rescreen whenever a list updates", "Match scoring that clears false positives", "Audit trail and reports for every screening decision", "APIs for HR, credentialing, vendor and billing systems"],
+    features: ["OFAC SDN, OIG LEIE, SAM.gov and state Medicaid exclusion lists from official government sources", "Employees, contractors, vendors and healthcare providers screened in one place", "Nightly rescreening, plus a rescreen whenever a list updates", "Match scoring that clears 80% of false positives", "Audit trail and reports for every screening and management decision", "APIs for HR, credentialing, vendor and billing systems"],
     assess: 'ses',
     faqTitle: "Sanctions &amp; exclusion screening FAQs.",
-    faq: [["What is sanctions and exclusion screening software?", "Software that checks employees, vendors and healthcare providers against government sanctions and exclusion lists, such as OFAC, OIG LEIE and SAM.gov, and flags matches for review. IntegrityShield-SES does this every night, in-house."], ["Is IntegrityShield-SES an all-in-one tool for employees, vendors and healthcare providers?", "Yes. One platform screens your workforce, contractors, vendors and healthcare providers against 63 federal and state lists, including OFAC SDN, OIG LEIE and SAM.gov exclusions."], ["Which official exclusion lists does it check?", "OIG LEIE, SAM.gov exclusions, OFAC SDN, and state Medicaid exclusion and termination lists: 63 official government sources, refreshed every night."], ["What should sanctions screening software include in 2026?", "Coverage of OFAC, OIG, SAM and every state list you are subject to; nightly rescreening; match scoring that clears false positives; an audit trail; and integrations with HR, credentialing and vendor systems. IntegrityShield-SES includes each of these."], ["How quickly can we start?", "Most teams screen their first watchlist within an hour."], ["Can we stop outsourcing?", "Yes. Run screening in-house for up to 90% less, with an audit trail reviewers can follow."], ["Does it connect to our systems?", "Yes. APIs connect to HR, credentialing, contract management and billing systems."]]
+    faq: [["What is sanctions and exclusion screening software?", "Software that checks employees, vendors and healthcare providers against government sanctions and exclusion lists, such as OFAC, OIG LEIE and SAM.gov, and flags matches for review. IntegrityShield-SES does this every night, in-house."], ["Is IntegrityShield-SES an all-in-one tool for employees, vendors and healthcare providers?", "Yes. One platform screens your workforce, contractors, vendors and healthcare providers against federal and state lists, including OFAC SDN, OIG LEIE and SAM.gov exclusions."], ["Which official exclusion lists does it check?", "OIG LEIE, SAM.gov exclusions, OFAC SDN, and state Medicaid exclusion and termination lists from official government sources, refreshed every night."], ["What should sanctions screening software include in 2026?", "Coverage of OFAC, OIG, SAM and every state list you are subject to; nightly rescreening; match scoring that clears false positives; an audit trail; and integrations with HR, credentialing and vendor systems. IntegrityShield-SES includes each of these."], ["How quickly can we start?", "Most teams screen their first watchlist within an hour."], ["Can we stop outsourcing?", "Yes. Run screening in-house for up to 90% less, with an audit trail reviewers can follow."], ["Does it connect to our systems?", "Yes. APIs connect to HR, credentialing, contract management and billing systems."], ["How does IntegrityShield-SES reduce false positives?", "Identity matching compares names with other identifiers such as date of birth, address and NPI, and clears 80% of false positives, so your team only reviews identity matches that need attention."], ["What happens when a true match is found?", "You get an instant alert, and the match is routed through a configurable workflow to the right reviewer. Every step and decision is logged for your audit trail."], ["Who should be screened?", "Employees, contractors, healthcare providers, vendors, board members and anyone else your compliance program requires you to monitor."], ["How often should we screen against the OIG exclusion list?", "OIG expects regular checks, and many organizations screen monthly. IntegrityShield-SES screens every night and again whenever a list updates, so nothing waits for the next monthly run."], ["Is there a free option?", "Yes. You can run a free integrity violation screening check on this page, and the Free plan covers fewer than 25 active monitoring records."]]
   },
   coi: {
-    name: 'IntegrityShield-COI', short: 'COI', crumb: "Conflict of Interest Monitoring Software", vis: 'graph', visTitle: 'COI screening · CMS Open Payments',
+    name: 'IntegrityShield-COI', short: 'COI', title: 'Conflict of Interest Screening Solution', crumb: "Conflict of Interest Monitoring Software", vis: 'graph', visTitle: 'COI screening · CMS Open Payments',
     oneliner: "Detects and monitors hidden financial relationships between vendors and credentialed healthcare practitioners, using CMS Open Payments.",
     h1: 'See every vendor dollar that <span class="mark">reaches your practitioners.</span>',
     lede: "Healthcare conflict of interest monitoring software. Detect hidden financial relationships between your vendors and credentialed practitioners with CMS Open Payments data, before they become Stark Law or Anti-Kickback risk.",
     laws: ['Stark Law','Anti-Kickback Statute','Sunshine Act','False Claims Act','Civil Monetary Penalties Law','HRSA COI policy'],
-    stats: [['1.5','M','Practitioners screened'],['3,000','','Reporting entities, 2017 to 2023'],['99','%+','Less time to find cases'],['75','%+','Lower admin cost']],
-    hTitle: 'From vendor list to audit-ready report.',
+    stats: [['1.5','M','Practitioners screened against'],['3,000','','Reporting entities, 2017 to 2024'],['99','%+','Less time to find cases'],['75','%+','Lower admin cost']],
+    hTitle: 'From vendor list to audit-ready report.', planH: 'Select a subscription plan <span class="mark">that best suits your needs.</span>', bookH: 'Do you have 30 mins? <span class="mark">See our Conflict of Interest screening solution in action.</span>', bookP: 'We will walk you through a live demo of our solution.',
     steps: [["Add vendors and credentialed practitioners", "Import lists, or sync from contract, vendor and credentialing systems."], ["Match against CMS Open Payments", "Vendor-physician financial relationships are matched automatically, and monitored as Open Payments data updates."], ["Work suspect cases", "A standardized worklist takes each hidden relationship from open to closed."], ["Report by law", "Export audit-ready reports for Stark Law, Anti-Kickback and more."]],
     featTitle: "Conflict of interest monitoring features",
     features: ["CMS Open Payments matching for vendors and credentialed practitioners", "Continuous monitoring of vendor-physician financial relationships as Open Payments data updates", "Every reported payment by amount, year and type", "Suspect-case worklist from open to closed", "Ad hoc checks before you sign a vendor or credential a practitioner", "Audit-ready reports for Stark Law, Anti-Kickback and the Sunshine Act"],
     assess: 'coi',
     faqTitle: "Conflict of interest monitoring FAQs.",
-    faq: [["What is healthcare conflict of interest monitoring software?", "Software that detects and monitors financial relationships between your vendors and the healthcare practitioners you credential, so undisclosed conflicts surface before they become Stark Law or Anti-Kickback problems."], ["How does IntegrityShield-COI detect hidden financial relationships between vendors and practitioners?", "It matches your vendors and credentialed practitioners against CMS Open Payments and shows every reported payment between them, by amount, year and type."], ["What is CMS Open Payments?", "A federal database where drug and device makers report payments to physicians, certain practitioners and teaching hospitals."], ["Is IntegrityShield-COI an Open Payments compliance platform?", "Yes. It monitors Open Payments data as it updates, gives your team one worklist for suspect cases, and exports audit-ready reports by law."], ["What should a conflict of interest monitoring platform include in 2026?", "Matching of vendors and credentialed practitioners against CMS Open Payments, continuous monitoring as the data updates, a case worklist, ad hoc checks before you sign, and reports for Stark Law and Anti-Kickback. IntegrityShield-COI includes each of these."], ["Which laws does it support?", "Stark Law, Anti-Kickback, the Sunshine Act, the False Claims Act, the CMP Law and HRSA COI policy."], ["Can we check someone before signing?", "Yes. Run an ad hoc check on any vendor or practitioner before you engage them."], ["How is it priced?", "Plans are sized by the number of practitioners and vendors you track. See the plans above."]]
+    faq: [["What is healthcare conflict of interest monitoring software?", "Software that detects and monitors financial relationships between your vendors and the healthcare practitioners you credential, so undisclosed conflicts surface before they become Stark Law or Anti-Kickback problems."], ["How does IntegrityShield-COI detect hidden financial relationships between vendors and practitioners?", "It matches your vendors and credentialed practitioners against CMS Open Payments and shows every reported payment between them, by amount, year and type."], ["What is CMS Open Payments?", "A federal database where drug and device makers report payments to physicians, certain practitioners and teaching hospitals."], ["Is IntegrityShield-COI an Open Payments compliance platform?", "Yes. It monitors Open Payments data as it updates, gives your team one worklist for suspect cases, and exports audit-ready reports by law."], ["What should a conflict of interest monitoring platform include in 2026?", "Matching of vendors and credentialed practitioners against CMS Open Payments, continuous monitoring as the data updates, a case worklist, ad hoc checks before you sign, and reports for Stark Law and Anti-Kickback. IntegrityShield-COI includes each of these."], ["Which laws does it support?", "Stark Law, Anti-Kickback, the Sunshine Act, the False Claims Act, the CMP Law and HRSA COI policy."], ["Can I search for payments made or received?", "Yes. Search a practitioner, a vendor, or both, and see every reported payment between them in CMS Open Payments."], ["How much data does IntegrityShield-COI cover?", "More than 1.5 million healthcare practitioners and about 3,000 reporting entities in CMS Open Payments, from 2017 to 2024."], ["How much time and cost does it save?", "Customers see a 99%+ reduction in the time to identify suspect conflict of interest cases and a 75%+ reduction in administrative cost burden."], ["Who uses conflict of interest screening?", "Compliance, medical staff, credentialing, supply chain and contract management teams that need to know about financial relationships before they sign or credential."], ["Can we check someone before signing?", "Yes. Run an ad hoc check on any vendor or practitioner before you engage them."], ["How is it priced?", "Plans are sized by the number of practitioners and vendors you track. See the plans above."]]
   },
   licensure: {
-    name: 'IntegrityShield-Licensure', short: 'Licensure', crumb: 'Licensure Verification', placeholder: true, vis: 'lic', visTitle: 'License monitor · placeholder',
-    oneliner: 'Placeholder: tracks licenses and certifications and alerts you before they lapse.',
-    h1: 'Every license verified. <span class="mark">Every renewal tracked.</span>',
-    lede: 'Placeholder copy. IntegrityShield-Licensure will monitor professional licenses and certifications across your workforce. Full details coming soon.',
-    hTitle: 'How it will work.',
-    steps: [['Add licensed staff','Placeholder: import people and the licenses they hold.'],['Connect license sources','Placeholder: link licensing boards and certification bodies.'],['Monitor status','Placeholder: track expirations and status changes.'],['Act on alerts','Placeholder: get notified before a license lapses.']],
+    name: 'IntegrityShield-Licensure', short: 'Licensure', title: 'Licensure & Credentials Monitoring Solution', crumb: 'Licensure Verification', vis: 'lic', visTitle: 'License monitor · placeholder',
+    oneliner: 'Live licensure and credential checks with automated primary source verification, plus alerts before anything lapses.',
+    h1: 'Every license &amp; credential verified. <span class="mark">Every renewal &amp; disciplinary action tracked.</span>',
+    lede: 'Licensure and credentialing monitoring is an integral component of medical staff operations.',
+    hTitle: 'End-to-end automation for your Medical Staff Office (MSO).', bookH: 'Do you want to preview what your MSO can be like with CAPSmart? <span class="mark">Schedule a 30 min demo session today!</span>',
+    steps: [['Digitally onboard staff','Bring practitioners and staff into the platform digitally, with the licenses and credentials they hold.'],['Establish your credentialed providers','Build a verified roster of credentialed providers for your medical staff.'],['Instant, continuous licensure verification and validation checks','Licenses and credentials are verified at the source and checked for status changes and disciplinary actions.'],['Instant alerts and notifications to mitigate risk and enforce patient safety','Know the moment a license lapses, changes status or carries a disciplinary action.'],['Configurable workflows to act on issues identified','Route every issue to the right person and track it to resolution, with a full audit trail.']],
     faq: [
-      ['When will Licensure be available?', 'Placeholder answer. Launch details coming soon.'],
-      ['Which licenses will it cover?', 'Placeholder answer. Coverage details coming soon.'],
-      ['Will it work with SES and COI?', 'Placeholder answer. Details coming soon.'],
-      ['How will it be priced?', 'See the placeholder plans above. Final pricing coming soon.']
+      ['What does IntegrityShield-Licensure do?', 'It verifies and continuously monitors the licenses and credentials of your practitioners and staff, checks their status and disciplinary actions, and alerts you before anything lapses.'],
+      ['What is primary source verification (PSV)?', 'Confirming a license or credential directly with the issuing source, such as a state licensing board. IntegrityShield-Licensure automates these checks and keeps the documentation.'],
+      ['Does it check for disciplinary actions?', 'Yes. Along with license status and expiration, it checks for disciplinary actions and alerts you when one appears.'],
+      ['Who uses it?', 'Medical Staff Offices, credentialing teams, HR and compliance teams responsible for licensed practitioners and staff.'],
+      ['Will it work with SES and COI?', 'Yes. All three IntegrityShield solutions share one platform, so a practitioner can be screened for exclusions, conflicts of interest and licensure in one place.'],
+      ['How is it priced?', 'See the plans above, or contact us for a quote.']
     ]
   }
 };
@@ -102,20 +104,23 @@ const ANNUAL_OFF = .2;
 const ENT = {k: 'ent', n: 'Enterprise', blurb: 'For complex or high-volume needs.', f: ['Unlimited records','Custom sources and rules','SSO and role-based access','Dedicated success manager','Custom terms and SLA']};
 const PLANS = {
   ses: {tiers: [
-    {k: 'basic', n: 'Basic', m: 199, blurb: 'For small teams getting started.', f: ['Up to 250 watchlist records','OIG LEIE, SAM.gov and OFAC','Nightly rescreening','Email alerts','Standard audit reports']},
-    {k: 'plus', n: 'Plus', m: 449, pop: true, blurb: 'For growing compliance programs.', f: ['Up to 1,000 watchlist records','All 63 federal and state lists','Email and text alerts','False-positive workflow','Ad hoc hiring checks']},
-    {k: 'max', n: 'Max', m: 899, blurb: 'For larger, multi-site organizations.', f: ['Up to 5,000 watchlist records','Everything in Plus','HR and credentialing integrations','API access','Priority support']},
+    {k: 'free', n: 'Free', m: 0, free: true, blurb: 'Try continuous screening at no cost.', f: ['Fewer than 25 active monitoring records','OIG LEIE, SAM.gov and OFAC','Nightly rescreening','Email alerts']},
+    {k: 'basic', n: 'Essential', m: 199, blurb: 'For small teams getting started.', f: ['26 to 100 active monitoring records','Federal and state Medicaid lists','Nightly rescreening','Email alerts','Standard audit reports']},
+    {k: 'plus', n: 'Essential Plus', m: 449, pop: true, blurb: 'For growing compliance programs.', f: ['101 to 250 active monitoring records','All federal and state lists','Email and text alerts','False-positive workflow','Ad hoc hiring checks']},
+    {k: 'max', n: 'Essential PRO', m: 899, blurb: 'For larger, multi-site organizations.', f: ['251 to 500 active monitoring records','Everything in Essential Plus','HR and credentialing integrations','API access','Priority support']},
     ENT]},
   coi: {tiers: [
-    {k: 'basic', n: 'Basic', m: 299, blurb: 'For small teams getting started.', f: ['Up to 100 practitioners','Up to 50 supply-chain vendors','Open Payments matching','Case worklist','Standard reports']},
-    {k: 'plus', n: 'Plus', m: 649, pop: true, blurb: 'For growing compliance programs.', f: ['Up to 500 practitioners','Up to 250 vendors','Automatic data refresh','Custom COI rules','Pre-engagement checks']},
-    {k: 'max', n: 'Max', m: 1199, blurb: 'For larger, multi-site organizations.', f: ['Up to 2,000 practitioners','Unlimited vendors','Everything in Plus','Contract and credentialing sync','Priority support']},
-    {...ENT, f: ['Unlimited practitioners','Multi-entity reporting','SSO and role-based access','Dedicated success manager','Custom terms and SLA']}]},
-  licensure: {placeholder: true, tiers: [
-    {k: 'basic', n: 'Basic', m: 149, blurb: 'Placeholder tier.', f: ['Up to 100 licensed staff','Expiration tracking','Renewal reminders','Email alerts']},
-    {k: 'plus', n: 'Plus', m: 349, pop: true, blurb: 'Placeholder tier.', f: ['Up to 500 licensed staff','Everything in Basic','Multi-state licenses','Email and text alerts']},
-    {k: 'max', n: 'Max', m: 699, blurb: 'Placeholder tier.', f: ['Up to 2,000 licensed staff','Everything in Plus','HR system sync','Priority support']},
-    {...ENT, blurb: 'Placeholder tier.', f: ['Unlimited licensed staff','Custom license sources','SSO and role-based access','Dedicated success manager']}]}
+    {k: 'free', n: 'Free', m: 0, free: true, blurb: 'Try conflict of interest screening at no cost.', f: ['Fewer than 25 active monitoring records','CMS Open Payments matching','Case worklist','Email alerts']},
+    {k: 'basic', n: 'Essential', m: 199, blurb: 'For small teams getting started.', f: ['26 to 100 active monitoring records','Practitioners and vendors','Automatic data refresh','Email alerts','Standard reports']},
+    {k: 'plus', n: 'Essential Plus', m: 449, pop: true, blurb: 'For growing compliance programs.', f: ['101 to 250 active monitoring records','Everything in Essential','Custom COI rules','Pre-engagement checks','Email and text alerts']},
+    {k: 'max', n: 'Essential PRO', m: 899, blurb: 'For larger, multi-site organizations.', f: ['251 to 500 active monitoring records','Everything in Essential Plus','Contract and credentialing sync','API access','Priority support']},
+    ENT]},
+  licensure: {tiers: [
+    {k: 'free', n: 'Free', m: 0, free: true, blurb: 'Try licensure monitoring at no cost.', f: ['Fewer than 25 active monitoring records','License status checks','Expiration tracking','Email alerts']},
+    {k: 'basic', n: 'Essential', m: 199, blurb: 'For small teams getting started.', f: ['26 to 100 active monitoring records','Primary source verification','Renewal reminders','Email alerts','Standard reports']},
+    {k: 'plus', n: 'Essential Plus', m: 449, pop: true, blurb: 'For growing medical staff offices.', f: ['101 to 250 active monitoring records','Everything in Essential','Disciplinary action checks','Configurable workflows','Email and text alerts']},
+    {k: 'max', n: 'Essential PRO', m: 899, blurb: 'For larger, multi-site organizations.', f: ['251 to 500 active monitoring records','Everything in Essential Plus','HR and credentialing sync','API access','Priority support']},
+    ENT]}
 };
 
 const SOURCES = [{"n": "OIG LEIE", "k": "fed"}, {"n": "Medi-Cal Suspended & Ineligible Provider List", "k": "state"}, {"n": "UN Security Council Consolidated List", "k": "intl"}, {"n": "SAM.gov Exclusions", "k": "fed"}, {"n": "Texas HHSC-OIG Exclusions", "k": "state"}, {"n": "CMS Open Payments", "k": "data"}, {"n": "OFAC SDN List", "k": "fed"}, {"n": "New York OMIG Exclusion List", "k": "state"}, {"n": "UK OFSI Consolidated List", "k": "intl"}, {"n": "FDA Debarment List", "k": "fed"}, {"n": "Pennsylvania Medicheck List", "k": "state"}, {"n": "NPPES NPI Registry", "k": "data"}, {"n": "Ohio Medicaid Exclusion & Suspension List", "k": "state"}, {"n": "CMS Preclusion List", "k": "fed"}, {"n": "Illinois HFS-OIG Sanctions", "k": "state"}, {"n": "EU Consolidated Financial Sanctions List", "k": "intl"}, {"n": "Georgia OIG Exclusions List", "k": "state"}, {"n": "Michigan Sanctioned Provider List", "k": "state"}, {"n": "North Carolina Medicaid Excluded Providers", "k": "state"}, {"n": "TennCare Terminated Provider List", "k": "state"}, {"n": "Washington HCA Termination & Exclusion List", "k": "state"}, {"n": "New Jersey Consolidated Debarment Report", "k": "state"}, {"n": "MassHealth Suspended & Excluded Providers", "k": "state"}, {"n": "Kentucky Medicaid Terminated & Excluded Providers", "k": "state"}, {"n": "Louisiana Adverse Actions List", "k": "state"}, {"n": "Florida AHCA Sanctioned Providers", "k": "state"}];
@@ -125,7 +130,7 @@ const VIS = {
   sources() {
     const rows = [['OIG LEIE','Federal'],['SAM.gov Exclusions','Federal'],['OFAC SDN','Federal'],['Texas HHSC-OIG','State'],['New York OMIG','State'],['Ohio Medicaid','State']];
     const t = ['02:11','02:12','02:12','02:13','02:13','02:14'];
-    return `<div class="vis" data-anim="sources"><div class="vhead"><span>Source sync · tonight</span><span class="chip res">63 of 63 synced</span></div><ul class="srcl">${rows.map((r,i)=>`<li><span class="dt"></span><b>${r[0]}</b><em>${r[1]}</em><time data-t="${t[i]} ET">${t[i]} ET</time></li>`).join('')}</ul><span class="note">Sample data</span></div>`;
+    return `<div class="vis" data-anim="sources"><div class="vhead"><span>Source sync · tonight</span><span class="chip res">All lists synced</span></div><ul class="srcl">${rows.map((r,i)=>`<li><span class="dt"></span><b>${r[0]}</b><em>${r[1]}</em><time data-t="${t[i]} ET">${t[i]} ET</time></li>`).join('')}</ul><span class="note">Sample data</span></div>`;
   },
   graph() {
     const V = [['Acme Ortho',62],['Globex Bio',132],['Initech Surgical',202],['Example Imaging',272]];
@@ -180,35 +185,63 @@ function faqHTML(list, title = 'Your questions answered.') {
 function flowHTML(steps) {
   return `<ol class="flow">${steps.map(([t,b]) => `<li><div><b>${t}</b><p>${b}</p></div></li>`).join('')}</ol>`;
 }
+/* ---------- free checks: result faces and report request ---------- */
+const FACE = {
+  ok: '<svg class="face ok" viewBox="0 0 32 32" aria-label="No match" role="img"><circle cx="16" cy="16" r="15"/><circle class="e" cx="11" cy="13" r="2"/><circle class="e" cx="21" cy="13" r="2"/><path d="M9.5 19c1.6 2.6 3.9 3.9 6.5 3.9s4.9-1.3 6.5-3.9"/></svg>',
+  maybe: '<svg class="face maybe" viewBox="0 0 32 32" aria-label="Possible match" role="img"><circle cx="16" cy="16" r="15"/><circle class="e" cx="11" cy="13" r="2"/><circle class="e" cx="21" cy="13" r="2"/><path d="M10 23c1.6-2.4 3.6-3.6 6-3.6s4.4 1.2 6 3.6"/></svg>'
+};
+const REPORT_LBL = {ses: 'View Screening Log Report', coi: 'View Payment Report'};
+function reportCTA(k) {
+  return `<div class="rep-cta"><button type="button" class="btn primary sm" data-report="${k}">${REPORT_LBL[k]}</button></div>`;
+}
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-report]');
+  if (!b) return;
+  const k = b.dataset.report, box = b.closest('.rep-cta'), id = 'rp' + Math.random().toString(36).slice(2, 7);
+  box.innerHTML = `<form class="rep-form" novalidate><p class="rep-h">Where should we send the ${k === 'coi' ? 'payment' : 'screening log'} report?</p>
+    <div class="rep-row"><label for="${id}n">Full name<input id="${id}n" name="name" autocomplete="name"></label><label for="${id}e">Work email<input id="${id}e" name="email" type="email" autocomplete="email"></label></div>
+    <label for="${id}o">Organization <span class="opt">(optional)</span><input id="${id}o" name="org" autocomplete="organization"></label>
+    <p class="err" hidden></p><button class="btn primary sm" type="submit">${REPORT_LBL[k]}</button><p class="rep-demo">Demo: nothing is sent.</p></form>`;
+  const i = box.querySelector('input'); if (i) i.focus({preventScroll: true});
+});
+document.addEventListener('submit', e => {
+  const f = e.target.closest('.rep-form');
+  if (!f) return;
+  e.preventDefault();
+  const err = f.querySelector('.err'), n = f.elements.name.value.trim(), m = f.elements.email.value.trim();
+  if (!n) { err.textContent = 'Add your name.'; err.hidden = false; f.elements.name.focus(); return; }
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m)) { err.textContent = 'Add a work email.'; err.hidden = false; f.elements.email.focus(); return; }
+  f.parentElement.innerHTML = `<p class="rep-done">${FACE.ok}<span><b>Report requested.</b> In the live product it is emailed to ${clean(m)}. This demo sends nothing.</span></p>`;
+});
+
 function assessHTML(k) {
   if (k === 'ses') return `<div class="console assess" data-reveal>
-      <div class="assess-top"><span class="bar">Free assessment</span><h3>Run a free exclusion check</h3><p>Search any person or business across all 63 sources. No account needed.</p></div>
+      <div class="assess-top"><span class="bar">Free assessment</span><h3>Integrity violation screening check</h3><p>Search any person or business across all screening data sources. No account needed.</p></div>
       <form data-assess="ses" novalidate>
         <label for="ses-q">Name or business<input id="ses-q" name="q" placeholder="e.g. Jordan Ellis" autocomplete="off"></label>
         <div class="af-row"><label for="ses-type">Record type<select id="ses-type" name="type"><option>Individual</option><option>Business</option></select></label><label for="ses-state">State<select id="ses-state" name="state"><option>All states</option><option>Florida</option><option>Georgia</option><option>New York</option><option>Ohio</option><option>Texas</option></select></label></div>
-        <button class="btn primary" type="submit">Search 63 sources</button>
+        <button class="btn primary" type="submit">Search Now</button>
       </form>
-      <div class="ck-out" aria-live="polite"><div class="ck-head"><b>Jordan Ellis</b><span class="chip res">No matches</span></div><div class="ck-res"><span>Checked against <strong>63 sources</strong>, including OIG LEIE, SAM.gov and OFAC.</span><span class="note">Example result. Try a name.</span></div></div>
+      <div class="ck-out" aria-live="polite"><div class="ck-head">${FACE.ok}<b>Jordan Ellis</b><span class="chip res">No match found</span></div><div class="ck-res"><span>Checked against all screening data sources, including OIG LEIE, SAM.gov and OFAC.</span><span class="note">Example result. Try a name.</span>${reportCTA('ses')}</div></div>
     </div>`;
   return `<div class="console assess" data-reveal>
       <div class="assess-top"><span class="bar">Free assessment</span><h3>Run a free payment lookup</h3><p>See whether a practitioner has reported industry payments in CMS Open Payments.</p></div>
       <form data-assess="coi" novalidate>
-        <div class="af-row"><label for="coi-q">Practitioner name<input id="coi-q" name="q" placeholder="e.g. Dr. Jane Example" autocomplete="off"></label><label for="coi-v">Vendor (optional)<input id="coi-v" name="vendor" placeholder="e.g. Acme Ortho" autocomplete="off"></label></div>
-        <label for="coi-yr">Years<select id="coi-yr" name="yr"><option>2017 to 2023</option><option>Last 3 years</option><option>2023 only</option></select></label>
-        <button class="btn primary" type="submit">Search Open Payments</button>
+        <div class="af-row"><label for="coi-q">Practitioner name<input id="coi-q" name="q" placeholder="e.g. Dr. Jane Example" autocomplete="off"></label><label for="coi-v">Vendor name<input id="coi-v" name="vendor" placeholder="e.g. Acme Ortho" autocomplete="off"></label></div>
+        <button class="btn primary" type="submit">Search for payments made or received</button>
       </form>
-      <div class="ck-out" aria-live="polite"><div class="ck-head"><b>Dr. J. Example</b><span class="chip match">3 payments found</span></div><div class="ck-res"><span><strong>$48,200</strong> in reported payments. Largest payer: <strong>Acme Ortho</strong>.</span><span class="note">Example result. Try a name.</span></div></div>
+      <div class="ck-out" aria-live="polite"><div class="ck-head"><b>Dr. J. Example</b><span class="chip match">3 payments found</span></div><div class="ck-res"><span><strong>$48,200</strong> in reported payments. Largest payer: <strong>Acme Ortho</strong>.</span><span class="note">Example result. Try a name.</span>${reportCTA('coi')}</div></div>
     </div>`;
 }
 function bookHTML(k) {
   const d = M[k];
   return `<section class="sec book" data-book><div class="wrap">
-    <div class="book-head" data-reveal><span class="bar">Book a demo</span><h2>See <span class="nw">${d.name}</span> <span class="mark">in 30 minutes.</span></h2><p class="lede">Pick a day and time. We’ll walk through it using your own use case.</p></div>
+    <div class="book-head" data-reveal><span class="bar">Book a demo</span><h2>${d.bookH || `See <span class="nw">${d.name}</span> <span class="mark">in 30 minutes.</span>`}</h2><p class="lede">${d.bookP || 'Pick a day and time. We’ll walk through it using your own use case.'}</p></div>
     <div class="cal" data-cal data-product="${k}" data-reveal>
       <aside class="cal-info">
         <div class="cal-host"><i>SS</i><span>SureShield team</span></div>
         <h3>${d.name} demo</h3>
-        <ul class="cal-meta"><li>${SVG.clock}<span>30 minutes</span></li><li>${SVG.video}<span>Video call, link sent after booking</span></li><li>${SVG.globe}<span>Eastern Time (US &amp; Canada)</span></li></ul>
+        <ul class="cal-meta"><li>${SVG.clock}<span>30 minutes</span></li><li>${SVG.video}<span>Video call, link sent after booking</span></li><li>${SVG.globe}<span class="tzname">Your local time</span></li></ul>
         <p class="cal-pick" hidden></p>
       </aside>
       <div class="cal-main">
@@ -217,7 +250,7 @@ function bookHTML(k) {
             <p class="cal-title">Select a date and time</p>
             <div class="cal-nav"><button type="button" data-prev aria-label="Previous month">${SVG.left}</button><b class="cal-mtitle"></b><button type="button" data-next aria-label="Next month">${SVG.right}</button></div>
             <div class="cal-grid cal-days"></div>
-            <p class="tz">${SVG.globe}Times shown in Eastern Time</p>
+            <p class="tz">${SVG.globe}Times shown in your local time (<span class="tzname">local</span>)</p>
           </div>
           <div class="cal-times"><h4 class="cal-dlabel"></h4><div class="slots"></div></div>
         </div>
@@ -245,7 +278,7 @@ function bookHTML(k) {
 function pricingSecHTML(k) {
   const d = M[k];
   return `<section class="sec" data-plans-sec><div class="wrap">
-    <div class="sec-head" data-reveal><div style="display:grid;gap:12px"><span class="bar">Pricing</span><h2>Choose your <span class="mark">${d.short} plan.</span></h2></div><p class="lede">Pay monthly, or save 20% when you pay annually.</p></div>
+    <div class="sec-head" data-reveal><div style="display:grid;gap:12px"><span class="bar">Pricing</span><h2>${d.planH || `Choose your <span class="mark">${d.short} plan.</span>`}</h2></div><p class="lede">Pay monthly, or save 20% when you pay annually.</p></div>
     <div class="plans" data-plans data-mode="page" data-sol="${k}"></div>
     <p class="note" style="margin-top:16px">Placeholder pricing for demo purposes. <a class="mlink" style="font-size:13px" href="#pricing" data-pr="${k}">Compare all solutions</a></p>
   </div></section>`;
@@ -256,12 +289,13 @@ function renderModule(k) {
   <section class="wrap mhero">
     <div class="mcopy">
       <nav class="crumb" aria-label="Breadcrumb"><a href="#home">IntegrityShield</a><span>/</span><span>${d.crumb}</span>${d.placeholder ? '<span class="chip acc">Placeholder content</span>' : ''}</nav>
+      ${d.title ? `<p class="m-title">${d.title}</p>` : ''}
       <h1>${d.h1}</h1>
       <p class="lede">${d.lede}</p>
       <div class="cta-row"><button class="btn primary" data-go="demo">Book a demo</button><button class="btn ghost" data-go="plans">See pricing</button></div>
       ${d.laws ? `<div class="laws">${d.laws.map(l=>`<span>${l}</span>`).join('')}</div>` : ''}
     </div>
-    <div class="mvis" data-s3="${({ses: 'sieve', coi: 'web', licensure: 'dom'})[k]}" role="img" aria-label="${({ses: 'Index cards fall through printed exclusion lists; clean ones land in Clear, one stops on OIG LEIE as a match', coi: 'Vendors and practitioners joined by payment lines; one $48,200 payment rises as an undisclosed relationship', licensure: 'License cards on a timeline; a sweep marks expiring licenses and an expired one that gets renewed'})[k]}"></div>
+    <div class="mvis" data-s3="${({ses: 'sieve', coi: 'web', licensure: 'vgrid'})[k]}" role="img" aria-label="${({ses: 'Index cards fall through printed exclusion lists; clean ones land in Clear, one stops on OIG LEIE as a match', coi: 'Vendors and practitioners joined by payment lines; one $48,200 payment rises as an undisclosed relationship', licensure: 'A verification grid for one practitioner: five record types (state license, DEA, controlled substance, board certification, NPI) pass three checks: found at source, status validated and disciplinary check. One record is due for renewal and one has a disciplinary action'})[k]}"></div>
   </section>
   ${d.stats ? statsHTML(d.stats) : ''}
   <section class="sec"><div class="wrap hiw${d.assess ? '' : ' solo'}">
@@ -874,7 +908,7 @@ function buildHub() {
 /* ---------- free assessments ---------- */
 const hashStr = s => { let h = 0; for (const ch of s.toLowerCase()) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; };
 const clean = s => s.replace(/[<>&"]/g, '');
-const OP_YEARS = ['2023','2022','2021','2020','2019','2018','2017'];
+const OP_YEARS = ['2024','2023','2022','2021','2020','2019','2018','2017'];
 document.addEventListener('submit', e => {
   const f = e.target.closest('form[data-assess]');
   if (!f) return;
@@ -895,8 +929,8 @@ document.addEventListener('submit', e => {
     const p = clamp((t - t0) / dur);
     bar.style.width = (p * 100) + '%';
     tick.textContent = kind === 'coi'
-      ? `Searching CMS Open Payments ${OP_YEARS[Math.min(6, Math.floor(p * 7))]}`
-      : `Checked ${Math.max(1, Math.round(p * 63))} of 63 · ${list[Math.floor(p * (list.length - 1))]}`;
+      ? `Searching CMS Open Payments, payments made or received ${OP_YEARS[Math.min(7, Math.floor(p * 8))]}`
+      : `Checking screening data sources · ${list[Math.floor(p * (list.length - 1))]}`;
     if (p < 1) requestAnimationFrame(step); else done();
   };
   const done = () => {
@@ -905,16 +939,16 @@ document.addEventListener('submit', e => {
     if (kind === 'ses') {
       const type = f.elements.type.value.toLowerCase();
       out.innerHTML = h % 5 === 0
-        ? `<div class="ck-head"><b>${safe}</b><span class="chip match">1 possible match</span></div><div class="ck-res"><span><strong>SAM.gov Exclusions</strong> · ${type} · 88% name similarity</span><span>No date of birth to confirm. IntegrityShield would request more data automatically.</span>${foot}</div>`
-        : `<div class="ck-head"><b>${safe}</b><span class="chip res">No matches</span></div><div class="ck-res"><span>Checked against <strong>63 sources</strong>, including OIG LEIE, SAM.gov and OFAC.</span>${foot}</div>`;
+        ? `<div class="ck-head">${FACE.maybe}<b>${safe}</b><span class="chip warn">Possible matches found</span></div><div class="ck-res"><span><strong>SAM.gov Exclusions</strong> · ${type} · 88% name similarity</span><span>No date of birth to confirm. IntegrityShield would request more data automatically.</span>${foot}${reportCTA('ses')}</div>`
+        : `<div class="ck-head">${FACE.ok}<b>${safe}</b><span class="chip res">No match found</span></div><div class="ck-res"><span>Checked against all screening data sources, including OIG LEIE, SAM.gov and OFAC.</span>${foot}${reportCTA('ses')}</div>`;
     } else {
       const vendor = clean(f.elements.vendor.value.trim());
       if (h % 3 === 0) {
-        out.innerHTML = `<div class="ck-head"><b>${safe}</b><span class="chip res">No reported payments</span></div><div class="ck-res"><span>No industry payments found for ${clean(f.elements.yr.value).toLowerCase()}.</span>${foot}</div>`;
+        out.innerHTML = `<div class="ck-head"><b>${safe}</b><span class="chip res">No reported payments</span></div><div class="ck-res"><span>No industry payments found in CMS Open Payments.</span>${foot}${reportCTA('coi')}</div>`;
       } else {
         const n = 2 + h % 6, amt = (h % 90 + 4) * 850;
         const payer = vendor || ['Acme Ortho','Globex Bio','Initech Surgical'][h % 3];
-        out.innerHTML = `<div class="ck-head"><b>${safe}</b><span class="chip match">${n} payments found</span></div><div class="ck-res"><span><strong>$${amt.toLocaleString('en-US')}</strong> in reported payments. Largest payer: <strong>${payer}</strong>.</span><span>Consulting fees and travel. Recommended for conflict-of-interest review.</span>${foot}</div>`;
+        out.innerHTML = `<div class="ck-head"><b>${safe}</b><span class="chip match">${n} payments found</span></div><div class="ck-res"><span><strong>$${amt.toLocaleString('en-US')}</strong> in reported payments. Largest payer: <strong>${payer}</strong>.</span><span>Consulting fees and travel. Recommended for conflict-of-interest review.</span>${foot}${reportCTA('coi')}</div>`;
       }
     }
     delete f.dataset.busy;
@@ -937,8 +971,27 @@ function isAvail(d) {
   return diff >= 1 && diff <= BOOK_DAYS && d.getDay() !== 0 && d.getDay() !== 6;
 }
 const slotsFor = d => SLOT_TIMES.filter(m => (Math.imul(hashStr(dayKey(d) + ':' + m), 2654435761) >>> 16) % 3 !== 0);
+/* ---------- booking: show ET slots in the visitor's own time zone ---------- */
+const ET_FMT = new Intl.DateTimeFormat('en-US', {timeZone: 'America/New_York', hourCycle: 'h23', year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric'});
+function etOffset(ts) {
+  const p = {}; ET_FMT.formatToParts(ts).forEach(x => { p[x.type] = +x.value; });
+  return (Date.UTC(p.year, p.month - 1, p.day, p.hour % 24, p.minute) - ts) / 60000;
+}
+function etToLocal(d, m) {
+  const g = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), Math.floor(m / 60), m % 60);
+  let t = g - etOffset(g) * 60000;
+  t = g - etOffset(t) * 60000;
+  return new Date(t);
+}
+const fmtLocal = (d, m) => etToLocal(d, m).toLocaleTimeString('en-US', {hour: 'numeric', minute: '2-digit'});
+const tzPart = (o) => { try { return (new Intl.DateTimeFormat('en-US', {timeZoneName: o}).formatToParts(new Date()).find(x => x.type === 'timeZoneName') || {}).value || ''; } catch (e) { return ''; } };
+const TZ_NAME = tzPart('short') || 'local time';
+const TZ_LONG = tzPart('long') || 'Your local time';
+function fillTZ() { document.querySelectorAll('.tzname').forEach(el => { el.textContent = TZ_LONG; }); }
+
 function initCal(root) {
   const $r = s => root.querySelector(s);
+  fillTZ();
   const days = $r('.cal-days'), title = $r('.cal-mtitle'), slots = $r('.slots'), dayLbl = $r('.cal-dlabel'), pick = $r('.cal-pick');
   const prev = $r('[data-prev]'), next = $r('[data-next]');
   const steps = {pick: $r('[data-step="pick"]'), form: $r('[data-step="form"]'), done: $r('[data-step="done"]')};
@@ -946,7 +999,7 @@ function initCal(root) {
   let d = today0();
   do { d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1); } while (!isAvail(d));
   const st = {y: d.getFullYear(), m: d.getMonth(), sel: d, time: null};
-  const when = () => `${fmtTime(st.time)} to ${fmtTime(st.time + 30)} ET, ${longDate(st.sel)}`;
+  const when = () => `${fmtLocal(st.sel, st.time)} to ${fmtLocal(st.sel, st.time + 30)} ${TZ_NAME}, ${longDate(etToLocal(st.sel, st.time))}`;
   function drawMonth() {
     title.textContent = `${MONTHS[st.m]} ${st.y}`;
     const first = new Date(st.y, st.m, 1), n = new Date(st.y, st.m + 1, 0).getDate(), t = today0();
@@ -962,7 +1015,7 @@ function initCal(root) {
   }
   function drawSlots() {
     dayLbl.textContent = longDate(st.sel);
-    slots.innerHTML = slotsFor(st.sel).map(m => `<div class="slot${st.time === m ? ' on' : ''}"><button type="button" class="t" data-m="${m}">${fmtTime(m)}</button>${st.time === m ? '<button type="button" class="nx" data-nx>Next</button>' : ''}</div>`).join('');
+    slots.innerHTML = slotsFor(st.sel).map(m => `<div class="slot${st.time === m ? ' on' : ''}"><button type="button" class="t" data-m="${m}">${fmtLocal(st.sel, m)}</button>${st.time === m ? '<button type="button" class="nx" data-nx>Next</button>' : ''}</div>`).join('');
   }
   days.addEventListener('click', e => {
     const b = e.target.closest('button[data-d]');
@@ -1022,14 +1075,14 @@ function renderPlans(el) {
   const P = PLANS[sol];
   const pick = hub ? `<div class="solpick" role="tablist" aria-label="Choose a solution">${SOLS.map(s => `<button type="button" role="tab" aria-selected="${s === sol}" class="${s === sol ? 'on' : ''}" data-pick="${s}"><span class="sol-ic">${ICONS[s]}</span><span><b>${M[s].name}</b><small>${M[s].crumb}${M[s].placeholder ? ' · placeholder' : ''}</small></span></button>`).join('')}</div>` : '';
   const tiers = P.tiers.map(t => {
-    const ent = !t.m, sel = hub && PR.tier === t.k, p = ent ? 0 : priceOf(t, bill);
-    const priceBlock = ent
+    const ent = !t.m && !t.free, sel = hub && PR.tier === t.k, p = ent || t.free ? 0 : priceOf(t, bill);
+    const priceBlock = t.free ? `<b>$0<small>/mo</small></b><span>Free, no card needed</span>` : ent
       ? `<b>Custom</b><span>Tailored to your organization</span>`
       : `<b>${money(p)}<small>/mo</small></b><span>${bill === 'annual' ? `<s>${money(t.m)}</s> · billed annually, ${money(p * 12)}/yr` : 'Billed monthly'}</span>`;
-    const btn = ent
+    const btn = t.free ? `<button type="button" class="btn ghost" data-contact="${sol}">Get started free</button>` : ent
       ? `<button type="button" class="btn ghost" data-contact="${sol}">Contact us</button>`
       : `<button type="button" class="btn ${t.pop || sel ? 'primary' : 'ghost'}" data-pay="${t.k}">${sel ? 'Selected' : 'Pay now'}</button>`;
-    return `<div class="tier${t.pop ? ' pop' : ''}${ent ? ' ent' : ''}${sel ? ' sel' : ''}">${t.pop ? '<span class="badge">Most popular</span>' : ''}<div><h3>${t.n}</h3></div><p class="tb">${t.blurb}</p><div class="tprice">${priceBlock}</div><ul class="checks sm">${t.f.map(x => `<li>${x}</li>`).join('')}</ul>${btn}</div>`;
+    return `<div class="tier${t.pop ? ' pop' : ''}${ent ? ' ent' : ''}${t.free ? ' free' : ''}${sel ? ' sel' : ''}">${t.pop ? '<span class="badge">Most popular</span>' : ''}<div><h3>${t.n}</h3></div><p class="tb">${t.blurb}</p><div class="tprice">${priceBlock}</div><ul class="checks sm">${t.f.map(x => `<li>${x}</li>`).join('')}</ul>${btn}</div>`;
   }).join('');
   el.innerHTML = `${pick}<div class="plans-bar"><span class="plans-for">${hub ? `Showing plans for <b>${M[sol].name}</b>` : 'Prices in USD'}${P.placeholder ? ' · placeholder plans' : ''}</span><div class="bill" role="radiogroup" aria-label="Billing period"><button type="button" role="radio" aria-checked="${bill === 'monthly'}" class="${bill === 'monthly' ? 'on' : ''}" data-billing="monthly">Monthly</button><button type="button" role="radio" aria-checked="${bill === 'annual'}" class="${bill === 'annual' ? 'on' : ''}" data-billing="annual">Annually <em>Save 20%</em></button></div></div><div class="tiers">${tiers}</div>${hub && PR.tier ? checkoutHTML(sol, bill) : ''}`;
 }
@@ -1317,7 +1370,7 @@ new IntersectionObserver(es => es.forEach(en => {
   filmPlay(en.isIntersecting && route === 'home');
 }), {threshold: .35}).observe(fCard);
 /* ---------- CSS 3D scenes ---------- */
-const S3W = {catalog: 720, sieve: 520, web: 470, dom: 500};
+const S3W = {catalog: 720, sieve: 520, web: 470, dom: 500, vgrid: 470};
 const stand = (x, y, len, h, ang, cls = '', inner = '') => `<div class="s3-st ${cls}" style="left:${x}px;top:${y - h}px;width:${len}px;height:${h}px;transform:rotateZ(${ang}deg) rotateX(-90deg)">${inner}</div>`;
 const box = (w, d, h, cls = '', top = '') => `<div class="s3-box ${cls}" style="--w:${w}px;--d:${d}px;--h:${h}px"><i class="fw"></i><i class="ff"></i><i class="ft">${top}</i></div>`;
 /* labels live in a flat overlay; each follows a 1px anchor inside the 3D world */
@@ -1375,7 +1428,8 @@ const S3B = {
       const x1 = V[v][1] + 210, y1 = vy + 150, x2 = P[p][1] + 210, y2 = py + 150;
       const d = `M${x1} ${y1} C ${x1} ${y1 + 80}, ${x2} ${y2 - 80}, ${x2} ${y2}`;
       const hot = h > 100;
-      paths += `<path class="${hot ? 'hot' : ''}" d="${d}" style="--len:400;transition-delay:${i * 140}ms"/>`;
+      paths += `<path id="cp${i}" class="${hot ? 'hot' : ''}" d="${d}" style="--len:400;transition-delay:${i * 140}ms"/>`;
+      if (!reduce) paths += `<g class="coin${hot ? ' hot' : ''}"><circle r="9"/><text y="4" text-anchor="middle">$</text><animateMotion dur="${2.6 + i * .35}s" begin="-${i * .5 + .3}s" repeatCount="indefinite" rotate="0"><mpath href="#cp${i}"/></animateMotion></g>`;
       const mx = (x1 + x2) / 2 - 210, my = (y1 + y2) / 2 - 150;
       cols += `<div class="col${hot ? ' hot' : ''}" style="left:${mx}px;top:${my}px">${box(16, 16, h)}${hot ? bb(0, 0, h + 10, '<span class="amt">$48,200<small>consulting fees, 2023</small></span>', 'amt-o') : ''}</div>`;
     });
@@ -1385,6 +1439,27 @@ const S3B = {
     return `<div class="s3-world">${s}</div>${ovHTML()}
       <div class="s3-note">Sample data · CMS Open Payments</div>
       <div class="s3-cap"><span><i style="background:#b9a3b1"></i>Payment</span><span><i style="background:var(--accent)"></i>Undisclosed relationship</span></div>`;
+  },
+  vgrid() {
+    const R = [['State medical license', 'State board'], ['DEA registration', 'DEA'], ['Controlled substance (CDS)', 'State CDS authority'], ['Board certification', 'Certifying board'], ['NPI', 'NPPES']];
+    const C = [['Found at source', 'Source'], ['Status validated', 'Status'], ['Disciplinary check', 'Discipline']];
+    const X = [-95, 0, 95], H = [12, 22, 32];
+    const Y = r => -100 + r * 50;
+    let s = `<div class="vg-plate"></div>`;
+    R.forEach(([n, src], r) => {
+      s += `<i class="vg-lane" style="top:${Y(r) - 1}px"></i>`;
+      s += bb(-130, Y(r), 0, `<span class="vg-row"><b>${n}</b><small>${src}</small></span>`, 'r');
+      X.forEach((x, c) => {
+        s += `<div class="vg-cell" data-r="${r}" data-c="${c}" style="left:${x - 17}px;top:${Y(r) - 17}px"><i class="vg-slot"></i>${box(34, 34, H[c])}</div>`;
+        s += bb(x, Y(r), H[c] + 8, `<span class="vg-co"></span>`, `vgc c${r}${c}`);
+      });
+    });
+    C.forEach(([n, sh], c) => { s += bb(X[c], 142, 0, `<span class="vg-colh"><em>${c + 1}</em><span class="l">${n}</span><span class="sh">${sh}</span></span>`, 'b'); });
+    s += `<div class="vg-beam"></div>`;
+    return `<div class="s3-world">${s}</div>${ovHTML()}
+      <div class="vg-who"><small>Practitioner</small><b class="vg-name">Dr. J. Example · Cardiology</b></div>
+      <div class="s3-note">Sample data</div>
+      <div class="s3-cap"><span class="vg-key"><em>1</em>Found at source <em>2</em>Status <em>3</em>Disciplinary</span><span><i style="background:#6fb08d"></i>Verified</span><span><i style="background:#f2b01e"></i>Renewal due</span><span><i style="background:var(--flag)"></i>Action found</span><span>Records checked <b data-n>1,284</b></span></div>`;
   },
   dom() {
     const C = [['RN', 'GA', 'ok'], ['MD', 'TX', 'soon'], ['PT', 'FL', 'ok'], ['APRN', 'NC', 'down'], ['DEA', 'GA', 'ok'], ['LPN', 'OH', 'soon'], ['PA', 'NY', 'ok']];
@@ -1534,6 +1609,47 @@ const S3C = {
         tm.push(setTimeout(() => host.classList.add('drawn'), 300));
         tm.push(setTimeout(() => host.classList.add('hot'), 1900));
         tm.push(setTimeout(cycle, 9000));
+      };
+      cycle();
+    }};
+  },
+  vgrid(host) {
+    const cells = $$('.vg-cell', host), beam = host.querySelector('.vg-beam'), name = host.querySelector('.vg-name'), nEl = host.querySelector('[data-n]');
+    const co = (r, c) => host.querySelector(`.s3-o.c${r}${c} .vg-co`);
+    const SC = [
+      {name: 'Dr. J. Example · Cardiology', warn: [1, 1, 'Expires in 28 days', 'DEA registration · renewal due'], bad: [0, 2, 'State board action', 'Probation · 2024']},
+      {name: 'Dr. K. Doe · Orthopedics', warn: [3, 1, 'Expires in 45 days', 'Board certification · renewal due'], bad: [2, 2, 'CDS action', 'Restricted · 2023']},
+      {name: 'Dr. S. Sample · Radiology', warn: [0, 1, 'Expires in 12 days', 'State license · renewal due'], bad: [1, 2, 'DEA action', 'Surrendered · 2024']}
+    ];
+    let tm = [], k = 0, n = 1284;
+    const clear = () => { tm.forEach(clearTimeout); tm = []; };
+    const stateOf = (sc, r, c) => sc.warn[0] === r && sc.warn[1] === c ? 'warn' : sc.bad[0] === r && sc.bad[1] === c ? 'bad' : 'ok';
+    const label = (sc, which) => { const [r, c, t, sub] = sc[which]; const el = co(r, c); if (el) { el.className = 'vg-co ' + which; el.innerHTML = `${t}<small>${sub}</small>`; } };
+    const reset = () => {
+      cells.forEach(el => el.classList.remove('up', 'ok', 'warn', 'bad'));
+      $$('.vg-co', host).forEach(el => { el.className = 'vg-co'; el.innerHTML = ''; });
+    };
+    const raise = (sc, c, delay) => cells.filter(el => +el.dataset.c === c).forEach(el => {
+      const r = +el.dataset.r;
+      tm.push(setTimeout(() => el.classList.add('up', stateOf(sc, r, c)), delay + r * 110));
+    });
+    const finalState = sc => { reset(); name.textContent = sc.name; cells.forEach(el => el.classList.add('up', stateOf(sc, +el.dataset.r, +el.dataset.c))); label(sc, 'warn'); label(sc, 'bad'); };
+    const BEAM = x => `translate3d(${x}px,0,0) rotateZ(90deg) rotateX(-90deg)`;
+    return {play(on) {
+      clear();
+      if (!on) return;
+      if (reduce) { beam.style.visibility = 'hidden'; finalState(SC[0]); return; }
+      const cycle = () => {
+        const sc = SC[k % SC.length]; k++;
+        reset(); name.textContent = sc.name;
+        beam.style.transition = 'none'; beam.style.transform = BEAM(-150); beam.style.opacity = '1';
+        void beam.offsetWidth;
+        tm.push(setTimeout(() => { beam.style.transition = 'transform 4.8s linear, opacity .4s'; beam.style.transform = BEAM(150); }, 200));
+        [0, 1, 2].forEach(c => raise(sc, c, 200 + (55 + c * 95) / 300 * 4800));
+        tm.push(setTimeout(() => label(sc, 'warn'), 200 + 150 / 300 * 4800 + 900));
+        tm.push(setTimeout(() => label(sc, 'bad'), 200 + 245 / 300 * 4800 + 900));
+        tm.push(setTimeout(() => { beam.style.opacity = '0'; n += 5; if (nEl) nEl.textContent = n.toLocaleString('en-US'); }, 5100));
+        tm.push(setTimeout(cycle, 10500));
       };
       cycle();
     }};
