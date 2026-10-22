@@ -2,7 +2,7 @@
 /* ---------- multi-page setup ---------- */
 const SITE_ROOT = document.documentElement.dataset.root || '';
 const U = r => r === 'home' ? (SITE_ROOT || './') : SITE_ROOT + r + '/';
-const SEC_HASH = {'.book': 'book', '[data-plans-sec]': 'plans', '[data-faqsec]': 'faq', '[data-web]': 'webinar', '.assess': 'assess'};
+const SEC_HASH = {'.book': 'book', '[data-plans-sec]': 'plans', '[data-faqsec]': 'faq', '[data-web]': 'webinar', '.assess': 'assess', '.cform-wrap': 'message'};
 const HASH_SEC = Object.fromEntries(Object.entries(SEC_HASH).map(([k, v]) => [v, k]));
 for (const [id, put] of [['home-tpl', n => document.getElementById('page-home').appendChild(n)], ['intro-tpl', n => document.body.insertBefore(n, document.body.firstChild)]]) {
   const t = document.getElementById(id); if (t) { put(t.content); t.remove(); }
@@ -27,7 +27,8 @@ const ROUTES = {
   team: {title: "Our Team | The Compliance and Security Leaders Behind IntegrityShield", desc: "Meet the SureShield leadership team behind IntegrityShield, with decades of experience in healthcare compliance, information security, risk software and finance."},
   blog: {title: "IntegrityShield Blog | Sanctions Screening, Exclusion Monitoring & Conflict of Interest Compliance", desc: "Guides for compliance officers on OIG exclusion screening, OFAC and SAM checks, state Medicaid exclusion lists, CMS Open Payments and conflict of interest monitoring."},
   contact: {title: "Contact IntegrityShield | Book a Demo or Join a Compliance Webinar", desc: "Talk to the IntegrityShield team about sanctions and exclusion screening or conflict of interest monitoring. Book a demo, register for a live webinar or call 1-800-604-1354."},
-  pricing: {title: 'Pricing | IntegrityShield', desc: 'Compare Basic, Plus, Max and Enterprise plans for IntegrityShield-SES, -COI and -Licensure. Save 20% with annual billing.'}
+  checkout: {title: 'Checkout | IntegrityShield', desc: 'Complete your IntegrityShield subscription: organization details, agreement and payment.'},
+  pricing: {title: 'Pricing | IntegrityShield', desc: 'Compare Free, Essential, Essential Plus, Essential PRO and Enterprise plans for IntegrityShield-SES, -COI and -Licensure. Save 20% with annual billing.'}
 };
 const SOLS = ['ses', 'coi', 'licensure'];
 const ICONS = {
@@ -44,11 +45,13 @@ const SVG = {
   ok: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 };
 
-const HOME_FAQ = [["What is IntegrityShield?","All-in-one software that continuously screens the records you are required to monitor, such as employees, healthcare practitioners, vendors, board members and investors, for sanctions, exclusions, conflicts of interest and licensure issues, against official sources such as OFAC, OIG, SAM and CMS Open Payments, and keeps the audit trail for you."],["Which solutions are available?","IntegrityShield-SES for healthcare sanctions and exclusions screening, IntegrityShield-COI for conflict of interest screening of your providers against your vendors, and IntegrityShield-Licensure for live licensure and credential checks."],["Which lists do you screen against?","The same lists regulators and payors use: federal lists such as OIG LEIE, SAM.gov and OFAC SDN, state Medicaid exclusion lists, international sanctions lists, and data sources such as CMS Open Payments."],["How often does screening run?","Every night, and again whenever a source list changes or you add or update a monitoring record."],["How does IntegrityShield keep false positives down?","Identity matching algorithms compare names with other identifiers, such as date of birth, address and NPI, and clear 90% of false positives so your team reviews only the identity matches that need attention."],["What happens when there is a match?","You get an instant alert, and the exception is routed to the right person through configurable workflows for each type of integrity check. Every decision is logged for your audit trail."],["Who in our organization uses it?","Compliance, HR and onboarding, professional staff credentialing, supply chain and procurement, contract management and finance, revenue cycle, and risk and legal teams, all from one platform."],["How long does setup take?","Less than an hour from subscription activation."],["Can we stop outsourcing screening?","Yes. Teams bring screening in-house at a lower cost than outsourcing, with a full audit trail."],["How does pricing work?","Each solution has Basic, Plus, Max and Enterprise plans. Pay monthly, or save 20% with annual billing."]];
+const HOME_FAQ = [["What is IntegrityShield?","All-in-one software that continuously screens the records you are required to monitor, such as employees, healthcare practitioners, vendors, board members and investors, for sanctions, exclusions, conflicts of interest and licensure issues, against official sources such as OFAC, OIG, SAM and CMS Open Payments, and keeps the audit trail for you."],["Which solutions are available?","IntegrityShield-SES for healthcare sanctions and exclusions screening, IntegrityShield-COI for conflict of interest screening of your providers against your vendors, and IntegrityShield-Licensure for live licensure and credential checks."],["Which lists do you screen against?","The same lists regulators and payors use: federal lists such as OIG LEIE, SAM.gov and OFAC SDN, state Medicaid exclusion lists, international sanctions lists, and data sources such as CMS Open Payments."],["How often does screening run?","Every night, and again whenever a source list changes or you add or update a monitoring record."],["How does IntegrityShield keep false positives down?","Identity matching algorithms compare names with other identifiers, such as date of birth, address and NPI, and clear 90% of false positives so your team reviews only the identity matches that need attention."],["What happens when there is a match?","You get an instant alert, and the exception is routed to the right person through configurable workflows for each type of integrity check. Every decision is logged for your audit trail."],["Who in our organization uses it?","Compliance, HR and onboarding, professional staff credentialing, supply chain and procurement, contract management and finance, revenue cycle, and risk and legal teams, all from one platform."],["How long does setup take?","Less than an hour from subscription activation."],["Can we stop outsourcing screening?","Yes. Teams bring screening in-house at a lower cost than outsourcing, with a full audit trail."],["How does pricing work?","Each solution has Free, Essential, Essential Plus, Essential PRO and Enterprise plans. Pay monthly or save 20% with annual billing, and save another 25% when you subscribe to two or more solutions."]];
 const PRICING_FAQ = [
   ['Can I change plans later?', 'Placeholder answer. Plan change terms coming soon.'],
   ['How much does annual billing save?', '20% compared with paying monthly.'],
-  ['Can I buy more than one solution?', 'Yes. Each solution is priced on its own. Contact us to discuss bundles.'],
+  ['Can I buy more than one solution?', 'Yes. Subscribe to two or more solutions and get an extra 25% bundle discount, on top of the 20% annual billing savings.'],
+  ['What does the Free plan include?', 'Up to 25 active monitoring records with Nightly Integrity Scans and email alerts. No credit card required.'],
+  ['Which plan is the most cost-efficient?', 'Essential PRO. It includes every integration and capability, with the lowest price per monitoring record.'],
   ['Are these prices final?', 'No. All prices and plan features shown here are placeholders for this demo.']
 ];
 
@@ -87,7 +90,7 @@ const M = {
     oneliner: 'Live licensure and credential checks with automated primary source verification, plus alerts before anything lapses.',
     h1: 'Every license &amp; credential verified. <span class="mark">Every renewal &amp; disciplinary action tracked.</span>',
     lede: 'Licensure and credentialing monitoring is an integral component of medical staff operations.',
-    hTitle: 'End-to-end automation for your Medical Staff Office (MSO).', bookH: 'Do you want to preview what your MSO can be like with CAPSmart? <span class="mark">Schedule a 30 min demo session today!</span>',
+    hTitle: 'End-to-end licensure and credential monitoring.', bookH: 'See licensure and credential monitoring in action. <span class="mark">Schedule a 30-minute demo today.</span>',
     steps: [['Digitally onboard staff','Bring practitioners and staff into the platform digitally, with the licenses and credentials they hold.'],['Establish your credentialed providers','Build a verified roster of credentialed providers for your medical staff.'],['Instant, continuous licensure verification and validation checks','Licenses and credentials are verified at the source and checked for status changes and disciplinary actions.'],['Instant alerts and notifications to mitigate risk and enforce patient safety','Know the moment a license lapses, changes status or carries a disciplinary action.'],['Configurable workflows to act on issues identified','Route every issue to the right person and track it to resolution, with a full audit trail.']],
     faq: [
       ['What does IntegrityShield-Licensure do?', 'It verifies and continuously monitors the licenses and credentials of your practitioners and staff, checks their status and disciplinary actions, and alerts you before anything lapses.'],
@@ -101,26 +104,17 @@ const M = {
 };
 
 const ANNUAL_OFF = .2;
-const ENT = {k: 'ent', n: 'Enterprise', blurb: 'For complex or high-volume needs.', f: ['Unlimited records','Custom sources and rules','SSO and role-based access','Dedicated success manager','Custom terms and SLA']};
+const TIERS = [
+  {k: 'free', n: 'Free', m: 0, free: true, cap: 'Up to 25', rec: 'Up to 25 active monitoring records', blurb: 'Try continuous monitoring at no cost.'},
+  {k: 'basic', n: 'Essential', m: 199, cap: 'Up to 100', rec: 'Up to 100 active monitoring records', blurb: 'For small teams getting started.'},
+  {k: 'plus', n: 'Essential Plus', m: 449, pop: true, cap: 'Up to 250', rec: 'Up to 250 active monitoring records', blurb: 'For growing compliance programs.'},
+  {k: 'max', n: 'Essential PRO', m: 799, eff: true, cap: 'Up to 750', rec: 'Up to 750 active monitoring records', blurb: 'All integrations, lowest cost per record.'},
+  {k: 'ent', n: 'Enterprise', cap: 'Unlimited', rec: 'Unlimited records', blurb: 'For complex or high-volume needs.'}
+];
 const PLANS = {
-  ses: {tiers: [
-    {k: 'free', n: 'Free', m: 0, free: true, blurb: 'Try continuous screening at no cost.', f: ['Fewer than 25 active monitoring records','OIG LEIE, SAM.gov and OFAC','Nightly rescreening','Email alerts']},
-    {k: 'basic', n: 'Essential', m: 199, blurb: 'For small teams getting started.', f: ['26 to 100 active monitoring records','Federal and state Medicaid lists','Nightly rescreening','Email alerts','Standard audit reports']},
-    {k: 'plus', n: 'Essential Plus', m: 449, pop: true, blurb: 'For growing compliance programs.', f: ['101 to 250 active monitoring records','All federal and state lists','Email and text alerts','False-positive workflow','Ad hoc hiring checks']},
-    {k: 'max', n: 'Essential PRO', m: 899, blurb: 'For larger, multi-site organizations.', f: ['251 to 500 active monitoring records','Everything in Essential Plus','HR and credentialing integrations','API access','Priority support']},
-    ENT]},
-  coi: {tiers: [
-    {k: 'free', n: 'Free', m: 0, free: true, blurb: 'Try conflict of interest screening at no cost.', f: ['Fewer than 25 active monitoring records','CMS Open Payments matching','Case worklist','Email alerts']},
-    {k: 'basic', n: 'Essential', m: 199, blurb: 'For small teams getting started.', f: ['26 to 100 active monitoring records','Practitioners and vendors','Automatic data refresh','Email alerts','Standard reports']},
-    {k: 'plus', n: 'Essential Plus', m: 449, pop: true, blurb: 'For growing compliance programs.', f: ['101 to 250 active monitoring records','Everything in Essential','Custom COI rules','Pre-engagement checks','Email and text alerts']},
-    {k: 'max', n: 'Essential PRO', m: 899, blurb: 'For larger, multi-site organizations.', f: ['251 to 500 active monitoring records','Everything in Essential Plus','Contract and credentialing sync','API access','Priority support']},
-    ENT]},
-  licensure: {tiers: [
-    {k: 'free', n: 'Free', m: 0, free: true, blurb: 'Try licensure monitoring at no cost.', f: ['Fewer than 25 active monitoring records','License status checks','Expiration tracking','Email alerts']},
-    {k: 'basic', n: 'Essential', m: 199, blurb: 'For small teams getting started.', f: ['26 to 100 active monitoring records','Primary source verification','Renewal reminders','Email alerts','Standard reports']},
-    {k: 'plus', n: 'Essential Plus', m: 449, pop: true, blurb: 'For growing medical staff offices.', f: ['101 to 250 active monitoring records','Everything in Essential','Disciplinary action checks','Configurable workflows','Email and text alerts']},
-    {k: 'max', n: 'Essential PRO', m: 899, blurb: 'For larger, multi-site organizations.', f: ['251 to 500 active monitoring records','Everything in Essential Plus','HR and credentialing sync','API access','Priority support']},
-    ENT]}
+  ses: {cover: 'OFAC, OIG, SAM and state Medicaid exclusion lists', tiers: TIERS},
+  coi: {cover: 'CMS Open Payments matching for practitioners and vendors', tiers: TIERS},
+  licensure: {cover: 'License and credential verification at the source', tiers: TIERS}
 };
 
 const SOURCES = [{"n": "OIG LEIE", "k": "fed"}, {"n": "Medi-Cal Suspended & Ineligible Provider List", "k": "state"}, {"n": "UN Security Council Consolidated List", "k": "intl"}, {"n": "SAM.gov Exclusions", "k": "fed"}, {"n": "Texas HHSC-OIG Exclusions", "k": "state"}, {"n": "CMS Open Payments", "k": "data"}, {"n": "OFAC SDN List", "k": "fed"}, {"n": "New York OMIG Exclusion List", "k": "state"}, {"n": "UK OFSI Consolidated List", "k": "intl"}, {"n": "FDA Debarment List", "k": "fed"}, {"n": "Pennsylvania Medicheck List", "k": "state"}, {"n": "NPPES NPI Registry", "k": "data"}, {"n": "Ohio Medicaid Exclusion & Suspension List", "k": "state"}, {"n": "CMS Preclusion List", "k": "fed"}, {"n": "Illinois HFS-OIG Sanctions", "k": "state"}, {"n": "EU Consolidated Financial Sanctions List", "k": "intl"}, {"n": "Georgia OIG Exclusions List", "k": "state"}, {"n": "Michigan Sanctioned Provider List", "k": "state"}, {"n": "North Carolina Medicaid Excluded Providers", "k": "state"}, {"n": "TennCare Terminated Provider List", "k": "state"}, {"n": "Washington HCA Termination & Exclusion List", "k": "state"}, {"n": "New Jersey Consolidated Debarment Report", "k": "state"}, {"n": "MassHealth Suspended & Excluded Providers", "k": "state"}, {"n": "Kentucky Medicaid Terminated & Excluded Providers", "k": "state"}, {"n": "Louisiana Adverse Actions List", "k": "state"}, {"n": "Florida AHCA Sanctioned Providers", "k": "state"}];
@@ -278,7 +272,7 @@ function bookHTML(k) {
 function pricingSecHTML(k) {
   const d = M[k];
   return `<section class="sec" data-plans-sec><div class="wrap">
-    <div class="sec-head" data-reveal><div style="display:grid;gap:12px"><span class="bar">Pricing</span><h2>${d.planH || `Choose your <span class="mark">${d.short} plan.</span>`}</h2></div><p class="lede">Pay monthly, or save 20% when you pay annually.</p></div>
+    <div class="sec-head" data-reveal><div style="display:grid;gap:12px"><span class="bar">Pricing</span><h2>${d.planH || `Choose your <span class="mark">${d.short} plan.</span>`}</h2></div><p class="lede">Pay monthly, save 20% when you pay annually, and save another 25% when you bundle two or more solutions.</p></div>
     <div class="plans" data-plans data-mode="page" data-sol="${k}"></div>
     <p class="note" style="margin-top:16px">Placeholder pricing for demo purposes. <a class="mlink" style="font-size:13px" href="#pricing" data-pr="${k}">Compare all solutions</a></p>
   </div></section>`;
@@ -316,7 +310,7 @@ function renderPricingPage() {
   return `<section class="wrap phero">
     <span class="bar">Pricing</span>
     <h1>Simple plans for <span class="mark">every solution.</span></h1>
-    <p class="lede">Choose a solution to see its plans. Switch between them any time.</p>
+    <p class="lede">Every solution uses the same five plans. Add plans from two or more solutions to get the 25% bundle discount.</p>
   </section>
   <section class="sec" style="padding-top:clamp(28px,4vw,40px)"><div class="wrap">
     <div class="plans" data-plans data-mode="hub"></div>
@@ -434,7 +428,7 @@ function nextWebinar() {
     url: ''
   };
 }
-function webinarNextHTML() {
+function webinarNextHTML(px = 'home') {
   const w = nextWebinar();
   const ic = {
     cal: '<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/>',
@@ -443,10 +437,10 @@ function webinarNextHTML() {
   };
   const meta = (k, label, v) => `<li><span class="wn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ic[k]}</svg></span><span><b>${label}</b>${v}</span></li>`;
   const reg = w.url ? `<a class="btn primary" href="${w.url}" target="_blank" rel="noopener">Register now</a>` : `<button type="button" class="btn primary" data-wnx="reg">Register now</button>`;
-  return `<section class="sec wnx" data-web aria-labelledby="wnx-h"><div class="wrap"><div class="wnx-card" data-reveal>
+  return `<section class="sec wnx" data-web aria-labelledby="wnx-h-${px}"><div class="wrap"><div class="wnx-card" data-reveal>
     <div class="wnx-main">
       <span class="bar">Next live webinar</span>
-      <h2 id="wnx-h">${w.topic}</h2>
+      <h2 id="wnx-h-${px}">${w.topic}</h2>
       <ul class="wnx-meta">${meta('cal', 'Date', w.date)}${meta('clock', 'Time', w.time)}${meta('cam', 'Format', w.format)}</ul>
     </div>
     <div class="wnx-act">
@@ -560,15 +554,14 @@ function renderAbout() {
       `<div class="cta-row"><a class="btn primary" href="#team">Discover our team ${ARROW}</a><a class="btn ghost" href="#contact">Contact us</a></div>`)}
   <section class="sec ab-story"><div class="wrap ab-grid">
     <div class="ab-copy" data-reveal><span class="bar">Our story</span><h2>Why we built IntegrityShield.</h2>
-      <p class="lede">Compliance teams were paying outside vendors to run monthly checks, then chasing spreadsheets when auditors asked for proof. We knew the work could be automated, run in-house and done every night.</p>
-      <p class="ab-hint">Select a milestone</p></div>
+      <p class="lede">Compliance teams were paying outside vendors to run monthly checks, then chasing spreadsheets when auditors asked for proof. We knew the work could be automated, run in-house and done every night.</p></div>
     <div class="tl" data-tl data-reveal>
       <div class="tl-rail"><span class="tl-fill"></span></div>
       <ol class="tl-steps">${tl.map((s, i) => `<li><button type="button" class="tl-btn${i === 0 ? ' on' : ''}" data-i="${i}" aria-pressed="${i === 0}"><span class="tl-dot"></span><span class="tl-t">${s[0]}</span><b>${s[1]}</b></button></li>`).join('')}</ol>
       <div class="tl-panel" aria-live="polite">${tl.map((s, i) => `<div class="tl-card${i === 0 ? ' on' : ''}" data-i="${i}"><span class="tl-k">${s[0]}</span><h3>${s[1]}</h3><p>${s[2]}</p></div>`).join('')}</div>
     </div>
   </div></section>
-  <section class="ab-mission"><div class="wrap"><p class="am-k">Our mission</p><blockquote data-reveal>To secure America’s future, <span class="mark">one company at a time.</span></blockquote><p class="am-s" data-reveal>For IntegrityShield, that means every organization knowing, every morning, that no one they employ, contract or pay is excluded, sanctioned or conflicted.</p></div></section>
+  <section class="ab-mission"><div class="wrap"><p class="am-k">Our mission</p><blockquote data-reveal>To secure America’s future,<br><span class="mark">one company at a time.</span></blockquote><p class="am-s" data-reveal>For IntegrityShield, that means every organization knowing, every morning, that no one they employ, contract or pay is excluded, sanctioned or conflicted.</p></div></section>
   <section class="sec ab-values"><div class="wrap">
     <div class="ab-head" data-reveal><span class="bar">What drives us</span><h2>Eight principles, built into the product.</h2><p class="lede">The values SureShield was founded on, and where you’ll see them in IntegrityShield.</p></div>
     <div class="vgrid">${values.map((v, i) => `<button type="button" class="vtile" data-reveal aria-expanded="false"><span class="vn">0${i + 1}</span><b>${v[0]}</b><span class="vt">${v[1]}</span><span class="vplus" aria-hidden="true">+</span></button>`).join('')}</div>
@@ -623,11 +616,12 @@ function renderContact() {
   <section class="sec" style="padding-top:clamp(36px,5vw,56px)"><div class="wrap">
     <div class="copts">${opts.map(o => `<${o[3] ? `a href="${o[3]}"` : 'div'} class="copt" data-reveal><span class="co-k">${o[0]}</span><b>${o[1]}</b><span>${o[2]}</span></${o[3] ? 'a' : 'div'}>`).join('')}</div>
     <div class="cform-wrap" data-reveal>
-      <div class="cf-copy"><h2>Send us a message.</h2><p class="lede">Tell us what you screen today and what you need. The right person on our team will get back to you.</p></div>
+      <div class="cf-copy"><div class="cf-std"><h2>Send us a message.</h2><p class="lede">Tell us what you screen today and what you need. The right person on our team will get back to you.</p></div><div class="cf-ent"><h2>Talk to us about Enterprise.</h2><p class="lede">Leave your name and work email. Our team will contact you to scope your Enterprise plan.</p></div></div>
       <form class="cform" novalidate>
+        <p class="ent-tag"><b>Enterprise plan</b><button type="button" class="link" data-ent-off>Not an Enterprise inquiry?</button></p>
         <fieldset class="topics"><legend>What can we help with?</legend>${topics.map((t, i) => `<label class="topic"><input type="radio" name="topic" value="${t}"${i === 0 ? ' checked' : ''}><span>${t}</span></label>`).join('')}</fieldset>
         <div class="two"><label>Full name<input name="name" autocomplete="name"></label><label>Work email<input name="email" type="email" autocomplete="email"></label></div>
-        <div class="two"><label>Organization<input name="org" autocomplete="organization"></label><label>Phone (optional)<input name="phone" type="tel" autocomplete="tel"></label></div>
+        <div class="two ph-row"><label>Organization<input name="org" autocomplete="organization"></label><label class="ph-l">Phone (optional)<input name="phone" type="tel" autocomplete="tel"></label></div>
         <label>Message<textarea name="msg" rows="4" placeholder="For example: we screen 3,000 employees and 600 vendors monthly and want to move to nightly screening."></textarea></label>
         <p class="err" hidden></p>
         <button class="btn primary" type="submit">Send message</button>
@@ -636,7 +630,7 @@ function renderContact() {
       <div class="cdone" hidden><span class="wd-ic" aria-hidden="true">✓</span><p class="wf-title">Thanks, your message is ready.</p><p class="cd-t"></p><button type="button" class="btn ghost sm" data-c-again>Send another</button></div>
     </div>
   </div></section>
-  ${webinarHTML('contact')}
+  ${webinarNextHTML('contact')}
   ${bookHTML('gen')}
   <section class="sec" style="padding-top:0" data-faqsec>${faqHTML(CONTACT_FAQ, 'Contact FAQs.')}</section>`;
 }
@@ -737,7 +731,7 @@ document.addEventListener('click', e => {
   const t = e.target.closest('[data-to]');
   if (t) { e.preventDefault(); setSheet(false); const [sol, sec] = t.dataset.to.split(':'); goTo(sol, SECT[sec]); return; }
   const pr = e.target.closest('[data-pr]');
-  if (pr) { PR.sol = pr.dataset.pr; PR.tier = null; }
+  if (pr) { PR.sol = pr.dataset.pr; }
 });
 
 /* ---------- reveals + counters ---------- */
@@ -794,6 +788,7 @@ function onEnter() {
   setupReveal();
   update();
   if (route === 'pricing') renderPlans($('#page-pricing [data-plans]'));
+  if (route === 'checkout') renderCheckout();
 }
 
 /* ---------- console stream ---------- */
@@ -1057,14 +1052,64 @@ function initCal(root) {
 }
 
 /* ---------- pricing ---------- */
-const PR = {sol: 'ses', tier: null, bill: 'annual'};
+const PR = {sol: 'ses', bill: 'annual', cart: {}};
+const BUNDLE_OFF = .25;
 const priceOf = (t, bill) => bill === 'annual' ? Math.round(t.m * (1 - ANNUAL_OFF)) : t.m;
-const money = n => '$' + n.toLocaleString('en-US');
-function checkoutHTML(sol, bill) {
-  const t = PLANS[sol].tiers.find(x => x.k === PR.tier);
-  if (!t || !t.m) return '';
-  const p = priceOf(t, bill);
-  return `<div class="checkout" aria-live="polite"><div><span class="co-l">Your selection</span><h3>${M[sol].name} · ${t.n}</h3><p>${bill === 'annual' ? `${money(p)}/mo, billed annually (${money(p * 12)} per year)` : `${money(p)}/mo, billed monthly`}</p></div><div class="cta-row"><button type="button" class="btn ghost" data-clear>Change plan</button><button type="button" class="btn primary" data-checkout>Continue to checkout</button></div><p class="co-note" hidden>Demo: checkout isn’t connected yet.</p></div>`;
+const money = n => '$' + Math.round(n).toLocaleString('en-US');
+const CHECK = '<svg class="fx-y" viewBox="0 0 20 20" aria-label="Included" role="img"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6.2"/></svg>';
+const DASH = '<span class="fx-n" aria-label="Not included">—</span>';
+function cartLines() {
+  return SOLS.filter(s => PR.cart[s]).map(s => ({sol: s, t: PLANS[s].tiers.find(x => x.k === PR.cart[s])})).filter(x => x.t && x.t.m);
+}
+function cartTotals(bill) {
+  const lines = cartLines(), list = lines.reduce((a, x) => a + x.t.m, 0);
+  const annual = bill === 'annual' ? Math.round(list * ANNUAL_OFF) : 0;
+  const bundle = lines.length >= 2 ? Math.round((list - annual) * BUNDLE_OFF) : 0;
+  return {lines, list, annual, bundle, total: list - annual - bundle};
+}
+function bundleHTML() {
+  return `<div class="bundle"><span class="bd-ic" aria-hidden="true">%</span><div><b>Bundle discount: save an extra 25%</b><span>Subscribe to two or more IntegrityShield solutions and take another 25% off, on top of your annual billing savings.</span></div></div>`;
+}
+function checkoutHTML(bill) {
+  const c = cartTotals(bill);
+  if (!c.lines.length) return '';
+  const next = SOLS.find(s => !PR.cart[s] || !PLANS[s].tiers.find(x => x.k === PR.cart[s]).m);
+  return `<div class="checkout" aria-live="polite">
+    <div class="co-main">
+      <div class="co-head"><span class="co-l">Your subscription</span><span class="co-bill">${bill === 'annual' ? 'Billed annually' : 'Billed monthly'}</span></div>
+      <ul class="co-lines">
+        ${c.lines.map(x => `<li><span>${M[x.sol].name} · ${x.t.n}<small>${x.t.rec}</small></span><b>${money(x.t.m)}<small>/mo</small></b><button type="button" class="co-rm" data-rm="${x.sol}" aria-label="Remove ${M[x.sol].name}">×</button></li>`).join('')}
+        ${c.annual ? `<li class="disc"><span>Annual billing savings (20%)</span><b>−${money(c.annual)}<small>/mo</small></b></li>` : ''}
+        ${c.bundle ? `<li class="disc bnd"><span>Bundle discount (25%)<small>${c.lines.length} solutions</small></span><b>−${money(c.bundle)}<small>/mo</small></b></li>`
+          : `<li class="hint"><span>Add one more solution to unlock the 25% bundle discount.</span>${next ? `<button type="button" class="link" data-addsol="${next}">Add ${M[next].name} ${ARROW}</button>` : ''}</li>`}
+      </ul>
+    </div>
+    <div class="co-sum">
+      <span class="co-l">Total</span>
+      <b class="co-tot">${money(c.total)}<small>/mo</small></b>
+      <p class="co-yr">${bill === 'annual' ? `${money(c.total * 12)} billed today for 12 months.` : 'Billed monthly. Cancel any time.'}${c.annual + c.bundle ? ` You save ${money((c.annual + c.bundle) * 12)} a year.` : ''}</p>
+      <button type="button" class="btn primary" data-checkout>Continue to checkout</button>
+      <p class="co-note" hidden>Demo: checkout isn’t connected yet.</p>
+    </div>
+  </div>`;
+}
+function matrixHTML(sol) {
+  const T = PLANS[sol].tiers, all = [1, 1, 1, 1, 1];
+  const rows = [
+    ['Active monitoring records', '', T.map(t => t.cap)],
+    [PLANS[sol].cover, '', all],
+    ['Nightly Integrity Scans', '', all],
+    ['Email alerts and notifications', '', all],
+    ['Third-party integrations', '', [0, 0, 1, 1, 1]],
+    ['One-way data integration', 'Fetch data from your systems', [0, 0, 0, 1, 1]],
+    ['Two-way data integration', 'Enrich data and push updates back to your source systems', [0, 0, 0, 0, 1]],
+    ['Screening list customization', '', [0, 0, 0, 1, 1]],
+    ['Dedicated support staff and account success manager', '', [0, 0, 0, 1, 1]]
+  ];
+  return `<div class="fx-wrap" tabindex="0" role="region" aria-label="Compare ${M[sol].name} plans"><table class="fx">
+    <thead><tr><th scope="col">Compare plans</th>${T.map(t => `<th scope="col"${t.pop ? ' class="pop"' : t.eff ? ' class="eff"' : ''}>${t.n}</th>`).join('')}</tr></thead>
+    <tbody>${rows.map(([n, sub, v]) => `<tr><th scope="row">${n}${sub ? `<small>${sub}</small>` : ''}</th>${v.map((x, i) => `<td${T[i].pop ? ' class="pop"' : T[i].eff ? ' class="eff"' : ''}>${typeof x === 'string' ? `<b>${x}</b>` : x ? CHECK : DASH}</td>`).join('')}</tr>`).join('')}</tbody>
+  </table></div>`;
 }
 function renderPlans(el) {
   if (!el) return;
@@ -1073,18 +1118,19 @@ function renderPlans(el) {
   const bill = hub ? PR.bill : (el.dataset.period || 'annual');
   el.dataset.period = bill;
   const P = PLANS[sol];
-  const pick = hub ? `<div class="solpick" role="tablist" aria-label="Choose a solution">${SOLS.map(s => `<button type="button" role="tab" aria-selected="${s === sol}" class="${s === sol ? 'on' : ''}" data-pick="${s}"><span class="sol-ic">${ICONS[s]}</span><span><b>${M[s].name}</b><small>${M[s].crumb}${M[s].placeholder ? ' · placeholder' : ''}</small></span></button>`).join('')}</div>` : '';
+  const pick = hub ? `<div class="solpick" role="tablist" aria-label="Choose a solution">${SOLS.map(s => { const ct = PR.cart[s] && PLANS[s].tiers.find(x => x.k === PR.cart[s]); return `<button type="button" role="tab" aria-selected="${s === sol}" class="${s === sol ? 'on' : ''}" data-pick="${s}"><span class="sol-ic">${ICONS[s]}</span><span><b>${M[s].name}</b><small>${M[s].crumb}</small>${ct && ct.m ? `<em class="incart">✓ In your plan: ${ct.n}</em>` : ''}</span></button>`; }).join('')}</div>` : '';
   const tiers = P.tiers.map(t => {
-    const ent = !t.m && !t.free, sel = hub && PR.tier === t.k, p = ent || t.free ? 0 : priceOf(t, bill);
-    const priceBlock = t.free ? `<b>$0<small>/mo</small></b><span>Free, no card needed</span>` : ent
+    const ent = !t.m && !t.free, sel = hub && PR.cart[sol] === t.k, p = ent || t.free ? 0 : priceOf(t, bill);
+    const priceBlock = t.free ? `<b>$0<small>/mo</small></b><span class="nocard">No credit card required</span>` : ent
       ? `<b>Custom</b><span>Tailored to your organization</span>`
       : `<b>${money(p)}<small>/mo</small></b><span>${bill === 'annual' ? `<s>${money(t.m)}</s> · billed annually, ${money(p * 12)}/yr` : 'Billed monthly'}</span>`;
     const btn = t.free ? `<button type="button" class="btn ghost" data-contact="${sol}">Get started free</button>` : ent
-      ? `<button type="button" class="btn ghost" data-contact="${sol}">Contact us</button>`
-      : `<button type="button" class="btn ${t.pop || sel ? 'primary' : 'ghost'}" data-pay="${t.k}">${sel ? 'Selected' : 'Pay now'}</button>`;
-    return `<div class="tier${t.pop ? ' pop' : ''}${ent ? ' ent' : ''}${t.free ? ' free' : ''}${sel ? ' sel' : ''}">${t.pop ? '<span class="badge">Most popular</span>' : ''}<div><h3>${t.n}</h3></div><p class="tb">${t.blurb}</p><div class="tprice">${priceBlock}</div><ul class="checks sm">${t.f.map(x => `<li>${x}</li>`).join('')}</ul>${btn}</div>`;
+      ? `<button type="button" class="btn ghost" data-ent="${sol}">Contact us</button>`
+      : `<button type="button" class="btn ${t.pop || t.eff || sel ? 'primary' : 'ghost'}${sel ? ' added' : ''}" data-pay="${t.k}" aria-pressed="${sel}">${sel ? '✓ Added to your plan' : 'Subscribe'}</button>`;
+    const badge = t.pop ? '<span class="badge">Most popular</span>' : t.eff ? '<span class="badge eff">Most cost-efficient</span>' : '';
+    return `<div class="tier${t.pop ? ' pop' : ''}${t.eff ? ' eff' : ''}${ent ? ' ent' : ''}${t.free ? ' free' : ''}${sel ? ' sel' : ''}">${badge}<div><h3>${t.n}</h3></div><p class="tb">${t.blurb}</p><div class="tprice">${priceBlock}</div><p class="trec">${t.rec}</p>${btn}</div>`;
   }).join('');
-  el.innerHTML = `${pick}<div class="plans-bar"><span class="plans-for">${hub ? `Showing plans for <b>${M[sol].name}</b>` : 'Prices in USD'}${P.placeholder ? ' · placeholder plans' : ''}</span><div class="bill" role="radiogroup" aria-label="Billing period"><button type="button" role="radio" aria-checked="${bill === 'monthly'}" class="${bill === 'monthly' ? 'on' : ''}" data-billing="monthly">Monthly</button><button type="button" role="radio" aria-checked="${bill === 'annual'}" class="${bill === 'annual' ? 'on' : ''}" data-billing="annual">Annually <em>Save 20%</em></button></div></div><div class="tiers">${tiers}</div>${hub && PR.tier ? checkoutHTML(sol, bill) : ''}`;
+  el.innerHTML = `${pick}<div class="plans-bar"><span class="plans-for">${hub ? `Showing plans for <b>${M[sol].name}</b>` : 'Prices in USD'}</span><div class="bill" role="radiogroup" aria-label="Billing period"><button type="button" role="radio" aria-checked="${bill === 'monthly'}" class="${bill === 'monthly' ? 'on' : ''}" data-billing="monthly">Monthly</button><button type="button" role="radio" aria-checked="${bill === 'annual'}" class="${bill === 'annual' ? 'on' : ''}" data-billing="annual">Annually <em>Save 20%</em></button></div></div>${bundleHTML()}<div class="tiers">${tiers}</div>${hub ? checkoutHTML(bill) : ''}${matrixHTML(sol)}`;
 }
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-plans]');
@@ -1094,17 +1140,510 @@ document.addEventListener('click', e => {
   if (b) { el.dataset.period = b.dataset.billing; if (hub) PR.bill = b.dataset.billing; renderPlans(el); return; }
   const s = e.target.closest('[data-pick]');
   if (s) { PR.sol = s.dataset.pick; renderPlans(el); return; }
+  const add = e.target.closest('[data-addsol]');
+  if (add) { PR.sol = add.dataset.addsol; renderPlans(el); scrollToEl(el.querySelector('.solpick')); return; }
+  const rm = e.target.closest('[data-rm]');
+  if (rm) { delete PR.cart[rm.dataset.rm]; renderPlans(el); return; }
   const pay = e.target.closest('[data-pay]');
   if (pay) {
-    PR.tier = pay.dataset.pay;
-    if (hub) renderPlans(el);
-    else { PR.sol = el.dataset.sol; PR.bill = el.dataset.period; location.href = U('pricing') + '?sol=' + PR.sol + '&tier=' + PR.tier + '&bill=' + PR.bill; }
+    const sol = hub ? PR.sol : el.dataset.sol;
+    if (hub) {
+      if (PR.cart[sol] === pay.dataset.pay) delete PR.cart[sol]; else PR.cart[sol] = pay.dataset.pay;
+      renderPlans(el);
+      const co = el.querySelector('.checkout');
+      if (co && PR.cart[sol]) { const r = co.getBoundingClientRect(); if (r.top > innerHeight - 120 || r.bottom < 0) scrollToEl(co); }
+    } else { PR.cart[sol] = pay.dataset.pay; PR.sol = sol; PR.bill = el.dataset.period; location.href = U('pricing') + '?sol=' + PR.sol + '&cart=' + Object.entries(PR.cart).map(x => x.join(':')).join(',') + '&bill=' + PR.bill; }
     return;
   }
+  const en = e.target.closest('[data-ent]');
+  if (en) { entInquiry(en.dataset.ent); return; }
   const c = e.target.closest('[data-contact]');
   if (c) { goTo(c.dataset.contact, '.book'); return; }
-  if (e.target.closest('[data-clear]')) { PR.tier = null; renderPlans(el); return; }
-  if (e.target.closest('[data-checkout]')) { const n = el.querySelector('.co-note'); if (n) n.hidden = false; }
+});
+
+/* ---------- checkout: organization → agreement → payment → confirmation ---------- */
+const SUPPORT = {phone: '1-800-604-1354', tel: 'tel:18006041354', email: 'support@sureshield.com'};
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[c]);
+const cartQS = () => '?sol=' + PR.sol + '&cart=' + Object.entries(PR.cart).map(x => x.join(':')).join(',') + '&bill=' + PR.bill;
+function goCheckout() { location.href = U('checkout') + cartQS(); }
+function goPricing() { location.href = U('pricing') + cartQS(); }
+const ORG_TYPES = ['Hospital or health system', 'Physician group or clinic', 'Post-acute or long-term care', 'Health plan or payer', 'Pharmacy', 'Behavioral health', 'Government contractor', 'Financial services', 'Managed service provider (MSP or MSSP)', 'Other'];
+const INDUSTRIES = ['Healthcare', 'Finance', 'Defense and government contracting', 'Manufacturing', 'Education', 'Nonprofit', 'Technology', 'Other'];
+const COUNTRIES = ['United States', 'Canada', 'Mexico', 'United Kingdom', 'India', 'Other'];
+const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming','Puerto Rico'];
+const CO_STEPS = ['Organization', 'Agreement', 'Payment', 'Confirmation'];
+const CO = {step: 0, org: {country: 'United States', industries: []}, contacts: [], sign: null, order: null, contractNo: ''};
+
+function coDate(d) { return d.toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'}); }
+function coTotals() { return cartTotals(PR.bill); }
+function coDueToday(c) { return PR.bill === 'annual' ? c.total * 12 : c.total; }
+function coNewNo(prefix) {
+  const d = new Date(), p = n => String(n).padStart(2, '0');
+  return `${prefix}-${String(d.getFullYear()).slice(2)}${p(d.getMonth() + 1)}${p(d.getDate())}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
+}
+
+/* summary beside every step */
+function coSummaryHTML(c, open) {
+  const lines = c.lines.map(x => `<li><span>${M[x.sol].name}<small>${x.t.n} · ${x.t.rec}</small></span><b>${money(x.t.m)}<small>/mo</small></b></li>`).join('');
+  const body = `<ul class="cs-lines">${lines}
+      ${c.annual ? `<li class="disc"><span>Annual billing savings (20%)</span><b>−${money(c.annual)}<small>/mo</small></b></li>` : ''}
+      ${c.bundle ? `<li class="disc"><span>Bundle discount (25%)</span><b>−${money(c.bundle)}<small>/mo</small></b></li>` : ''}
+      <li class="tot"><span>Total</span><b>${money(c.total)}<small>/mo</small></b></li>
+    </ul>
+    <p class="cs-due"><span>${PR.bill === 'annual' ? 'Due today, billed annually' : 'Due today, billed monthly'}</span><b>${money(coDueToday(c))}</b></p>
+    ${CO.step === 0 ? `<button type="button" class="link cs-edit" data-co-edit>Change plans</button>` : ''}`;
+  return `<aside class="co-sum2" aria-label="Order summary">
+    <details class="cs-m"${open ? ' open' : ''}><summary><span>Order summary</span><b>${money(coDueToday(c))}</b></summary>${body}</details>
+    <div class="cs-d"><p class="cs-h">Order summary</p>${body}</div>
+  </aside>`;
+}
+function coStepsHTML() {
+  return `<ol class="co-steps" aria-label="Checkout steps">${CO_STEPS.map((s, i) => {
+    const st = i < CO.step ? 'done' : i === CO.step ? 'cur' : '';
+    const back = i < CO.step && CO.step < 3;
+    return `<li class="${st}"${i === CO.step ? ' aria-current="step"' : ''}>${back ? `<button type="button" data-co-go="${i}">` : '<span class="cst">'}<i>${i < CO.step ? '✓' : i + 1}</i><span>${s}</span>${back ? '</button>' : '</span>'}</li>`;
+  }).join('')}</ol>`;
+}
+
+/* field helpers */
+const fid = n => 'co-' + n;
+function fText(name, label, o = {}) {
+  const v = o.value != null ? o.value : (CO.org[name] || '');
+  return `<label class="cf${o.wide ? ' wide' : ''}" for="${fid(name)}"><span class="cl">${label}${o.req ? ' <i aria-hidden="true">*</i>' : ' <em>(optional)</em>'}</span><input id="${fid(name)}" name="${name}" value="${esc(v)}"${o.type ? ` type="${o.type}"` : ''}${o.ac ? ` autocomplete="${o.ac}"` : ''}${o.im ? ` inputmode="${o.im}"` : ''}${o.ph ? ` placeholder="${esc(o.ph)}"` : ''}${o.req ? ' required aria-required="true"' : ''}><span class="fe" id="${fid(name)}-e" hidden></span></label>`;
+}
+function fSelect(name, label, opts, o = {}) {
+  const v = CO.org[name] || '';
+  return `<label class="cf${o.wide ? ' wide' : ''}" for="${fid(name)}"><span class="cl">${label}${o.req ? ' <i aria-hidden="true">*</i>' : ' <em>(optional)</em>'}</span><select id="${fid(name)}" name="${name}"${o.req ? ' required aria-required="true"' : ''}><option value="">${o.ph || 'Select'}</option>${opts.map(x => `<option${x === v ? ' selected' : ''}>${esc(x)}</option>`).join('')}</select><span class="fe" id="${fid(name)}-e" hidden></span></label>`;
+}
+function stateField() {
+  return CO.org.country === 'United States'
+    ? fSelect('state', 'State', US_STATES, {req: true, ph: 'Select a state'})
+    : fText('state', 'State / Province / Region', {req: true, ac: 'address-level1'});
+}
+function contactRow(k, i) {
+  const c = CO.contacts[i];
+  return `<div class="kc" data-kc="${i}"><div class="kc-h"><b>Key contact ${i + 1}</b><button type="button" class="link" data-kc-rm="${i}">Remove</button></div>
+    <div class="cgrid">
+      <label class="cf" for="co-kc${i}-name"><span class="cl">Full name <em>(optional)</em></span><input id="co-kc${i}-name" data-kc-f="name" value="${esc(c.name)}" autocomplete="off"></label>
+      <label class="cf" for="co-kc${i}-role"><span class="cl">Role <em>(optional)</em></span><input id="co-kc${i}-role" data-kc-f="role" value="${esc(c.role)}" placeholder="e.g. Compliance officer" autocomplete="off"></label>
+      <label class="cf" for="co-kc${i}-email"><span class="cl">Email <em>(optional)</em></span><input id="co-kc${i}-email" data-kc-f="email" type="email" value="${esc(c.email)}" autocomplete="off"><span class="fe" id="co-kc${i}-email-e" hidden></span></label>
+      <label class="cf" for="co-kc${i}-phone"><span class="cl">Phone <em>(optional)</em></span><input id="co-kc${i}-phone" data-kc-f="phone" type="tel" value="${esc(c.phone)}" autocomplete="off"></label>
+    </div></div>`;
+}
+
+/* step 1: organization */
+function coOrgHTML() {
+  const o = CO.org;
+  return `<form class="co-card co-form" data-co-form="org" novalidate>
+    <div class="co-head2"><h2>Organization details</h2><p>Tell us who the subscription is for. Fields marked <i class="req">*</i> are required.</p></div>
+    <fieldset class="co-fs"><legend>Organization</legend><div class="cgrid">
+      ${fText('name', 'Organization name', {req: true, ac: 'organization', wide: true})}
+      ${fText('short', 'Short form / acronym', {ph: 'e.g. ACME'})}
+      ${fSelect('type', 'Organization type', ORG_TYPES)}
+      ${fText('url', 'Website / URL', {type: 'url', im: 'url', ac: 'url', ph: 'www.example.org', wide: true})}
+    </div></fieldset>
+    <fieldset class="co-fs"><legend>Industries served by this organization <em>(optional, choose any)</em></legend>
+      <div class="chips">${INDUSTRIES.map((x, i) => `<label class="chip-c"><input type="checkbox" name="industries" value="${esc(x)}"${o.industries.includes(x) ? ' checked' : ''}><span>${x}</span></label>`).join('')}</div>
+    </fieldset>
+    <fieldset class="co-fs"><legend>Address</legend><div class="cgrid">
+      ${fText('addr', 'Address', {req: true, ac: 'street-address', wide: true, ph: 'Street address, suite or unit'})}
+      ${fSelect('country', 'Country', COUNTRIES, {req: true})}
+      <div class="cf-slot" data-state-slot>${stateField()}</div>
+      ${fText('city', 'City', {req: true, ac: 'address-level2'})}
+      ${fText('zip', 'ZIP code', {req: true, ac: 'postal-code', im: o.country === 'United States' ? 'numeric' : 'text'})}
+    </div></fieldset>
+    <fieldset class="co-fs"><legend>Partner system administrator</legend><p class="co-hint">The person who will set up and manage your IntegrityShield account.</p><div class="cgrid">
+      ${fText('adminName', 'Full name', {ac: 'name'})}
+      ${fText('adminTitle', 'Title', {ac: 'organization-title'})}
+      ${fText('adminEmail', 'Work email', {type: 'email', ac: 'email'})}
+      ${fText('adminPhone', 'Phone', {type: 'tel', ac: 'tel'})}
+    </div></fieldset>
+    <fieldset class="co-fs"><legend>Other key contacts</legend><p class="co-hint">For example compliance, billing or IT contacts. Add up to five.</p>
+      <div class="kcs">${CO.contacts.map(contactRow).join('')}</div>
+      ${CO.contacts.length < 5 ? `<button type="button" class="btn ghost sm" data-kc-add>+ Add a key contact</button>` : ''}
+    </fieldset>
+    <p class="co-formerr" role="alert" hidden></p>
+    <div class="co-nav"><button type="button" class="link" data-co-edit>← Back to plans</button><button type="submit" class="btn primary">Continue to agreement</button></div>
+  </form>`;
+}
+
+/* step 2: agreement */
+const TERMS = [
+  ['1. Services', 'Placeholder. SureShield, Inc. ("SureShield") provides the IntegrityShield solutions and plans listed in the order summary. The scope of each plan is described on the IntegrityShield pricing page.'],
+  ['2. Term and renewal', 'Placeholder. Annual subscriptions run for 12 months from the start date and renew for further 12-month terms unless cancelled. Monthly subscriptions renew each month until cancelled.'],
+  ['3. Fees and payment', 'Placeholder. Fees are shown in US dollars in the order summary. Annual subscriptions are billed in advance. Discounts apply only while the qualifying plans remain active.'],
+  ['4. Customer responsibilities', 'Placeholder. The customer is responsible for the accuracy of the records it submits for monitoring and for how it uses screening results.'],
+  ['5. Data and confidentiality', 'Placeholder. Each party will protect the other party’s confidential information. Customer data is handled as described in the Privacy Policy.'],
+  ['6. Warranties and liability', 'Placeholder. Warranty, disclaimer and limitation of liability terms to be provided by SureShield.'],
+  ['7. Termination', 'Placeholder. Termination terms to be provided by SureShield.'],
+  ['8. General', 'Placeholder. Governing law, notices and other general terms to be provided by SureShield.']
+];
+const PRIVACY = [
+  ['Information we collect', 'Placeholder. Organization details, contact details and the monitoring records you submit.'],
+  ['How we use information', 'Placeholder. To provide, support and improve the IntegrityShield solutions you subscribe to.'],
+  ['Sharing', 'Placeholder. Details of service providers and legal disclosures to be provided by SureShield.'],
+  ['Security and retention', 'Placeholder. Security measures and retention periods to be provided by SureShield.'],
+  ['Your choices and contact', 'Placeholder. Questions about privacy can be sent to ' + SUPPORT.email + '.']
+];
+function coDocHTML(id, title, items) {
+  return `<section class="co-doc" aria-labelledby="${id}"><h3 id="${id}">${title}</h3><div class="co-doc-b" tabindex="0">${items.map(([h, p]) => `<h4>${h}</h4><p>${p}</p>`).join('')}</div></section>`;
+}
+function coAddress() { const o = CO.org; return [o.addr, o.city, [o.state, o.zip].filter(Boolean).join(' '), o.country].filter(Boolean).join(', '); }
+function coAgreementHTML(c) {
+  const o = CO.org, s = CO.sign;
+  const start = coDate(new Date());
+  const term = PR.bill === 'annual' ? '12 months from the start date, billed annually in advance' : 'Month to month, billed monthly';
+  const rows = c.lines.map(x => `<tr><td>${M[x.sol].name}</td><td>${x.t.n}</td><td>${x.t.rec}</td><td class="n">${money(x.t.m)}/mo</td></tr>`).join('');
+  return `<div class="co-card">
+    <div class="co-head2"><h2>Review and sign your agreement</h2><p>Read the purchase summary, Terms and Conditions and Privacy Policy, then sign below. <span class="ph-tag">Placeholder content</span></p></div>
+    <section class="co-contract" aria-labelledby="co-ct-h">
+      <div class="cc-top"><h3 id="co-ct-h">Subscription agreement</h3><span>No. ${CO.contractNo}</span></div>
+      <dl class="cc-dl">
+        <div><dt>Customer</dt><dd>${esc(o.name)}${o.short ? ` (${esc(o.short)})` : ''}</dd></div>
+        <div><dt>Address</dt><dd>${esc(coAddress())}</dd></div>
+        <div><dt>Provider</dt><dd>SureShield, Inc., 3343 Peachtree Rd NE, Ste 145-1564, Atlanta, GA 30326</dd></div>
+        <div><dt>Start date</dt><dd>${start}</dd></div>
+        <div><dt>Term</dt><dd>${term}</dd></div>
+      </dl>
+      <div class="cc-tw"><table class="cc-t"><thead><tr><th>Solution</th><th>Plan</th><th>Records</th><th class="n">List price</th></tr></thead><tbody>${rows}</tbody>
+        <tfoot>
+          ${c.annual ? `<tr><td colspan="3">Annual billing savings (20%)</td><td class="n">−${money(c.annual)}/mo</td></tr>` : ''}
+          ${c.bundle ? `<tr><td colspan="3">Bundle discount (25%)</td><td class="n">−${money(c.bundle)}/mo</td></tr>` : ''}
+          <tr class="tt"><td colspan="3">Total</td><td class="n">${money(c.total)}/mo</td></tr>
+          <tr class="tt"><td colspan="3">${PR.bill === 'annual' ? 'Amount due today (12 months)' : 'Amount due today (first month)'}</td><td class="n">${money(coDueToday(c))}</td></tr>
+        </tfoot></table></div>
+    </section>
+    ${coDocHTML('co-tc-h', 'Terms and Conditions', TERMS)}
+    ${coDocHTML('co-pp-h', 'Privacy Policy', PRIVACY)}
+    ${s ? coSignedHTML() : `<form class="co-sign" data-co-form="sign" novalidate>
+      <h3>Electronic signature</h3>
+      <div class="cgrid">
+        <label class="cf" for="co-sname"><span class="cl">Signer full name <i aria-hidden="true">*</i></span><input id="co-sname" name="sname" autocomplete="name" required aria-required="true" value="${esc(CO.draftSign.sname || o.adminName || '')}"><span class="fe" id="co-sname-e" hidden></span></label>
+        <label class="cf" for="co-stitle"><span class="cl">Title <i aria-hidden="true">*</i></span><input id="co-stitle" name="stitle" autocomplete="organization-title" required aria-required="true" value="${esc(CO.draftSign.stitle || o.adminTitle || '')}"><span class="fe" id="co-stitle-e" hidden></span></label>
+        <label class="cf wide" for="co-semail"><span class="cl">Work email <i aria-hidden="true">*</i> <em>The signed contract and receipt go here</em></span><input id="co-semail" name="semail" type="email" autocomplete="email" required aria-required="true" value="${esc(CO.draftSign.semail || o.adminEmail || '')}"><span class="fe" id="co-semail-e" hidden></span></label>
+      </div>
+      <div class="sig-pad" aria-hidden="true"><span class="sig-l">Signature</span><span class="sig-v" data-sig-v>${esc(CO.draftSign.sname || o.adminName || '')}</span><span class="sig-d">${start}</span></div>
+      <label class="ck"><input type="checkbox" name="tc"${CO.draftSign.tc ? ' checked' : ''}><span>I have read and agree to the Terms and Conditions. <i aria-hidden="true">*</i></span></label>
+      <label class="ck"><input type="checkbox" name="pp"${CO.draftSign.pp ? ' checked' : ''}><span>I have read and agree to the Privacy Policy. <i aria-hidden="true">*</i></span></label>
+      <label class="ck"><input type="checkbox" name="es"${CO.draftSign.es ? ' checked' : ''}><span>I am authorized to sign for ${esc(o.name)}, and typing my name above is my electronic signature. <i aria-hidden="true">*</i></span></label>
+      <p class="co-formerr" role="alert" hidden></p>
+      <div class="co-nav"><button type="button" class="link" data-co-go="0">← Back</button><button type="submit" class="btn primary">Sign agreement</button></div>
+    </form>`}
+  </div>`;
+}
+function coSignedHTML() {
+  const s = CO.sign;
+  return `<div class="co-signed">
+    <div class="sig-pad on"><span class="sig-l">Signed</span><span class="sig-v">${esc(s.name)}</span><span class="sig-d">${esc(s.title)} · ${s.date}</span></div>
+    <p class="co-ok"><b>Agreement signed.</b> You can download a copy now. We’ll also email the signed contract to <b>${esc(s.email)}</b> after payment.</p>
+    <div class="co-nav"><button type="button" class="btn ghost" data-co-dl>Download contract (PDF)</button><button type="button" class="btn primary" data-co-go="2">Continue to payment</button></div>
+    <button type="button" class="link co-resign" data-co-resign>Edit signer details</button>
+  </div>`;
+}
+
+/* step 3: payment */
+function coPaymentHTML(c) {
+  const due = coDueToday(c);
+  return `<div class="co-card">
+    <div class="co-head2"><h2>Payment</h2><p>${PR.bill === 'annual' ? 'Your annual subscription is billed today for 12 months.' : 'Your first month is billed today, then every month.'}</p></div>
+    <div class="pay-due"><span>Amount due today</span><b>${money(due)}</b></div>
+    <div class="pay-box" role="note">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>
+      <div><b>Secure payment by Stripe</b><span>The Stripe payment form will appear here once payments are connected. This demo does not take payments or ask for card details.</span></div>
+    </div>
+    <p class="pay-note">The receipt and signed contract go to <b>${esc(CO.sign.email)}</b>.</p>
+    <div class="co-nav"><button type="button" class="link" data-co-go="1">← Back</button><button type="button" class="btn primary" data-co-pay>Pay ${money(due)}</button></div>
+    <p class="pay-demo">Demo: selecting Pay completes the order without charging anything.</p>
+  </div>`;
+}
+
+/* step 4: confirmation */
+function coDoneHTML() {
+  const d = CO.order;
+  const pro = d.lines.some(x => x.t.k === 'max');
+  return `<div class="co-card co-done">
+    <div class="cd-top"><span class="cd-ic" aria-hidden="true">✓</span><div><h2>Thank you. Your order is confirmed.</h2><p>Order <b>${d.no}</b> for ${esc(d.org)}.</p></div></div>
+    ${pro ? `<div class="cd-csm"><b>Your dedicated success manager will contact you shortly.</b><span>Essential PRO includes a dedicated success manager to help you set up and get the most from IntegrityShield.</span></div>` : ''}
+    <div class="cd-next"><h3>What happens next</h3>
+      <p>You’ll receive an email at <b>${esc(d.email)}</b> within the next <b>24 to 48 hours</b> with your account setup details, receipt and signed contract.</p>
+      <p class="cd-spam">Please keep an eye on your spam or junk folder in case the email lands there.</p>
+    </div>
+    <dl class="cc-dl cd-dl">
+      <div><dt>Order number</dt><dd>${d.no}</dd></div>
+      <div><dt>Date</dt><dd>${d.date}</dd></div>
+      <div><dt>Organization</dt><dd>${esc(d.org)}</dd></div>
+      <div><dt>Plans</dt><dd>${d.lines.map(x => `${M[x.sol].name} · ${x.t.n}`).join('<br>')}</dd></div>
+      <div><dt>Billing</dt><dd>${d.bill === 'annual' ? 'Annual, billed in advance' : 'Monthly'}</dd></div>
+      <div><dt>Amount paid</dt><dd>${money(d.paid)}${d.bundle ? ' <small>(includes 25% bundle discount)</small>' : ''}</dd></div>
+      <div><dt>Agreement</dt><dd>No. ${d.contractNo}, signed by ${esc(d.signer)}</dd></div>
+    </dl>
+    <div class="cd-help"><h3>Need help?</h3><p>Reach us about anything to do with your order or account.</p>
+      <div class="cd-ways"><a href="${SUPPORT.tel}"><span>Call</span><b>${SUPPORT.phone}</b></a><a href="mailto:${SUPPORT.email}"><span>Email</span><b>${SUPPORT.email}</b></a></div>
+    </div>
+    <div class="co-nav"><button type="button" class="btn ghost" data-co-dl>Download contract (PDF)</button><a class="btn primary" href="#home">Back to home</a></div>
+  </div>`;
+}
+
+function coEmptyHTML() {
+  return `<div class="co-card co-empty"><h2>Your plan is empty.</h2><p>Choose a plan on the pricing page, then continue to checkout.</p><div class="co-nav"><a class="btn primary" href="#pricing">See plans</a></div></div>`;
+}
+
+function renderCheckout(focusTop) {
+  const root = $('#page-checkout');
+  if (!root) return;
+  if (!CO.draftSign) CO.draftSign = {};
+  const c = coTotals();
+  let main, aside = '';
+  if (CO.step === 3 && CO.order) main = coDoneHTML();
+  else if (!c.lines.length) main = coEmptyHTML();
+  else {
+    if (!CO.contractNo) CO.contractNo = coNewNo('ISA');
+    main = CO.step === 0 ? coOrgHTML() : CO.step === 1 ? coAgreementHTML(c) : coPaymentHTML(c);
+    aside = coSummaryHTML(c);
+  }
+  root.innerHTML = `<div class="co-bg" aria-hidden="true"><i></i><i></i></div>
+    <section class="wrap co-wrap">
+      <div class="co-top"><span class="bar">Checkout</span><h1>${CO.step === 3 ? 'Order confirmed' : 'Complete your subscription'}</h1>${(c.lines.length || CO.order) ? coStepsHTML() : ''}</div>
+      <div class="co-grid${aside ? '' : ' solo'}"><div class="co-main2">${main}</div>${aside}</div>
+    </section>`;
+  if (focusTop) { scrollToY(0, true); const h = root.querySelector('.co-head2 h2, .cd-top h2'); if (h) { h.setAttribute('tabindex', '-1'); h.focus({preventScroll: true}); } }
+}
+
+/* validation */
+const CO_EMAIL = v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
+function coErr(form, name, msg, sel) {
+  const el = sel ? form.querySelector(sel) : form.querySelector(`[name="${name}"]`);
+  if (!el) return;
+  const e = form.querySelector('#' + el.id + '-e');
+  el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+  if (e) { e.textContent = msg || ''; e.hidden = !msg; if (msg) el.setAttribute('aria-describedby', e.id); else el.removeAttribute('aria-describedby'); }
+}
+function coReadOrg(f) {
+  const o = CO.org, g = n => (f.elements[n] ? f.elements[n].value.trim() : '');
+  ['name', 'short', 'type', 'url', 'addr', 'country', 'state', 'city', 'zip', 'adminName', 'adminTitle', 'adminEmail', 'adminPhone'].forEach(n => { o[n] = g(n); });
+  o.industries = $$('input[name=industries]:checked', f).map(x => x.value);
+  $$('[data-kc]', f).forEach(row => { const i = +row.dataset.kc; $$('[data-kc-f]', row).forEach(inp => { CO.contacts[i][inp.dataset.kcF] = inp.value.trim(); }); });
+}
+function coValidateOrg(f) {
+  coReadOrg(f);
+  const o = CO.org, bad = [];
+  const need = [['name', 'Enter your organization’s name.'], ['addr', 'Enter the street address.'], ['country', 'Choose a country.'], ['state', o.country === 'United States' ? 'Choose a state.' : 'Enter the state, province or region.'], ['city', 'Enter the city.'], ['zip', 'Enter the ZIP code.']];
+  need.forEach(([n, m]) => { const miss = !o[n]; coErr(f, n, miss ? m : ''); if (miss) bad.push(n); });
+  if (o.zip && o.country === 'United States' && !/^\d{5}(-\d{4})?$/.test(o.zip)) { coErr(f, 'zip', 'Enter a 5-digit ZIP code, for example 30326.'); bad.push('zip'); }
+  if (o.url && !/^(https?:\/\/)?[^\s.]+\.[^\s]{2,}$/i.test(o.url)) { coErr(f, 'url', 'Enter a web address, for example www.example.org.'); bad.push('url'); } else coErr(f, 'url', '');
+  if (o.adminEmail && !CO_EMAIL(o.adminEmail)) { coErr(f, 'adminEmail', 'Enter a valid email address.'); bad.push('adminEmail'); } else coErr(f, 'adminEmail', '');
+  CO.contacts.forEach((c, i) => { const ok = !c.email || CO_EMAIL(c.email); coErr(f, '', ok ? '' : 'Enter a valid email address.', `#co-kc${i}-email`); if (!ok) bad.push(`kc${i}`); });
+  return bad;
+}
+function coFormError(f, n) {
+  const p = f.querySelector('.co-formerr');
+  if (!p) return;
+  p.textContent = n ? `Please check the ${n === 1 ? 'highlighted field' : n + ' highlighted fields'}.` : '';
+  p.hidden = !n;
+}
+function coFocusFirst(f) { const el = f.querySelector('[aria-invalid="true"]'); if (el) { el.focus({preventScroll: true}); scrollToY(el.getBoundingClientRect().top + window.scrollY - 140); } }
+
+document.addEventListener('submit', e => {
+  const f = e.target.closest('[data-co-form]');
+  if (!f) return;
+  e.preventDefault();
+  if (f.dataset.coForm === 'org') {
+    const bad = coValidateOrg(f);
+    coFormError(f, bad.length);
+    if (bad.length) { coFocusFirst(f); return; }
+    CO.sign = null; CO.step = 1; renderCheckout(true); return;
+  }
+  if (f.dataset.coForm === 'sign') {
+    const g = n => f.elements[n].value.trim(), bad = [];
+    const d = CO.draftSign; d.sname = g('sname'); d.stitle = g('stitle'); d.semail = g('semail'); d.tc = f.elements.tc.checked; d.pp = f.elements.pp.checked; d.es = f.elements.es.checked;
+    [['sname', !d.sname && 'Enter the signer’s full name.'], ['stitle', !d.stitle && 'Enter the signer’s title.'], ['semail', !d.semail ? 'Enter a work email.' : !CO_EMAIL(d.semail) && 'Enter a valid email address.']].forEach(([n, m]) => { coErr(f, n, m || ''); if (m) bad.push(n); });
+    ['tc', 'pp', 'es'].forEach(n => { const box = f.elements[n]; box.setAttribute('aria-invalid', box.checked ? 'false' : 'true'); box.closest('.ck').classList.toggle('bad', !box.checked); if (!box.checked) bad.push(n); });
+    const p = f.querySelector('.co-formerr');
+    p.textContent = bad.length ? (bad.some(x => ['tc', 'pp', 'es'].includes(x)) && bad.length === bad.filter(x => ['tc', 'pp', 'es'].includes(x)).length ? 'Please tick all three boxes to sign.' : `Please check the ${bad.length === 1 ? 'highlighted item' : bad.length + ' highlighted items'}.`) : '';
+    p.hidden = !bad.length;
+    if (bad.length) { coFocusFirst(f); return; }
+    CO.sign = {name: d.sname, title: d.stitle, email: d.semail, date: coDate(new Date()), at: new Date().toISOString()};
+    renderCheckout(false);
+    const s = $('#page-checkout .co-signed'); if (s) scrollToY(s.getBoundingClientRect().top + window.scrollY - 140);
+  }
+});
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (!t.closest || !t.closest('#page-checkout')) return;
+  if (t.name === 'sname') { const v = $('#page-checkout [data-sig-v]'); if (v) v.textContent = t.value; }
+  if (t.getAttribute('aria-invalid') === 'true' && t.value.trim()) { const f = t.closest('form'); t.setAttribute('aria-invalid', 'false'); const er = f && f.querySelector('#' + t.id + '-e'); if (er) er.hidden = true; }
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (!t.closest || !t.closest('#page-checkout')) return;
+  if (t.type === 'checkbox' && t.closest('.ck') && t.checked) { t.closest('.ck').classList.remove('bad'); t.setAttribute('aria-invalid', 'false'); }
+  if (t.name === 'country') {
+    const f = t.closest('form'); coReadOrg(f);
+    CO.org.country = t.value; CO.org.state = '';
+    f.querySelector('[data-state-slot]').innerHTML = stateField();
+    const z = f.elements.zip; if (z) z.setAttribute('inputmode', t.value === 'United States' ? 'numeric' : 'text');
+  }
+  if (t.getAttribute('aria-invalid') === 'true' && t.value) { t.setAttribute('aria-invalid', 'false'); const f = t.closest('form'); const er = f && f.querySelector('#' + t.id + '-e'); if (er) er.hidden = true; }
+});
+document.addEventListener('click', e => {
+  if (!e.target.closest) return;
+  const inCo = e.target.closest('#page-checkout');
+  if (e.target.closest('[data-checkout]')) {
+    if (!cartLines().length) return;
+    CO.step = 0; CO.order = null; CO.sign = null; CO.contractNo = '';
+    goCheckout(); return;
+  }
+  if (!inCo) return;
+  const ed = e.target.closest('[data-co-edit]');
+  if (ed) { const f = inCo.querySelector('[data-co-form="org"]'); if (f) coReadOrg(f); goPricing(); return; }
+  const add = e.target.closest('[data-kc-add]');
+  if (add) { const f = add.closest('form'); coReadOrg(f); CO.contacts.push({name: '', role: '', email: '', phone: ''}); renderCheckout(false); const i = $(`#co-kc${CO.contacts.length - 1}-name`); if (i) i.focus(); return; }
+  const rm = e.target.closest('[data-kc-rm]');
+  if (rm) { const f = rm.closest('form'); coReadOrg(f); CO.contacts.splice(+rm.dataset.kcRm, 1); renderCheckout(false); return; }
+  const go = e.target.closest('[data-co-go]');
+  if (go) {
+    const to = +go.dataset.coGo, f = inCo.querySelector('[data-co-form="org"]');
+    if (f) coReadOrg(f);
+    const sf = inCo.querySelector('[data-co-form="sign"]');
+    if (sf) { const d = CO.draftSign; ['sname', 'stitle', 'semail'].forEach(n => { d[n] = sf.elements[n].value.trim(); }); ['tc', 'pp', 'es'].forEach(n => { d[n] = sf.elements[n].checked; }); }
+    if (to === 2 && !CO.sign) return;
+    CO.step = to; renderCheckout(true); return;
+  }
+  if (e.target.closest('[data-co-resign]')) { CO.draftSign = {sname: CO.sign.name, stitle: CO.sign.title, semail: CO.sign.email, tc: true, pp: true, es: true}; CO.sign = null; renderCheckout(false); return; }
+  if (e.target.closest('[data-co-dl]')) { coDownload(); return; }
+  if (e.target.closest('[data-co-pay]')) {
+    const c = coTotals();
+    CO.order = {no: coNewNo('IS'), date: coDate(new Date()), org: CO.org.name, email: CO.sign.email, signer: CO.sign.name, lines: c.lines, bill: PR.bill, paid: coDueToday(c), total: c.total, annual: c.annual, bundle: c.bundle, list: c.list, contractNo: CO.contractNo, address: coAddress()};
+    PR.cart = {};
+    CO.step = 3; renderCheckout(true); return;
+  }
+});
+
+/* ---------- contract PDF (built in the browser, no library) ---------- */
+function pdfSafe(s) {
+  return String(s).replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[–—−]/g, '-').replace(/·/g, '-').replace(/…/g, '...').replace(/[^\x20-\x7E]/g, '');
+}
+function pdfWrap(text, max) {
+  const out = []; let line = '';
+  pdfSafe(text).split(/\s+/).forEach(w => { if (!w) return; if ((line + ' ' + w).trim().length > max) { if (line) out.push(line); line = w; } else line = (line + ' ' + w).trim(); });
+  if (line) out.push(line);
+  return out.length ? out : [''];
+}
+function buildPDF(blocks) {
+  /* blocks: [{t: text, b: bold, s: size, gap: points before}] */
+  const W = 612, H = 792, L = 56, TOP = 736, BOT = 64;
+  const pages = []; let ops = [], y = TOP;
+  const flush = () => { pages.push(ops.join('\n')); ops = []; y = TOP; };
+  blocks.forEach(bk => {
+    const size = bk.s || 10, lh = size * 1.45, max = Math.floor(500 / (size * (bk.b ? .56 : .5)));
+    y -= bk.gap || 0;
+    pdfWrap(bk.t, max).forEach(ln => {
+      if (y - lh < BOT) flush();
+      y -= lh;
+      const esc2 = ln.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+      ops.push(`BT /${bk.b ? 'F2' : 'F1'} ${size} Tf ${L} ${y.toFixed(1)} Td (${esc2}) Tj ET`);
+    });
+  });
+  if (ops.length || !pages.length) flush();
+  const objs = [];
+  objs[1] = '<< /Type /Catalog /Pages 2 0 R >>';
+  objs[3] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>';
+  objs[4] = '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>';
+  const kids = [];
+  pages.forEach((content, i) => {
+    const total = pages.length;
+    const foot = `BT /F1 8 Tf ${L} 36 Td (IntegrityShield subscription agreement - page ${i + 1} of ${total}) Tj ET`;
+    const stream = content + '\n' + foot;
+    const pn = 5 + i * 2, cn = pn + 1;
+    objs[pn] = `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${W} ${H}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${cn} 0 R >>`;
+    objs[cn] = `<< /Length ${stream.length} >>\nstream\n${stream}\nendstream`;
+    kids.push(`${pn} 0 R`);
+  });
+  objs[2] = `<< /Type /Pages /Kids [${kids.join(' ')}] /Count ${kids.length} >>`;
+  let out = '%PDF-1.4\n'; const offs = [];
+  for (let i = 1; i < objs.length; i++) { offs[i] = out.length; out += `${i} 0 obj\n${objs[i]}\nendobj\n`; }
+  const xref = out.length;
+  out += `xref\n0 ${objs.length}\n0000000000 65535 f \n` + offs.slice(1).map(o => String(o).padStart(10, '0') + ' 00000 n \n').join('');
+  out += `trailer\n<< /Size ${objs.length} /Root 1 0 R >>\nstartxref\n${xref}\n%%EOF`;
+  return new Blob([out], {type: 'application/pdf'});
+}
+function coContractBlocks() {
+  const d = CO.order, o = CO.org, s = CO.sign;
+  const lines = d ? d.lines : coTotals().lines;
+  const c = d || coTotals();
+  const bill = d ? d.bill : PR.bill;
+  const due = d ? d.paid : coDueToday(c);
+  const B = [];
+  const h = (t, gap = 14) => B.push({t, b: true, s: 12, gap});
+  const p = (t, gap = 0) => B.push({t, gap});
+  B.push({t: 'IntegrityShield Subscription Agreement', b: true, s: 18});
+  p(`Agreement no. ${CO.contractNo}${d ? ` - Order no. ${d.no}` : ''}`, 6);
+  p('PLACEHOLDER DOCUMENT: final legal terms to be provided by SureShield, Inc.', 2);
+  h('Parties');
+  p('Provider: SureShield, Inc., 3343 Peachtree Rd NE, Ste 145-1564, Atlanta, GA 30326');
+  p(`Customer: ${o.name}${o.short ? ` (${o.short})` : ''}`);
+  p(`Address: ${coAddress()}`);
+  if (o.type) p(`Organization type: ${o.type}`);
+  if (o.url) p(`Website: ${o.url}`);
+  if (o.industries.length) p(`Industries served: ${o.industries.join(', ')}`);
+  if (o.adminName || o.adminEmail) p(`Partner system administrator: ${[o.adminName, o.adminTitle, o.adminEmail, o.adminPhone].filter(Boolean).join(', ')}`);
+  CO.contacts.filter(k => k.name || k.email).forEach((k, i) => p(`Key contact ${i + 1}: ${[k.name, k.role, k.email, k.phone].filter(Boolean).join(', ')}`));
+  h('Summary of purchase');
+  lines.forEach(x => p(`${M[x.sol].name} - ${x.t.n} (${x.t.rec}): ${money(x.t.m)} per month list price`));
+  if (c.annual) p(`Annual billing savings (20%): -${money(c.annual)} per month`);
+  if (c.bundle) p(`Bundle discount (25%): -${money(c.bundle)} per month`);
+  p(`Total: ${money(c.total)} per month`);
+  p(`Billing: ${bill === 'annual' ? 'annual, billed in advance for 12 months' : 'monthly'}`);
+  p(`Amount due at signing: ${money(due)}`);
+  p(`Start date: ${s ? s.date : coDate(new Date())}`);
+  h('Terms and Conditions');
+  TERMS.forEach(([t, x]) => { B.push({t, b: true, gap: 6}); p(x); });
+  h('Privacy Policy');
+  PRIVACY.forEach(([t, x]) => { B.push({t, b: true, gap: 6}); p(x); });
+  h('Electronic signature');
+  if (s) { p(`Signed by: ${s.name}, ${s.title}`); p(`Email: ${s.email}`); p(`Date: ${s.date}`); p('The signer confirmed they are authorized to sign for the customer and agreed to the Terms and Conditions and the Privacy Policy. Typing their name is their electronic signature.'); }
+  else p('Not signed.');
+  return B;
+}
+async function coDownload() {
+  let blob;
+  try { blob = buildPDF(coContractBlocks()); } catch (err) { console.warn('contract build failed', err); return; }
+  const name = `IntegrityShield-Agreement-${CO.contractNo}.pdf`;
+  /* inside the claude.ai preview, files are offered through the viewer's save prompt */
+  if (window.claude && typeof window.claude.use === 'function') {
+    try { const dl = await window.claude.use('downloads'); if (dl) { await dl.save({filename: name, data: blob}); return; } }
+    catch (err) { if (err && err.code === 'declined') return; }
+  }
+  try {
+    const url = URL.createObjectURL(blob), a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 4000);
+  } catch (err) { console.warn('contract download failed', err); }
+}
+
+/* ---------- enterprise: straight to a short inquiry form ---------- */
+function entSetup(sol) {
+  const wrap = $('#page-contact .cform-wrap');
+  if (!wrap) return null;
+  const f = $('.cform', wrap);
+  wrap.classList.add('ent'); f.classList.add('ent');
+  $('.cdone', wrap).hidden = true; f.hidden = false;
+  const pr = f.querySelector('input[name=topic][value="Pricing"]'); if (pr) pr.checked = true;
+  $('.ent-tag b', wrap).textContent = `Enterprise plan · ${M[sol].name}`;
+  f.elements.msg.placeholder = 'Optional: number of records, solutions you need, or anything else we should know.';
+  return wrap;
+}
+function entInquiry(sol) {
+  if (route === 'contact') { scrollToEl(entSetup(sol)); return; }
+  location.href = U('contact') + '?ent=' + sol + '#message';
+}
+document.addEventListener('click', e => {
+  const x = e.target.closest('[data-ent-off]');
+  if (!x) return;
+  const wrap = x.closest('.cform-wrap'), f = $('.cform', wrap);
+  wrap.classList.remove('ent'); f.classList.remove('ent');
+  f.elements.msg.placeholder = 'For example: we screen 3,000 employees and 600 vendors monthly and want to move to nightly screening.';
 });
 
 /* ---------- logo (from sure-shield.com) ---------- */
@@ -1112,7 +1651,7 @@ const LOGO = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQUAAABACAYAAAATdGL6
 $$('.logo-img').forEach(img => img.src = LOGO);
 
 /* ---------- init ---------- */
-{ const q = new URLSearchParams(location.search); if (M[q.get('sol')]) PR.sol = q.get('sol'); if (q.get('tier')) PR.tier = q.get('tier'); if (q.get('bill')) PR.bill = q.get('bill'); }
+{ const q = new URLSearchParams(location.search); if (M[q.get('sol')]) PR.sol = q.get('sol'); (q.get('cart') || '').split(',').forEach(x => { const [k, v] = x.split(':'); if (M[k] && v) PR.cart[k] = v; }); if (q.get('bill')) PR.bill = q.get('bill'); if (M[q.get('ent')]) entSetup(q.get('ent')); }
 $$('[data-plans]').forEach(renderPlans);
 $$('[data-cal]').forEach(initCal);
 { const s = HASH_SEC[location.hash.slice(1)]; if (s) pending = s; }
@@ -1277,7 +1816,7 @@ document.addEventListener('submit', e => {
   } else {
     if (!f.elements.name.value.trim()) miss.push('your name');
     if (!EMAIL_OK(f.elements.email.value.trim())) miss.push('a work email');
-    if (!f.elements.msg.value.trim()) miss.push('a message');
+    if (!f.elements.msg.value.trim() && !f.classList.contains('ent')) miss.push('a message');
   }
   if (miss.length) { err.textContent = 'Add ' + miss.join(', ').replace(/, ([^,]*)$/, ' and $1') + '.'; err.hidden = false; return; }
   err.hidden = true;
@@ -1289,7 +1828,7 @@ document.addEventListener('submit', e => {
     f.hidden = true; done.hidden = false;
   } else {
     const done = $('.cdone', f.closest('.cform-wrap'));
-    $('.cd-t', done).textContent = `Topic: ${f.elements.topic.value}. We’d reply to ${f.elements.email.value.trim()}.`;
+    $('.cd-t', done).textContent = f.classList.contains('ent') ? `${$('.ent-tag b', f).textContent}. We’d contact you at ${f.elements.email.value.trim()}.` : `Topic: ${f.elements.topic.value}. We’d reply to ${f.elements.email.value.trim()}.`;
     f.hidden = true; done.hidden = false;
   }
 });
@@ -1324,7 +1863,7 @@ function fTick(now) {
   requestAnimationFrame(fTick);
 }
 function filmPlay(on) {
-  if (on === fOn) return;
+  try { if (on === fOn) return; } catch (err) { return; }
   fOn = on;
   const v = $('#introVideo');
   if (v) { if (on) v.play().catch(() => {}); else v.pause(); return; }
