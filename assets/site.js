@@ -90,7 +90,7 @@ const M = {
     oneliner: 'Live licensure and credential checks with automated primary source verification, plus alerts before anything lapses.',
     h1: 'Every license &amp; credential verified. <span class="mark">Every renewal &amp; disciplinary action tracked.</span>',
     lede: 'Licensure and credentialing monitoring is an integral component of medical staff operations.',
-    hTitle: 'End-to-end licensure and credential monitoring.', bookH: 'See licensure and credential monitoring in action. <span class="mark">Schedule a 30-minute demo today.</span>',
+    hTitle: 'End-to-end licensure and credential monitoring.', assess: 'licensure', scanCta: true, bookH: 'See licensure and credential monitoring in action. <span class="mark">Schedule a 30-minute demo today.</span>',
     steps: [['Digitally onboard staff','Bring practitioners and staff into the platform digitally, with the licenses and credentials they hold.'],['Establish your credentialed providers','Build a verified roster of credentialed providers for your medical staff.'],['Instant, continuous licensure verification and validation checks','Licenses and credentials are verified at the source and checked for status changes and disciplinary actions.'],['Instant alerts and notifications to mitigate risk and enforce patient safety','Know the moment a license lapses, changes status or carries a disciplinary action.'],['Configurable workflows to act on issues identified','Route every issue to the right person and track it to resolution, with a full audit trail.']],
     faq: [
       ['What does IntegrityShield-Licensure do?', 'It verifies and continuously monitors the licenses and credentials of your practitioners and staff, checks their status and disciplinary actions, and alerts you before anything lapses.'],
@@ -184,7 +184,7 @@ const FACE = {
   ok: '<svg class="face ok" viewBox="0 0 32 32" aria-label="No match" role="img"><circle cx="16" cy="16" r="15"/><circle class="e" cx="11" cy="13" r="2"/><circle class="e" cx="21" cy="13" r="2"/><path d="M9.5 19c1.6 2.6 3.9 3.9 6.5 3.9s4.9-1.3 6.5-3.9"/></svg>',
   maybe: '<svg class="face maybe" viewBox="0 0 32 32" aria-label="Possible match" role="img"><circle cx="16" cy="16" r="15"/><circle class="e" cx="11" cy="13" r="2"/><circle class="e" cx="21" cy="13" r="2"/><path d="M10 23c1.6-2.4 3.6-3.6 6-3.6s4.4 1.2 6 3.6"/></svg>'
 };
-const REPORT_LBL = {ses: 'View Screening Log Report', coi: 'View Payment Report'};
+const REPORT_LBL = {ses: 'View Screening Log Report', coi: 'View Payment Report', licensure: 'View Licensure Scan Report'};
 function reportCTA(k) {
   return `<div class="rep-cta"><button type="button" class="btn primary sm" data-report="${k}">${REPORT_LBL[k]}</button></div>`;
 }
@@ -192,7 +192,7 @@ document.addEventListener('click', e => {
   const b = e.target.closest('[data-report]');
   if (!b) return;
   const k = b.dataset.report, box = b.closest('.rep-cta'), id = 'rp' + Math.random().toString(36).slice(2, 7);
-  box.innerHTML = `<form class="rep-form" novalidate><p class="rep-h">Where should we send the ${k === 'coi' ? 'payment' : 'screening log'} report?</p>
+  box.innerHTML = `<form class="rep-form" novalidate><p class="rep-h">Where should we send the ${({coi: 'payment', licensure: 'licensure scan'})[k] || 'screening log'} report?</p>
     <div class="rep-row"><label for="${id}n">Full name<input id="${id}n" name="name" autocomplete="name"></label><label for="${id}e">Work email<input id="${id}e" name="email" type="email" autocomplete="email"></label></div>
     <label for="${id}o">Organization <span class="opt">(optional)</span><input id="${id}o" name="org" autocomplete="organization"></label>
     <p class="err" hidden></p><button class="btn primary sm" type="submit">${REPORT_LBL[k]}</button><p class="rep-demo">Demo: nothing is sent.</p></form>`;
@@ -205,10 +205,41 @@ document.addEventListener('submit', e => {
   const err = f.querySelector('.err'), n = f.elements.name.value.trim(), m = f.elements.email.value.trim();
   if (!n) { err.textContent = 'Add your name.'; err.hidden = false; f.elements.name.focus(); return; }
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(m)) { err.textContent = 'Add a work email.'; err.hidden = false; f.elements.email.focus(); return; }
-  f.parentElement.innerHTML = `<p class="rep-done">${FACE.ok}<span><b>Report requested.</b> In the live product it is emailed to ${clean(m)}. This demo sends nothing.</span></p>`;
+  repDone(f, n, m);
 });
+async function repDone(f, n, m) {
+  const box = f.parentElement, a = f.closest('.assess'), kf = a && a.querySelector('form[data-assess]');
+  const kind = kf ? kf.dataset.assess : '', live = kind === 'licensure' && kf.dataset.live !== undefined && scanApi();
+  if (!live) { box.innerHTML = `<p class="rep-done">${FACE.ok}<span><b>Report requested.</b> In the live product it is emailed to ${clean(m)}. This demo sends nothing.</span></p>`; return; }
+  const btn = f.querySelector('button[type=submit]'); if (btn) { btn.disabled = true; btn.textContent = 'One moment…'; }
+  const url = LIC.lastReport;
+  try { await licCall('/lead', {kind, name: n, email: m, org: f.elements.org ? f.elements.org.value.trim() : '', ref: url || '', website: ''}); } catch (x) {}
+  box.innerHTML = url
+    ? `<p class="rep-done">${FACE.ok}<span><b>Your report is ready.</b> <a href="${licEsc(url)}" target="_blank" rel="noopener">Download the licensure scan report (PDF)</a>. It includes the board’s records as captured during the scan.</span></p>`
+    : `<p class="rep-done">${FACE.ok}<span><b>Thanks, ${licEsc(n.split(' ')[0])}.</b> Our team will send the full report to ${licEsc(m)}.</span></p>`;
+}
 
+/* ---------- one-time licensure scan (demo data until the platform API is connected) ---------- */
+const LIC_TYPES = [['Physician (MD/DO)', 'medical board'], ['Registered nurse (RN)', 'board of nursing'], ['Nurse practitioner (NP)', 'board of nursing'], ['Physician assistant (PA)', 'medical board'], ['Pharmacist', 'board of pharmacy'], ['Physical therapist', 'physical therapy board'], ['Dentist', 'dental board'], ['Other licensed professional', 'licensing board']];
+const LIC_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'];
+function licRows(rows) {
+  return `<dl class="lic-rows">${rows.map(([k, v, cls]) => `<div${cls ? ` class="${cls}"` : ''}><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
+}
+function scanApi() { return 'https://script.google.com/macros/s/AKfycbxAC-4_d7JG7mNCH3vRrbg6LwOnkEEjbTadT8QNTaDIpVchN8pZZRfdY2zliSab5xEw/exec'; }
+function turnstileSiteKey() { return '6LdjiRsuAAAAAIBdpgz_2bP_bBNXQpsu3HUNI_Sq'; }
 function assessHTML(k) {
+  if (k === 'licensure' && scanApi()) return licLiveFormHTML();
+  if (k === 'licensure') return `<div class="console assess lic-scan" data-reveal>
+      <div class="assess-top"><span class="bar">Free one-time scan</span><h3>One-time licensure scan</h3><p>Check a practitioner’s license at the source: status, expiration date and disciplinary actions. No account needed.</p></div>
+      <form data-assess="licensure" novalidate>
+        <label for="lic-q">Practitioner name<input id="lic-q" name="q" placeholder="e.g. Dr. Jane Example" autocomplete="off"></label>
+        <div class="af-row"><label for="lic-type">License type<select id="lic-type" name="ltype">${LIC_TYPES.map(([v]) => `<option>${v}</option>`).join('')}</select></label><label for="lic-state">State<select id="lic-state" name="state"><option value="">Select a state</option>${LIC_STATES.map(s => `<option>${s}</option>`).join('')}</select></label></div>
+        <div class="af-row"><label for="lic-no"><span>License number <em class="opt">(optional)</em></span><input id="lic-no" name="lno" autocomplete="off" inputmode="text"></label><label for="lic-npi"><span>NPI <em class="opt">(optional)</em></span><input id="lic-npi" name="npi" autocomplete="off" inputmode="numeric" maxlength="10"></label></div>
+        <div class="lic-ts" data-lic-ts></div>
+        <button class="btn primary" type="submit">Run licensure scan</button>
+      </form>
+      <div class="ck-out" aria-live="polite"><div class="ck-head">${FACE.ok}<b>Dr. J. Example</b><span class="chip res">Active, no actions found</span></div><div class="ck-res">${licRows([['License', 'Physician (MD/DO) · Georgia'], ['Status', 'Active'], ['Expires', 'Dec 31, 2027'], ['Disciplinary actions', 'None found'], ['Verified with', 'State licensing board']])}<span class="note">Example result. Try a name.</span>${reportCTA('licensure')}</div></div>
+    </div>`;
   if (k === 'ses') return `<div class="console assess" data-reveal>
       <div class="assess-top"><span class="bar">Free assessment</span><h3>Integrity violation screening check</h3><p>Search any person or business across all screening data sources. No account needed.</p></div>
       <form data-assess="ses" novalidate>
@@ -253,16 +284,17 @@ function bookHTML(k) {
           <p class="cal-title" style="margin:0">Enter your details</p>
           <div class="two"><label for="${k}-bk-name">Full name<input id="${k}-bk-name" name="name" autocomplete="name"></label><label for="${k}-bk-email">Work email<input id="${k}-bk-email" name="email" type="email" autocomplete="email"></label></div>
           <label for="${k}-bk-org">Organization<input id="${k}-bk-org" name="org" autocomplete="organization"></label>
+          <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <label for="${k}-bk-note">What would you like to see? (optional)<textarea id="${k}-bk-note" name="note" rows="3"></textarea></label>
           <p class="err" hidden></p>
           <button class="btn primary" type="submit">Schedule demo</button>
-          <p class="note">Demo form. Nothing is sent.</p>
+          <p class="note" data-demo-note>Demo form. Nothing is sent.</p>
         </form>
         <div class="cal-step cal-done" data-step="done" hidden>
           <span class="ok">${SVG.ok}</span>
           <h3>Your demo is scheduled</h3>
           <p data-when></p>
-          <p class="note">A calendar invite would go to <b data-who></b>. In this demo, nothing was sent.</p>
+          <p class="note" data-done-note>A calendar invite would go to <b data-who></b>. In this demo, nothing was sent.</p>
           <button class="btn ghost sm" type="button" data-again>Book another time</button>
         </div>
       </div>
@@ -286,7 +318,7 @@ function renderModule(k) {
       ${d.title ? `<p class="m-title">${d.title}</p>` : ''}
       <h1>${d.h1}</h1>
       <p class="lede">${d.lede}</p>
-      <div class="cta-row"><button class="btn primary" data-go="demo">Book a demo</button><button class="btn ghost" data-go="plans">See pricing</button></div>
+      <div class="cta-row"><button class="btn primary" data-go="demo">Book a demo</button>${d.scanCta ? '<button class="btn ghost" data-go="assess">Run a free one-time scan</button>' : '<button class="btn ghost" data-go="plans">See pricing</button>'}</div>
       ${d.laws ? `<div class="laws">${d.laws.map(l=>`<span>${l}</span>`).join('')}</div>` : ''}
     </div>
     <div class="mvis" data-s3="${({ses: 'sieve', coi: 'web', licensure: 'vgrid'})[k]}" role="img" aria-label="${({ses: 'Index cards fall through printed exclusion lists; clean ones land in Clear, one stops on OIG LEIE as a match', coi: 'Vendors and practitioners joined by payment lines; one $48,200 payment rises as an undisclosed relationship', licensure: 'A verification grid for one practitioner: five record types (state license, DEA, controlled substance, board certification, NPI) pass three checks: found at source, status validated and disciplinary check. One record is due for renewal and one has a disciplinary action'})[k]}"></div>
@@ -435,16 +467,18 @@ function webinarNextHTML(px = 'home') {
     clock: '<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
     cam: '<rect x="3" y="6.5" width="13" height="11" rx="2"/><path d="m16 10.5 5-3v9l-5-3"/>'
   };
-  const meta = (k, label, v) => `<li><span class="wn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ic[k]}</svg></span><span><b>${label}</b>${v}</span></li>`;
+  const meta = (k, label, v) => `<li><span class="wn-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${ic[k]}</svg></span><span><b>${label}</b><span data-w-v="${k}">${v}</span></span></li>`;
   const reg = w.url ? `<a class="btn primary" href="${w.url}" target="_blank" rel="noopener">Register now</a>` : `<button type="button" class="btn primary" data-wnx="reg">Register now</button>`;
-  return `<section class="sec wnx" data-web aria-labelledby="wnx-h-${px}"><div class="wrap"><div class="wnx-card" data-reveal>
+  return `<section class="sec wnx${webinarSheetURL() ? ' loading' : ''}" data-web aria-labelledby="wnx-h-${px}"><div class="wrap"><div class="wnx-card" data-reveal>
     <div class="wnx-main">
       <span class="bar">Next live webinar</span>
-      <h2 id="wnx-h-${px}">${w.topic}</h2>
+      <h2 id="wnx-h-${px}" data-w-topic>${w.topic}</h2>
+      <p class="wnx-desc" data-w-desc hidden></p>
+      <div class="wnx-guests" data-w-guests hidden></div>
       <ul class="wnx-meta">${meta('cal', 'Date', w.date)}${meta('clock', 'Time', w.time)}${meta('cam', 'Format', w.format)}</ul>
     </div>
     <div class="wnx-act">
-      ${reg}
+      <span class="w-reg" data-w-reg>${reg}</span>
       <button type="button" class="btn ghost" data-wnx="alert">Can’t make it? Get webinar alerts</button>
       <p class="note">Free for compliance teams. The recording goes to everyone who registers.</p>
     </div>
@@ -659,11 +693,18 @@ mqFill($('#mq1'), SOURCES.slice(0, half));
 mqFill($('#mq2'), SOURCES.slice(half));
 
 // customer wordmarks (placeholders until real logo files arrive)
-const LOGOS = [
-  `<div class="lg"><svg width="28" height="28" viewBox="0 0 30 30" fill="none"><path d="M15 3 27 26H3z" stroke="currentColor" stroke-width="2.2"/><path d="M9 19h12" stroke="currentColor" stroke-width="2.2"/></svg><span><b>Atlas</b><small>Healthcare Partners</small></span></div>`,
-  `<div class="lg"><svg width="32" height="28" viewBox="0 0 34 30" fill="none"><path d="M2 20c5-6 9-6 15 0s10 6 15 0" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M2 12c5-6 9-6 15 0s10 6 15 0" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" opacity=".55"/></svg><span><b>Gold Coast</b><small>Health Providers</small></span></div>`,
-  `<div class="lg"><svg width="28" height="28" viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="12" stroke="currentColor" stroke-width="2.2"/><circle cx="15" cy="15" r="5" fill="currentColor"/></svg><span><b>Genesis</b><small>HealthCare</small></span></div>`
+/* Customer marks. To show a real logo, add its file to /logos and set img (and a width). */
+const CUSTOMERS = [
+  {b: 'Atlas', s: 'Healthcare Partners', mono: 'AH', img: ''},
+  {b: 'Genesis', s: 'Healthcare System', mono: 'GH', img: ''},
+  {b: 'Medical Home', s: 'Network', mono: 'MH', img: ''},
+  {b: 'MHN ACO', s: 'LLC', mono: 'MA', img: ''},
+  {b: 'Precision', s: 'Diagnostics', mono: 'PD', img: ''},
+  {b: 'Gold Coast', s: 'Health Plan (GCHP)', mono: 'GC', img: ''}
 ];
+const LOGOS = CUSTOMERS.map(c => c.img
+  ? `<div class="lg lg-img"><img src="${c.img}" alt="${c.b} ${c.s}" loading="lazy" decoding="async"></div>`
+  : `<div class="lg"><i class="lg-mono" aria-hidden="true">${c.mono}</i><span><b>${c.b}</b><small>${c.s}</small></span></div>`);
 const set = LOGOS.join('').repeat(3);
 $('#lgTrack').innerHTML = set + set;
 
@@ -722,6 +763,7 @@ function goTo(sol, sel) {
 function go(target) {
   if (target === 'demo') { if (SOLS.includes(route) || route === 'contact') scrollToEl(active.querySelector('.book')); else goTo('contact', '.book'); return; }
   if (target === 'plans') { scrollToEl(active.querySelector('[data-plans-sec]')); return; }
+  if (target === 'assess') { const a = active.querySelector('.assess'); if (a) { scrollToEl(a); const i = a.querySelector('input'); if (i) setTimeout(() => i.focus({preventScroll: true}), 600); } return; }
   if (target === 'faq') { const f = active.querySelector('[data-faqsec]'); if (f) scrollToEl(f); else goTo('home', '[data-faqsec]'); return; }
   if (target === 'sols') { scrollToEl($('#modules')); return; }
 }
@@ -789,6 +831,8 @@ function onEnter() {
   update();
   if (route === 'pricing') renderPlans($('#page-pricing [data-plans]'));
   if (route === 'checkout') renderCheckout();
+  if (route === 'licensure' && scanApi()) $$('#page-licensure .lic-scan').forEach(licInit);
+  if (route === 'licensure') $$('#page-licensure .lic-scan form[data-assess]').forEach(licGateInit);
 }
 
 /* ---------- console stream ---------- */
@@ -912,8 +956,16 @@ document.addEventListener('submit', e => {
   const kind = f.dataset.assess, out = f.parentElement.querySelector('.ck-out');
   const q = f.elements.q.value.trim();
   if (!q) {
-    out.innerHTML = `<div class="ck-head"><b>Enter a name to search</b></div><p class="note">${kind === 'coi' ? 'Type a practitioner’s full name, then search.' : 'Type a full name or business name, then search.'}</p>`;
+    out.innerHTML = `<div class="ck-head"><b>Enter a name to search</b></div><p class="note">${kind === 'ses' ? 'Type a full name or business name, then search.' : 'Type a practitioner’s full name, then search.'}</p>`;
     f.elements.q.focus(); return;
+  }
+  if (kind === 'licensure' && !f.elements.state.value) {
+    out.innerHTML = `<div class="ck-head"><b>Choose a state</b></div><p class="note">Pick the state that issued the license, then scan.</p>`;
+    f.elements.state.focus(); return;
+  }
+  if (kind === 'licensure' && f.elements.npi.value.trim() && !/^\d{10}$/.test(f.elements.npi.value.trim())) {
+    out.innerHTML = `<div class="ck-head"><b>Check the NPI</b></div><p class="note">An NPI is 10 digits. Leave it blank if you don’t have it.</p>`;
+    f.elements.npi.focus(); return;
   }
   f.dataset.busy = '1';
   const safe = clean(q);
@@ -923,19 +975,38 @@ document.addEventListener('submit', e => {
   const step = t => {
     const p = clamp((t - t0) / dur);
     bar.style.width = (p * 100) + '%';
-    tick.textContent = kind === 'coi'
+    tick.textContent = kind === 'licensure'
+      ? `Verifying at the source · ${['Finding the license', 'Checking license status', 'Checking the expiration date', 'Checking for disciplinary actions', 'Preparing the result'][Math.min(4, Math.floor(p * 5))]}`
+      : kind === 'coi'
       ? `Searching CMS Open Payments, payments made or received ${OP_YEARS[Math.min(7, Math.floor(p * 8))]}`
       : `Checking screening data sources · ${list[Math.floor(p * (list.length - 1))]}`;
     if (p < 1) requestAnimationFrame(step); else done();
   };
   const done = () => {
     const h = hashStr(q);
-    const foot = '<span class="note">Demo result. A live search queries current data.</span>';
+    const foot = '<span class="demo-note"><b>Sample result.</b> The live check isn’t connected yet, so no real records were searched and this is not a finding about this person.</span>';
     if (kind === 'ses') {
       const type = f.elements.type.value.toLowerCase();
       out.innerHTML = h % 5 === 0
         ? `<div class="ck-head">${FACE.maybe}<b>${safe}</b><span class="chip warn">Possible matches found</span></div><div class="ck-res"><span><strong>SAM.gov Exclusions</strong> · ${type} · 88% name similarity</span><span>No date of birth to confirm. IntegrityShield would request more data automatically.</span>${foot}${reportCTA('ses')}</div>`
         : `<div class="ck-head">${FACE.ok}<b>${safe}</b><span class="chip res">No match found</span></div><div class="ck-res"><span>Checked against all screening data sources, including OIG LEIE, SAM.gov and OFAC.</span>${foot}${reportCTA('ses')}</div>`;
+    } else if (kind === 'licensure') {
+      const lt = f.elements.ltype.value, st = clean(f.elements.state.value);
+      const board = (LIC_TYPES.find(x => x[0] === lt) || LIC_TYPES[7])[1];
+      const src = `${st} ${board}`;
+      const fmtD = d => d.toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'});
+      const base = new Date(); base.setHours(0, 0, 0, 0);
+      const r = h % 6, lic = `${lt} · ${st}`;
+      if (r === 0) {
+        out.innerHTML = `<div class="ck-head">${FACE.maybe}<b>${safe}</b><span class="chip match">Disciplinary action found</span></div><div class="ck-res">${licRows([['License', lic], ['Status', 'Active, with conditions', 'bad'], ['Expires', fmtD(new Date(base.getFullYear() + 1, (h >>> 3) % 12, 28))], ['Disciplinary actions', `Board order on record · probation · ${base.getFullYear() - 1 - (h >>> 5) % 3}`, 'bad'], ['Verified with', src]])}<span>Review the board order before this practitioner’s next privileging decision.</span>${foot}${reportCTA('licensure')}</div>`;
+      } else if (r === 1) {
+        const exp = new Date(base.getTime() + (12 + (h >>> 4) % 40) * 864e5);
+        out.innerHTML = `<div class="ck-head">${FACE.maybe}<b>${safe}</b><span class="chip warn">Renewal due soon</span></div><div class="ck-res">${licRows([['License', lic], ['Status', 'Active'], ['Expires', `${fmtD(exp)} · in ${Math.round((exp - base) / 864e5)} days`, 'warn'], ['Disciplinary actions', 'None found'], ['Verified with', src]])}<span>IntegrityShield-Licensure would alert you before it lapses.</span>${foot}${reportCTA('licensure')}</div>`;
+      } else if (r === 2 && !f.elements.lno.value.trim()) {
+        out.innerHTML = `<div class="ck-head">${FACE.maybe}<b>${safe}</b><span class="chip warn">No exact license match</span></div><div class="ck-res">${licRows([['License', lic], ['Result', 'No license found for this name', 'warn'], ['Verified with', src]])}<span>Add the license number or NPI and scan again to narrow it down.</span>${foot}</div>`;
+      } else {
+        out.innerHTML = `<div class="ck-head">${FACE.ok}<b>${safe}</b><span class="chip res">Active, no actions found</span></div><div class="ck-res">${licRows([['License', lic], ['Status', 'Active'], ['Expires', fmtD(new Date(base.getFullYear() + 1 + (h >>> 6) % 2, (h >>> 3) % 12, 28))], ['Disciplinary actions', 'None found'], ['Verified with', src]])}${foot}${reportCTA('licensure')}</div>`;
+      }
     } else {
       const vendor = clean(f.elements.vendor.value.trim());
       if (h % 3 === 0) {
@@ -947,9 +1018,350 @@ document.addEventListener('submit', e => {
       }
     }
     delete f.dataset.busy;
+    if (kind === 'licensure') licAfterScan(f, out);
   };
   requestAnimationFrame(step);
 });
+
+/* ---------- free licensure scans: bot check, 10-scan allowance (cookie), next-step buttons ---------- */
+const LIC_FREE = 10;
+const TS_TEST_KEY = '1x00000000000000000000AA';   /* Cloudflare's public test key, used only while the scan shows sample results */
+const licMem = {};
+function licCookie(name, val) {
+  if (val === undefined) {
+    try { const m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)')); if (m) return decodeURIComponent(m[1]); } catch (e) {}
+    return licMem[name] == null ? null : licMem[name];
+  }
+  licMem[name] = String(val);
+  try { document.cookie = `${name}=${encodeURIComponent(val)}; Max-Age=31536000; Path=/; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`; } catch (e) {}
+}
+const licUsed = () => Math.max(0, parseInt(licCookie('is_lic_scans') || '0', 10) || 0);
+function licVid() {
+  let v = licCookie('is_vid');
+  if (!/^[a-f0-9]{24}$/.test(v || '')) {
+    const a = new Uint8Array(12);
+    try { crypto.getRandomValues(a); } catch (e) { for (let i = 0; i < a.length; i++) a[i] = Math.floor(Math.random() * 256); }
+    v = [...a].map(x => x.toString(16).padStart(2, '0')).join('');
+    licCookie('is_vid', v);
+  }
+  return v;
+}
+function licQuota(f) {
+  const q = f.querySelector('[data-lic-quota]'); if (!q) return;
+  const left = Math.max(0, LIC_FREE - licUsed());
+  q.textContent = left >= LIC_FREE ? `${LIC_FREE} free scans included. No account needed.` : `${left} of ${LIC_FREE} free scans left.`;
+}
+const LIC_BTNS = {
+  subscribe: t => `<button type="button" class="btn primary" data-lic-cta="subscribe">${t}</button>`,
+  call: () => `<button type="button" class="btn ghost" data-lic-cta="call">Set up a call with us</button>`,
+  again: () => `<button type="button" class="btn ghost" data-lic-cta="again">Run another scan</button>`
+};
+function licNextHTML() {
+  const left = Math.max(0, LIC_FREE - licUsed());
+  return `<div class="lic-next"><p class="lic-left">${left ? `<b>${left} of ${LIC_FREE}</b> free scans left` : 'That was your last free scan'}</p><div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to IntegrityShield-Licensure')}${LIC_BTNS.call()}${LIC_BTNS.again()}</div></div>`;
+}
+function licLimitHTML() {
+  return `<div class="ck-head">${FACE.maybe}<b>You’ve used your ${LIC_FREE} free scans</b></div><div class="ck-res"><span>Subscribe to verify and monitor every practitioner’s licenses continuously, or set up a call and we’ll walk you through it.</span><div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to our platform')}${LIC_BTNS.call()}</div></div>`;
+}
+function licLock(f, out) {
+  if (!f) return;
+  f.classList.add('locked');
+  f.querySelectorAll('input, select, button').forEach(x => { x.disabled = true; });
+  const b = f.querySelector('button[type=submit]'); if (b) b.textContent = 'Free scans used';
+  licQuota(f);
+  if (out) out.innerHTML = licLimitHTML();
+}
+function licAfterScan(f, out, remaining) {
+  let used = licUsed() + 1;
+  if (typeof remaining === 'number') used = Math.max(used, LIC_FREE - remaining);
+  licCookie('is_lic_scans', Math.min(used, LIC_FREE));
+  const res = out.querySelector('.ck-res') || out;
+  res.insertAdjacentHTML('beforeend', licNextHTML());
+  licQuota(f); licTsReset(f);
+}
+
+/* bot check: Cloudflare Turnstile */
+function licTsKey() { return turnstileSiteKey() || (scanApi() ? '' : TS_TEST_KEY); }
+function licTsInit(f) {
+  const box = f.querySelector('[data-lic-ts]');
+  if (!box || box.dataset.init) return;
+  box.dataset.init = '1';
+  const key = licTsKey();
+  if (!key) { box.dataset.none = '1'; return; }
+  const rc = /^6L/.test(key);
+  const api = () => rc ? (window.grecaptcha && typeof window.grecaptcha.render === 'function' ? window.grecaptcha : null) : window.turnstile;
+  box.innerHTML = '<p class="note">Loading the security check…</p>';
+  const render = () => {
+    if (box.dataset.wid || !api()) return;
+    box.innerHTML = '';
+    try {
+      box.dataset.rc = rc ? '1' : '';
+      box.dataset.wid = String(rc ? api().render(box, {sitekey: key, theme: 'light'}) : api().render(box, {sitekey: key, size: 'flexible', theme: 'light', action: 'licensure-scan'}));
+    } catch (e) { fail(); }
+  };
+  const fail = () => {
+    if (box.dataset.wid) return;
+    if (!scanApi()) {
+      box.dataset.fallback = '1';
+      box.innerHTML = `<label class="lic-human"><input type="checkbox" data-human><span>I’m not a robot</span></label><p class="note">Preview stand-in. The live site shows a security check here.</p>`;
+    } else box.innerHTML = '<p class="note">The security check couldn’t load. Refresh the page to try again.</p>';
+  };
+  if (api()) return render();
+  if (!document.getElementById('cf-ts')) {
+    const s = document.createElement('script');
+    s.id = 'cf-ts'; s.async = true; s.defer = true;
+    s.src = rc ? 'https://www.google.com/recaptcha/api.js?render=explicit' : 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+    s.onerror = () => document.querySelectorAll('[data-lic-ts]').forEach(x => x.dispatchEvent(new Event('ts-fail')));
+    document.head.appendChild(s);
+  }
+  box.addEventListener('ts-fail', fail);
+  const t0 = Date.now();
+  const iv = setInterval(() => { if (api()) { clearInterval(iv); render(); } else if (Date.now() - t0 > 10000) { clearInterval(iv); fail(); } }, 250);
+}
+const licTsApi = box => box.dataset.rc ? window.grecaptcha : window.turnstile;
+function licTsToken(f) {
+  const box = f.querySelector('[data-lic-ts]');
+  if (!box || box.dataset.none) return 'none';
+  if (box.dataset.fallback) { const c = box.querySelector('[data-human]'); return c && c.checked ? 'preview' : ''; }
+  const api = licTsApi(box);
+  if (box.dataset.wid && api) { try { return api.getResponse(box.dataset.rc ? +box.dataset.wid : box.dataset.wid) || ''; } catch (e) { return ''; } }
+  return '';
+}
+function licTsReset(f) {
+  const box = f && f.querySelector('[data-lic-ts]');
+  if (!box) return;
+  const api = licTsApi(box);
+  if (box.dataset.wid && api) { try { api.reset(box.dataset.rc ? +box.dataset.wid : box.dataset.wid); } catch (e) {} }
+  const c = box.querySelector('[data-human]'); if (c) c.checked = false;
+  delete f.dataset.ts;
+}
+
+/* runs before either scan handler: allowance first, then the bot check */
+document.addEventListener('submit', e => {
+  const f = e.target.closest && e.target.closest('form[data-assess="licensure"]');
+  if (!f || f.dataset.busy) return;
+  const out = f.parentElement.querySelector('.ck-out');
+  if (f.classList.contains('locked') || licUsed() >= LIC_FREE) { e.preventDefault(); e.stopImmediatePropagation(); licLock(f, out); return; }
+  const tok = licTsToken(f);
+  if (!tok) {
+    e.preventDefault(); e.stopImmediatePropagation();
+    out.innerHTML = `<div class="ck-head"><b>Confirm you’re human</b></div><p class="note">Complete the security check above the button, then run the scan.</p>`;
+    const box = f.querySelector('[data-lic-ts]'); if (box) box.scrollIntoView({block: 'nearest'});
+    return;
+  }
+  f.dataset.ts = tok;
+}, true);
+document.addEventListener('click', e => {
+  const b = e.target.closest && e.target.closest('[data-lic-cta]');
+  if (!b) return;
+  const a = b.closest('.lic-scan'), f = a && a.querySelector('form[data-assess]'), out = a && a.querySelector('.ck-out');
+  const k = b.dataset.licCta;
+  if (k === 'subscribe') { go('plans'); return; }
+  if (k === 'call') { go('demo'); return; }
+  if (k === 'again') {
+    if (licUsed() >= LIC_FREE) { licLock(f, out); scrollToEl(a); return; }
+    f.querySelectorAll('input').forEach(i => { if (!i.classList.contains('hp') && i.type !== 'checkbox') i.value = ''; });
+    out.innerHTML = `<div class="ck-head"><b>Ready for your next scan</b></div><p class="note">${LIC_FREE - licUsed()} of ${LIC_FREE} free scans left. Complete the security check, then run the scan.</p>`;
+    licTsReset(f);
+    scrollToEl(a);
+    const first = f.querySelector('input:not(.hp):not([type=checkbox])'); if (first) setTimeout(() => first.focus({preventScroll: true}), 500);
+  }
+});
+function licGateInit(f) {
+  if (!f || f.dataset.gate) return;
+  f.dataset.gate = '1';
+  licTsInit(f);
+  const btn = f.querySelector('button[type=submit]');
+  if (btn && !f.querySelector('[data-lic-quota]')) btn.insertAdjacentHTML('afterend', '<p class="lic-quota" data-lic-quota></p>');
+  licQuota(f);
+  if (licUsed() >= LIC_FREE) licLock(f, f.parentElement.querySelector('.ck-out'));
+}
+
+/* ---------- one-time licensure scan, live (through the IntegrityShield website API) ---------- */
+const LIC = {sources: null, details: {}, timers: new WeakMap(), lastReport: null};
+const licEsc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[c]);
+/* The website API is either the Cloudflare Worker (paths like /lic/scan) or a Google Apps Script
+   web app (one URL ending in /exec; GET ?fn=…, POST a JSON body sent as text/plain so the browser
+   needs no preflight, and every answer carries its own status because Apps Script always sends 200). */
+const licGAS = () => /\/macros\/s\/[^/]+\/exec$/.test(scanApi());
+async function licCall(p, body, signal) {
+  const base = scanApi(), gas = licGAS();
+  let url = base + p, init = body
+    ? {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body), signal}
+    : {headers: {'Accept': 'application/json'}, signal};
+  if (gas) {
+    const m = p.match(/^\/lic\/source\/(.+)$/);
+    const fn = p === '/lic/sources' ? 'sources' : m ? 'source' : p === '/lic/scan' ? 'scan' : p.replace(/^\//, '');
+    url = body ? base : `${base}?fn=${fn}${m ? '&id=' + encodeURIComponent(m[1]) : ''}`;
+    init = body ? {method: 'POST', headers: {'Content-Type': 'text/plain;charset=utf-8'}, body: JSON.stringify({fn, ...body}), signal, redirect: 'follow'} : {signal, redirect: 'follow'};
+  }
+  const r = await fetch(url, init);
+  let data = {};
+  try { data = await r.json(); } catch (x) {}
+  const status = gas && r.ok ? (+data.status || 200) : r.status;
+  return {ok: status >= 200 && status < 300, status, data};
+}
+async function licGet(p) {
+  const r = await licCall(p);
+  if (!r.ok) throw new Error('lic ' + r.status);
+  return r.data;
+}
+function licLiveFormHTML() {
+  return `<div class="console assess lic-scan" data-reveal>
+      <div class="assess-top"><span class="bar">Free one-time scan</span><h3>One-time licensure scan</h3><p>Check a practitioner’s license with the state licensing board: status, expiration date, discipline and public complaints. No account needed.</p></div>
+      <form data-assess="licensure" data-live novalidate>
+        <div class="af-row"><label for="lic-st">State<select id="lic-st" name="state" data-lic-state><option value="">Loading states…</option></select></label><label for="lic-src" data-lic-srcwrap hidden>Licensing board<select id="lic-src" name="sourceId" data-lic-src></select></label></div>
+        <div class="af-row"><label for="lic-fn">First name<input id="lic-fn" name="firstName" autocomplete="off"></label><label for="lic-ln">Last name<input id="lic-ln" name="lastName" autocomplete="off"></label></div>
+        <label for="lic-num"><span>License number <em class="opt">(or enter the name above)</em></span><input id="lic-num" name="licenseNumber" autocomplete="off"></label>
+        <div class="lic-extra" data-lic-extra></div>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="lic-ts" data-lic-ts></div>
+        <button class="btn primary" type="submit" disabled>Run licensure scan</button>
+        <p class="lic-fine">A one-time scan of public licensing board records. For information only: it is not a consumer report and should not be the only basis for employment, credentialing or contracting decisions.</p>
+      </form>
+      <div class="ck-out" aria-live="polite"><div class="ck-head"><b>How it works</b></div><div class="ck-res"><span>Pick the state, then enter the license number, or the practitioner’s first and last name. IntegrityShield checks the board’s records and shows the license status, expiration date and any discipline on file.</span><span class="note">Most scans take 10 to 60 seconds, because each board is checked live.</span></div></div>
+    </div>`;
+}
+function licInit(root) {
+  const f = root.querySelector('form[data-live]');
+  if (!f || f.dataset.ready) return;
+  f.dataset.ready = '1';
+  const stSel = f.querySelector('[data-lic-state]'), srcSel = f.querySelector('[data-lic-src]'), srcWrap = f.querySelector('[data-lic-srcwrap]');
+  const extra = f.querySelector('[data-lic-extra]'), btn = f.querySelector('button[type=submit]');
+  const load = LIC.sources ? Promise.resolve(LIC.sources) : licGet('/lic/sources').then(d => (LIC.sources = d.sources || []));
+  load.then(list => {
+    const states = [...new Map(list.map(s => [s.state, s.stateName])).entries()].sort((a, b) => a[1].localeCompare(b[1]));
+    stSel.innerHTML = '<option value="">Select a state</option>' + states.map(([c, n]) => `<option value="${licEsc(c)}">${licEsc(n)}</option>`).join('');
+    if (!f.classList.contains('locked')) btn.disabled = false;
+  }).catch(() => {
+    stSel.innerHTML = '<option value="">States unavailable</option>';
+    root.querySelector('.ck-out').innerHTML = `<div class="ck-head"><b>The scan isn’t available right now</b></div><div class="ck-res"><span>Please try again later, or book a demo to see licensure monitoring in action.</span></div>`;
+  });
+  const showSource = async id => {
+    extra.innerHTML = '';
+    if (!id) return;
+    extra.innerHTML = '<p class="note">Loading search options…</p>';
+    try {
+      const d = LIC.details[id] || (LIC.details[id] = await licGet('/lic/source/' + encodeURIComponent(id)));
+      if (srcSel.value !== id && f.dataset.src !== id) return;
+      f.dataset.src = id;
+      const sel = (d.fields || []).filter(x => x.type === 'select' && x.f !== 'searchType');
+      extra.innerHTML = sel.length ? `<div class="lic-grid">${sel.map(x => `<label for="lic-x-${x.f}"><span>${licEsc(x.label)} <em class="opt">${x.required ? '(required)' : '(optional)'}</em></span><select id="lic-x-${x.f}" name="${licEsc(x.f)}" data-f="${licEsc(x.f)}"${x.dependsOn ? ` data-dep="${licEsc(x.dependsOn)}" disabled` : ''}${x.required ? ' data-req="1"' : ''}><option value="">${x.dependsOn ? 'Choose ' + licEsc((d.fields.find(y => y.f === x.dependsOn) || {}).label || 'the option above').toLowerCase() + ' first' : 'Any'}</option>${(x.options || []).map(o => `<option>${licEsc(o)}</option>`).join('')}</select></label>`).join('')}</div>` : '';
+      extra.querySelectorAll('select[data-dep]').forEach(child => {
+        const def = d.fields.find(y => y.f === child.dataset.f);
+        const parent = extra.querySelector(`select[data-f="${child.dataset.dep}"]`);
+        if (!parent) return;
+        parent.addEventListener('change', () => {
+          const opts = (def.optionsBy || {})[parent.value] || [];
+          child.innerHTML = `<option value="">${opts.length ? 'Any' : 'Choose ' + licEsc((d.fields.find(y => y.f === def.dependsOn) || {}).label || '').toLowerCase() + ' first'}</option>` + opts.map(o => `<option>${licEsc(o)}</option>`).join('');
+          child.disabled = !opts.length;
+        });
+      });
+    } catch (e) {
+      extra.innerHTML = '<p class="note">Search options couldn’t be loaded. You can still scan by license number or name.</p>';
+      f.dataset.src = id;
+    }
+  };
+  stSel.addEventListener('change', () => {
+    const list = (LIC.sources || []).filter(s => s.state === stSel.value);
+    f.dataset.src = '';
+    srcSel.innerHTML = list.map(s => `<option value="${licEsc(s.id)}">${licEsc(s.authority)}</option>`).join('');
+    srcWrap.hidden = list.length < 2;
+    showSource(list.length ? list[0].id : '');
+  });
+  srcSel.addEventListener('change', () => { f.dataset.src = ''; showSource(srcSel.value); });
+  licTsInit(f);
+}
+function licDate(s) {
+  if (!s) return null;
+  const m = String(s).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  const d = m ? new Date(+m[3], +m[1] - 1, +m[2]) : new Date(s);
+  return isNaN(d) ? null : d;
+}
+function licVerdict(l) {
+  const st = (l.status || '').toLowerCase();
+  const bad = l.discipline || /probation|restrict|suspend|revok|surrender|obligation|denied|condition/.test(st);
+  const inactive = st && !/active|clear|current|valid|good standing/.test(st) || /inactive|expired|lapsed|null and void|retired|cancel/.test(st);
+  const exp = licDate(l.expires), days = exp ? Math.round((exp - new Date()) / 864e5) : null;
+  if (bad) return {face: 'maybe', chip: 'match', text: l.discipline ? 'Discipline on file' : 'Status needs review'};
+  if (inactive) return {face: 'maybe', chip: 'match', text: 'Not active'};
+  if (days != null && days < 0) return {face: 'maybe', chip: 'match', text: 'Expired'};
+  if (days != null && days <= 60) return {face: 'maybe', chip: 'warn', text: `Renewal due in ${days} days`};
+  if (l.complaint) return {face: 'maybe', chip: 'warn', text: 'Public complaint on file'};
+  return {face: 'ok', chip: 'res', text: 'Active, no discipline found'};
+}
+function licLicenseHTML(l, d, many) {
+  const v = licVerdict(l);
+  const rows = [
+    ['Name', l.name], ['Profession', l.profession], ['License', l.license], ['Status', l.status, /review|not active|expired|discipline/i.test(v.text) && v.chip === 'match' ? 'bad' : ''],
+    ['Expires', l.expires, /renewal|expired/i.test(v.text) ? (v.chip === 'match' ? 'bad' : 'warn') : ''], ['First issued', l.issued],
+    ['Discipline on file', l.discipline ? 'Yes' : 'No', l.discipline ? 'bad' : ''], l.complaint ? ['Public complaint', 'Yes', 'warn'] : null,
+    ['Checked with', `${d.authority}${l.dataAsOf ? ` · data as of ${l.dataAsOf}` : ''}`]
+  ].filter(r => r && r[1]);
+  const conduct = (l.conduct || []).length ? `<div class="lic-conduct"><p>Board actions on record</p><ul>${l.conduct.map(c => `<li><b>${licEsc(c.type || 'Action')}</b>${c.action ? ` · ${licEsc(c.action)}` : ''}${c.caseNumber ? ` · case ${licEsc(c.caseNumber)}` : ''}${c.date ? ` · ${licEsc(c.date)}` : ''}${c.url ? ` <a href="${licEsc(c.url)}" target="_blank" rel="noopener nofollow">Board document<span class="vh"> (opens the state board’s site)</span> ↗</a>` : ''}</li>`).join('')}</ul></div>` : '';
+  const more = (l.details || []).length ? `<details class="lic-more"><summary>All details from the board</summary><dl class="lic-rows">${l.details.map(([k, val]) => `<div><dt>${licEsc(k)}</dt><dd>${licEsc(val)}</dd></div>`).join('')}</dl></details>` : '';
+  return `<div class="lic-one">${many ? `<div class="ck-head">${FACE[v.face]}<b>${licEsc(l.name || l.license || 'License')}</b><span class="chip ${v.chip}">${licEsc(v.text)}</span></div>` : ''}${licRows(rows.map(([k, val, c]) => [k, licEsc(val), c]))}${conduct}${more}</div>`;
+}
+function licResultHTML(q, d) {
+  const who = licEsc(q.firstName || q.lastName ? `${q.firstName} ${q.lastName}`.trim() : `License ${q.licenseNumber}`);
+  if (!d.count) {
+    return `<div class="ck-head">${FACE.maybe}<b>${who}</b><span class="chip warn">No license found</span></div><div class="ck-res"><span>${licEsc(d.authority)} returned no license for these details.</span><span>Check the spelling, try the license number instead of the name, or pick another board if the state has more than one.</span></div>`;
+  }
+  const one = d.count === 1, v = licVerdict(d.licenses[0]);
+  const head = one
+    ? `<div class="ck-head">${FACE[v.face]}<b>${licEsc(d.licenses[0].name || who)}</b><span class="chip ${v.chip}">${licEsc(v.text)}</span></div>`
+    : `<div class="ck-head">${FACE.ok}<b>${who}</b><span class="chip acc">${d.count} licenses found</span></div>`;
+  LIC.lastReport = d.report || null;
+  return `${head}<div class="ck-res">${d.licenses.map(l => licLicenseHTML(l, d, !one)).join('')}${reportCTA('licensure')}</div>`;
+}
+const LIC_STEPS = ['Connecting to {b}', 'Looking up the license', 'Reading the license status', 'Checking the expiration date', 'Checking discipline and public complaints', 'Saving the board’s records for your report', 'Still working: some boards take up to a minute'];
+document.addEventListener('submit', async e => {
+  const f = e.target.closest && e.target.closest('form[data-assess][data-live]');
+  if (!f) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  if (f.dataset.busy) return;
+  const out = f.parentElement.querySelector('.ck-out');
+  const g = n => (f.elements[n] ? String(f.elements[n].value || '').trim() : '');
+  const q = {firstName: g('firstName'), lastName: g('lastName'), licenseNumber: g('licenseNumber')};
+  const say = (title, msg, focus) => { out.innerHTML = `<div class="ck-head"><b>${title}</b></div><p class="note">${msg}</p>`; if (focus) focus.focus(); };
+  if (!g('state')) return say('Choose a state', 'Pick the state that issued the license.', f.elements.state);
+  const sourceId = f.dataset.src || g('sourceId');
+  if (!sourceId) return say('One moment', 'Search options are still loading. Try again in a second.');
+  if (!q.licenseNumber && !(q.firstName && q.lastName)) return say('Add a license number or a name', 'Enter the license number, or the practitioner’s first and last name.', q.licenseNumber || q.firstName ? f.elements.lastName : f.elements.licenseNumber);
+  const extra = {};
+  for (const s of f.querySelectorAll('[data-lic-extra] select[data-f]')) {
+    if (s.value) extra[s.dataset.f] = s.value;
+    else if (s.dataset.req && !s.disabled) return say('One more detail', `Choose the ${licEsc(s.closest('label').querySelector('span').firstChild.textContent.trim().toLowerCase())} for this board.`, s);
+  }
+  const ts = f.dataset.ts && f.dataset.ts !== 'none' ? f.dataset.ts : '';
+  const src = (LIC.sources || []).find(s => s.id === sourceId) || {authority: 'the licensing board'};
+  f.dataset.busy = '1';
+  const btn = f.querySelector('button[type=submit]'); btn.disabled = true;
+  out.innerHTML = `<div class="ck-head"><b>${licEsc(q.licenseNumber ? 'License ' + q.licenseNumber : q.firstName + ' ' + q.lastName)}</b><span class="chip acc">Scanning</span></div><div class="ck-bar lic-bar"><span></span></div><div class="ck-tick"></div>`;
+  const tick = out.querySelector('.ck-tick'), t0 = Date.now();
+  const step = () => { const s = Math.floor((Date.now() - t0) / 1000), i = Math.min(LIC_STEPS.length - 1, Math.floor(s / 6)); tick.textContent = `${LIC_STEPS[i].replace('{b}', src.authority)} · ${s}s`; };
+  step(); const iv = setInterval(step, 1000);
+  const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  const to = ctl ? setTimeout(() => ctl.abort(), 110000) : 0;
+  let res = null, data = {};
+  try {
+    res = await licCall('/lic/scan', {...q, ...extra, sourceId, website: g('website'), turnstile: ts, vid: licVid()}, ctl ? ctl.signal : undefined);
+    data = res.data || {};
+  } catch (x) { res = null; }
+  clearInterval(iv); clearTimeout(to);
+  delete f.dataset.busy; if (!f.classList.contains('locked')) btn.disabled = false;
+  licTsReset(f);
+  if (res && res.ok && data.ok) { out.innerHTML = licResultHTML(q, data); licAfterScan(f, out, data.remaining); return; }
+  const err = (data && data.error) || '';
+  if (res && res.status === 429 && data.scope === 'free') { licCookie('is_lic_scans', LIC_FREE); licLock(f, out); return; }
+  if (res && res.status === 429) { say('Daily limit reached', data.scope === 'site' ? 'Free scans are busy today. Please try again tomorrow, or subscribe for unlimited checks.' : 'Too many free scans from this network today. Please try again tomorrow, or subscribe for unlimited checks.'); out.insertAdjacentHTML('beforeend', `<div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to our platform')}${LIC_BTNS.call()}</div>`); return; }
+  if (err === 'bot_check') return say('Please confirm you’re human', 'Complete the quick check above the button, then scan again.');
+  if (err === 'missing_fields' || err === 'invalid') return say('Check the details', licEsc(data.message || data.detail || 'The board couldn’t search with these details. Check the license number or name and try again.'));
+  say('The board didn’t respond', `${licEsc(src.authority)} didn’t answer in time. Some boards are slow or briefly offline; please try again in a minute.`);
+}, true);
+
+$$('.lic-scan').forEach(licInit);
+$$('.lic-scan form[data-assess]').forEach(licGateInit);
 
 /* ---------- demo booking calendar ---------- */
 const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -984,7 +1396,163 @@ const TZ_NAME = tzPart('short') || 'local time';
 const TZ_LONG = tzPart('long') || 'Your local time';
 function fillTZ() { document.querySelectorAll('.tzname').forEach(el => { el.textContent = TZ_LONG; }); }
 
+/* ---------- live demo booking (Calendly, through the booking API) ----------
+   Set BOOKING_API to the booking Worker's address to switch every demo calendar
+   from sample times to real Calendly availability. Empty = demo mode. */
+const BOOKING_API = '';
+const BOOK_LEN_MIN = 30;
+const LOCAL_TZ = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; } })();
+const fmtClock = d => d.toLocaleTimeString('en-US', {hour: 'numeric', minute: '2-digit'});
+function bookUtm() {
+  const q = new URLSearchParams(location.search), u = {};
+  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(k => { if (q.get(k)) u[k] = q.get(k); });
+  return u;
+}
+function initCalLive(root) {
+  const $r = s => root.querySelector(s);
+  fillTZ();
+  const days = $r('.cal-days'), title = $r('.cal-mtitle'), slots = $r('.slots'), dayLbl = $r('.cal-dlabel'), pick = $r('.cal-pick');
+  const prev = $r('[data-prev]'), next = $r('[data-next]');
+  const steps = {pick: $r('[data-step="pick"]'), form: $r('[data-step="form"]'), done: $r('[data-step="done"]')};
+  const showStep = s => Object.entries(steps).forEach(([k, el]) => { el.hidden = k !== s; });
+  const type = root.dataset.product;
+  const demoNote = $r('[data-demo-note]'); if (demoNote) demoNote.hidden = true;
+  const t0 = today0();
+  const lim = new Date(t0.getFullYear(), t0.getMonth(), t0.getDate() + BOOK_DAYS);
+  const st = {y: t0.getFullYear(), m: t0.getMonth(), sel: null, time: null, months: {}, auto: true};
+  const mKey = (y, m) => `${y}-${m}`;
+  const monthData = () => st.months[mKey(st.y, st.m)];
+  const when = () => {
+    const s = new Date(st.time), e = new Date(s.getTime() + BOOK_LEN_MIN * 60e3);
+    return `${fmtClock(s)} to ${fmtClock(e)} ${TZ_NAME}, ${longDate(s)}`;
+  };
+
+  async function loadMonth(y, m, force) {
+    const k = mKey(y, m);
+    if (!force && st.months[k] && st.months[k] !== 'error') return;
+    st.months[k] = 'loading';
+    if (y === st.y && m === st.m) { drawMonth(); drawSlots(); }
+    try {
+      const start = new Date(y, m, 1), end = new Date(y, m + 1, 1);
+      const q = new URLSearchParams({type, start: start.toISOString(), end: end.toISOString()});
+      const r = await fetch(`${BOOKING_API}/slots?${q}`, {headers: {'Accept': 'application/json'}});
+      if (!r.ok) throw new Error('slots ' + r.status);
+      const body = await r.json();
+      const map = new Map();
+      (body.slots || []).forEach(iso => {
+        const d = new Date(iso);
+        if (isNaN(d) || d > lim) return;
+        const key = dayKey(d);
+        if (!map.has(key)) map.set(key, []);
+        map.get(key).push(iso);
+      });
+      map.forEach(list => list.sort());
+      st.months[k] = map;
+      if (st.auto && y === st.y && m === st.m) {
+        const firstDay = [...map.keys()].map(key => new Date(map.get(key)[0])).sort((a, b) => a - b)[0];
+        if (firstDay) { st.sel = new Date(firstDay.getFullYear(), firstDay.getMonth(), firstDay.getDate()); st.auto = false; }
+        else if (new Date(y, m + 1, 1) <= lim) { st.m = m + 1 > 11 ? 0 : m + 1; st.y = m + 1 > 11 ? y + 1 : y; loadMonth(st.y, st.m); return; }
+        else st.auto = false;
+      }
+    } catch (err) {
+      st.months[k] = 'error';
+    }
+    if (y === st.y && m === st.m) { drawMonth(); drawSlots(); }
+  }
+
+  function drawMonth() {
+    title.textContent = `${MONTHS[st.m]} ${st.y}`;
+    const data = monthData(), ready = data instanceof Map;
+    const first = new Date(st.y, st.m, 1), n = new Date(st.y, st.m + 1, 0).getDate();
+    let html = DOW.map(x => `<span class="dow">${x}</span>`).join('') + '<span></span>'.repeat(first.getDay());
+    for (let i = 1; i <= n; i++) {
+      const dd = new Date(st.y, st.m, i), av = ready && data.has(dayKey(dd)), sel = st.sel && dayKey(dd) === dayKey(st.sel);
+      html += `<button type="button" data-d="${i}"${av ? '' : ' disabled'} class="${sel ? 'sel' : ''}${dayKey(dd) === dayKey(t0) ? ' today' : ''}" aria-label="${longDate(dd)}${av ? '' : ', unavailable'}"${sel ? ' aria-pressed="true"' : ''}>${i}</button>`;
+    }
+    days.innerHTML = html;
+    days.classList.toggle('loading', data === 'loading');
+    prev.disabled = st.y === t0.getFullYear() && st.m === t0.getMonth();
+    next.disabled = st.y > lim.getFullYear() || (st.y === lim.getFullYear() && st.m >= lim.getMonth());
+  }
+  function drawSlots() {
+    const data = monthData();
+    const inMonth = st.sel && st.sel.getFullYear() === st.y && st.sel.getMonth() === st.m;
+    if (data === 'loading' || data === undefined) { dayLbl.textContent = 'Loading available times'; slots.innerHTML = '<p class="slots-msg">Checking the calendar…</p>'; return; }
+    if (data === 'error') { dayLbl.textContent = 'Times unavailable'; slots.innerHTML = `<p class="slots-msg">We couldn’t load available times.</p><button type="button" class="btn ghost sm" data-retry>Try again</button>`; return; }
+    if (!inMonth || !data.has(dayKey(st.sel))) {
+      dayLbl.textContent = data.size ? 'Select a date' : 'No open times this month';
+      slots.innerHTML = (st.notice ? `<p class="slots-msg warn" role="alert">${st.notice}</p>` : '') + `<p class="slots-msg">${data.size ? 'Pick a highlighted date to see times.' : 'Try the next month.'}</p>`;
+      return;
+    }
+    dayLbl.textContent = longDate(st.sel);
+    slots.innerHTML = (st.notice ? `<p class="slots-msg warn" role="alert">${st.notice}</p>` : '') + data.get(dayKey(st.sel)).map(iso => `<div class="slot${st.time === iso ? ' on' : ''}"><button type="button" class="t" data-iso="${iso}">${fmtClock(new Date(iso))}</button>${st.time === iso ? '<button type="button" class="nx" data-nx>Next</button>' : ''}</div>`).join('');
+  }
+  const go = (y, m) => { st.y = y; st.m = m; st.time = null; drawMonth(); drawSlots(); loadMonth(y, m); };
+  days.addEventListener('click', e => {
+    const b = e.target.closest('button[data-d]');
+    if (!b || b.disabled) return;
+    st.sel = new Date(st.y, st.m, +b.dataset.d); st.time = null;
+    drawMonth(); drawSlots();
+  });
+  prev.addEventListener('click', () => { const m = st.m - 1; go(m < 0 ? st.y - 1 : st.y, (m + 12) % 12); });
+  next.addEventListener('click', () => { const m = st.m + 1; go(m > 11 ? st.y + 1 : st.y, m % 12); });
+  slots.addEventListener('click', e => {
+    if (e.target.closest('[data-retry]')) { loadMonth(st.y, st.m, true); return; }
+    if (e.target.closest('[data-nx]')) {
+      pick.textContent = when(); pick.hidden = false;
+      showStep('form');
+      const first = steps.form.querySelector('input:not(.hp)'); if (first) first.focus({preventScroll: true});
+      return;
+    }
+    const b = e.target.closest('button[data-iso]');
+    if (!b) return;
+    st.time = b.dataset.iso; st.notice = ''; drawSlots();
+    const nx = slots.querySelector('[data-nx]'); if (nx) nx.focus({preventScroll: true});
+  });
+  $r('[data-back]').addEventListener('click', () => showStep('pick'));
+  steps.form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const f = steps.form, err = f.querySelector('.err'), btn = f.querySelector('button[type=submit]');
+    if (btn.disabled) return;
+    const name = f.elements.name.value.trim(), email = f.elements.email.value.trim(), org = f.elements.org.value.trim();
+    const miss = [];
+    if (!name) miss.push('your name');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) miss.push('a work email');
+    if (!org) miss.push('your organization');
+    if (miss.length) { err.textContent = 'Add ' + miss.join(', ').replace(/, ([^,]*)$/, ' and $1') + ' to schedule your demo.'; err.hidden = false; return; }
+    err.hidden = true;
+    const label = btn.textContent; btn.disabled = true; btn.textContent = 'Scheduling…';
+    let res = null, data = {};
+    try {
+      res = await fetch(`${BOOKING_API}/book`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({
+        type, start: st.time, name, email, org, note: f.elements.note.value.trim(), timezone: LOCAL_TZ,
+        utm: bookUtm(), website: f.elements.website ? f.elements.website.value : ''
+      })});
+      try { data = await res.json(); } catch (x) {}
+    } catch (x) { res = null; }
+    btn.disabled = false; btn.textContent = label;
+    if (res && res.ok && data.ok) {
+      steps.done.querySelector('[data-when]').textContent = when();
+      const dn = steps.done.querySelector('[data-done-note]');
+      if (dn) { dn.textContent = ''; dn.append('A calendar invite with the video link is on its way to ', Object.assign(document.createElement('b'), {textContent: email}), '. Check your spam folder if it hasn’t arrived in a few minutes.'); }
+      showStep('done');
+      return;
+    }
+    if (res && res.status === 409) {
+      st.time = null; pick.hidden = true; st.notice = 'Sorry, that time was just taken. Please pick another time.';
+      Object.keys(st.months).forEach(k => delete st.months[k]);
+      showStep('pick'); loadMonth(st.y, st.m, true);
+      return;
+    }
+    err.textContent = 'We couldn’t schedule the demo just now. Please try again, or call 1-800-604-1354.'; err.hidden = false;
+  });
+  $r('[data-again]').addEventListener('click', () => { st.time = null; pick.hidden = true; steps.form.reset(); Object.keys(st.months).forEach(k => delete st.months[k]); showStep('pick'); loadMonth(st.y, st.m, true); });
+  drawMonth(); drawSlots();
+  loadMonth(st.y, st.m);
+}
+
 function initCal(root) {
+  if (BOOKING_API) return initCalLive(root);
   const $r = s => root.querySelector(s);
   fillTZ();
   const days = $r('.cal-days'), title = $r('.cal-mtitle'), slots = $r('.slots'), dayLbl = $r('.cal-dlabel'), pick = $r('.cal-pick');
@@ -2360,6 +2928,136 @@ document.addEventListener('submit', e => {
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) { err.textContent = 'Add a work email.'; err.hidden = false; return; }
   err.hidden = true; f.hidden = true; f.parentElement.querySelector('.wnx-done').hidden = false;
 });
+/* ---------- next webinar from a Google Sheet ----------
+   WEBINAR_SHEET is the sheet tab's "Publish to web" CSV link. Empty = use nextWebinar() above.
+   Columns (header names, any order): Show | Date | Start time (ET) | Duration (min) | Topic |
+   Description | Special guests | Registration link | Recording link
+   The card shows the next row marked Show = Yes whose end time has not passed. */
+function webinarSheetURL() { return 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSOXZvgPuhf7kIVA870sTt7bUAfBIDlRsCLa3C8JUIiioIS4gzp9iYcIBJNroxpY1QvOa9o6IFA97CU/pub?gid=1048252422&single=true&output=csv'; }
+function wsParseCSV(text) {
+  const rows = []; let row = [], cell = '', q = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (q) {
+      if (c === '"') { if (text[i + 1] === '"') { cell += '"'; i++; } else q = false; }
+      else cell += c;
+    } else if (c === '"') q = true;
+    else if (c === ',') { row.push(cell); cell = ''; }
+    else if (c === '\n' || c === '\r') { if (c === '\r' && text[i + 1] === '\n') i++; row.push(cell); rows.push(row); row = []; cell = ''; }
+    else cell += c;
+  }
+  if (cell !== '' || row.length) { row.push(cell); rows.push(row); }
+  return rows.filter(r => r.some(x => x.trim() !== ''));
+}
+function wsDate(v) {
+  v = (v || '').trim(); let m;
+  if ((m = v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/))) return [+m[1], +m[2] - 1, +m[3]];
+  if ((m = v.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/))) return [+m[3], +m[1] - 1, +m[2]];
+  const t = Date.parse(v);
+  if (!isNaN(t)) { const d = new Date(t); return [d.getFullYear(), d.getMonth(), d.getDate()]; }
+  return null;
+}
+function wsTime(v) {
+  const m = (v || '').trim().match(/^(\d{1,2})(?::(\d{2}))?(?::\d{2})?\s*([ap])\.?m?\.?$/i) || (v || '').trim().match(/^(\d{1,2}):(\d{2})(?::\d{2})?$/);
+  if (!m) return null;
+  let h = +m[1]; const min = +(m[2] || 0), ap = m[3] && m[3].toLowerCase();
+  if (ap === 'p' && h < 12) h += 12;
+  if (ap === 'a' && h === 12) h = 0;
+  return h > 23 || min > 59 ? null : h * 60 + min;
+}
+const wsYes = v => /^(yes|y|true|1|x|✓|show)$/i.test((v || '').trim());
+const wsUrl = v => { v = (v || '').trim(); return /^https:\/\/[^\s<>"']+$/i.test(v) ? v : ''; };
+function wsRows(text) {
+  const rows = wsParseCSV(text);
+  if (rows.length < 2) return [];
+  const head = rows[0].map(h => h.trim().toLowerCase());
+  const col = re => head.findIndex(h => re.test(h));
+  const C = {show: col(/^show|publish|visible/), date: col(/^date/), time: col(/time/), dur: col(/duration|length|min/), topic: col(/topic|title/),
+    desc: col(/desc|summary|about/), guests: col(/guest|speaker/), url: col(/regist/), rec: col(/record/)};
+  const g = (r, k) => (C[k] >= 0 ? (r[C[k]] || '') : '').trim();
+  return rows.slice(1).map(r => {
+    const d = wsDate(g(r, 'date')), t = wsTime(g(r, 'time'));
+    const dur = Math.max(15, Math.min(480, parseInt(g(r, 'dur'), 10) || 60));
+    if (!d || t == null || !g(r, 'topic')) return null;
+    const start = etToLocal(new Date(d[0], d[1], d[2]), t);
+    return {
+      show: C.show < 0 ? true : wsYes(g(r, 'show')),
+      topic: g(r, 'topic'), desc: g(r, 'desc'), dur, start, end: new Date(start.getTime() + dur * 60e3),
+      guests: g(r, 'guests').split(/\s*;\s*|\n+/).map(s => s.trim()).filter(Boolean).slice(0, 6),
+      url: wsUrl(g(r, 'url')), rec: wsUrl(g(r, 'rec'))
+    };
+  }).filter(Boolean);
+}
+function wsNext(list) {
+  const now = Date.now();
+  return list.filter(w => w.show && w.end.getTime() > now).sort((a, b) => a.start - b.start)[0] || null;
+}
+function wsGuestHTML(s) {
+  const parts = s.split(/\s*,\s*/), name = parts.shift(), rest = parts.join(', ');
+  const ini = name.split(/\s+/).filter(Boolean).map(x => x[0]).slice(0, 2).join('').toUpperCase();
+  return `<li><i aria-hidden="true">${esc(ini)}</i><span><b>${esc(name)}</b>${rest ? `<small>${esc(rest)}</small>` : ''}</span></li>`;
+}
+function wsApply(sec, w) {
+  const $s = s => sec.querySelector(s);
+  sec.classList.remove('loading');
+  const topic = $s('[data-w-topic]'), desc = $s('[data-w-desc]'), guests = $s('[data-w-guests]'), meta = $s('.wnx-meta'), reg = $s('[data-w-reg]'), bar = $s('.wnx-main .bar');
+  if (!w) {
+    sec.classList.add('soon');
+    bar.textContent = 'Live webinars';
+    topic.textContent = 'Our next webinar is being scheduled.';
+    desc.textContent = 'Get webinar alerts and we’ll email you the topic and date as soon as it’s announced.'; desc.hidden = false;
+    guests.hidden = true; meta.hidden = true;
+    reg.innerHTML = '';
+    const al = $s('[data-wnx="alert"]'); if (al) { al.textContent = 'Get webinar alerts'; al.classList.replace('ghost', 'primary'); }
+    const nt = $s('.wnx-act > .note'); if (nt) nt.textContent = 'Free for compliance teams. One email per webinar, unsubscribe any time.';
+    return;
+  }
+  sec.classList.remove('soon');
+  bar.textContent = 'Next live webinar';
+  topic.textContent = w.topic;
+  desc.textContent = w.desc; desc.hidden = !w.desc;
+  guests.innerHTML = w.guests.length ? `<p class="wg-l">${w.guests.length > 1 ? 'Special guests' : 'Special guest'}</p><ul>${w.guests.map(wsGuestHTML).join('')}</ul>` : '';
+  guests.hidden = !w.guests.length;
+  meta.hidden = false;
+  const set = (k, v) => { const el = $s(`[data-w-v="${k}"]`); if (el) el.textContent = v; };
+  set('cal', w.start.toLocaleDateString('en-US', {weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'}));
+  set('clock', `${fmtClock(w.start)} to ${fmtClock(w.end)} ${TZ_NAME}`);
+  set('cam', `${w.dur} minutes, online`);
+  reg.innerHTML = w.url
+    ? `<a class="btn primary" href="${esc(w.url)}" target="_blank" rel="noopener">Register now <span class="vh">(opens in a new tab)</span></a>`
+    : `<button type="button" class="btn primary" disabled>Registration opens soon</button>`;
+}
+function wsEventLD(w) {
+  if (!w) return;
+  const ld = {'@context': 'https://schema.org', '@type': 'Event', name: w.topic, description: w.desc || w.topic,
+    startDate: w.start.toISOString(), endDate: w.end.toISOString(), eventStatus: 'https://schema.org/EventScheduled',
+    eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+    location: {'@type': 'VirtualLocation', url: w.url || 'https://integrityshield.io'},
+    organizer: {'@type': 'Organization', name: 'SureShield, Inc.', url: 'https://sure-shield.com'},
+    isAccessibleForFree: true};
+  if (w.guests.length) ld.performer = w.guests.map(s => ({'@type': 'Person', name: s.split(/\s*,\s*/)[0]}));
+  const sc = document.createElement('script'); sc.type = 'application/ld+json'; sc.id = 'webinar-ld';
+  sc.textContent = JSON.stringify(ld);
+  const old = document.getElementById('webinar-ld'); if (old) old.remove();
+  document.head.appendChild(sc);
+}
+async function loadWebinarSheet() {
+  const secs = $$('[data-web]');
+  const url = webinarSheetURL();
+  if (!url || !secs.length) return;
+  let w = null;
+  try {
+    const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const tm = ctl ? setTimeout(() => ctl.abort(), 9000) : 0;
+    const r = await fetch(url, ctl ? {signal: ctl.signal} : {});
+    clearTimeout(tm);
+    if (!r.ok) throw new Error('sheet ' + r.status);
+    w = wsNext(wsRows(await r.text()));
+  } catch (err) { console.warn('Webinar sheet could not be loaded:', err && err.message); }
+  $$('[data-web]').forEach(sec => wsApply(sec, w));
+  wsEventLD(w);
+}
+loadWebinarSheet();
 
 /* ---------- opening scene ---------- */
 function heroReveal() { document.documentElement.classList.remove('intro-hold'); $$('#ticks i').forEach(i => i.classList.remove('on')); fillTicks(); }
@@ -2438,7 +3136,6 @@ document.addEventListener('click', e => {
 });
 if (ROOT.classList.contains('intro-on')) ixPlay(); else fillTicks();
 
-
 /* ---------- links to other pages are real addresses ---------- */
 const ROUTE_KEYS = Object.keys(ROUTES);
 function fixLink(a) {
@@ -2452,4 +3149,5 @@ new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => {
   if (n.matches('a[href^="#"]')) fixLink(n);
   n.querySelectorAll('a[href^="#"]').forEach(fixLink);
 }))).observe(document.body, {childList: true, subtree: true});
+
 })();
