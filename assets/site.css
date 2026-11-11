@@ -1776,4 +1776,16 @@ html,body{margin:0;padding:0}
 .lic-scan form.locked .btn{cursor:not-allowed}
 @media (max-width:560px){.lic-ctas{flex-direction:column}.lic-ctas .btn{width:100%}}
 .lic-scan label.lic-human{display:inline-flex;justify-self:start;grid-template-columns:none}
+/* v31: live sanctions & exclusions check */
+.ses-scan label > span{display:block}
+.ses-scan .hp{position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;opacity:0!important}
+.ses-scan form.locked{opacity:.55}
+.ses-scan form.locked .btn{cursor:not-allowed}
+.ses-scan label.lic-human{display:inline-flex;justify-self:start;grid-template-columns:none}
+.ses-scan [hidden]{display:none!important}
+.ses-type{display:flex;gap:8px;flex-wrap:wrap}
+.ses-type label{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--line, #d8dde6);border-radius:999px;cursor:pointer;font-weight:500;grid-template-columns:none}
+.ses-type label:has(input:checked){border-color:var(--accent, #2f5bea);background:var(--accent-soft, #eef2ff)}
+.ses-type input{margin:0;width:auto}
+.ses-one + .ses-one{margin-top:12px}
 \n.topic{position:relative}\n

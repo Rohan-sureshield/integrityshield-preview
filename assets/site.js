@@ -209,10 +209,10 @@ document.addEventListener('submit', e => {
 });
 async function repDone(f, n, m) {
   const box = f.parentElement, a = f.closest('.assess'), kf = a && a.querySelector('form[data-assess]');
-  const kind = kf ? kf.dataset.assess : '', live = kind === 'licensure' && kf.dataset.live !== undefined && scanApi();
+  const kind = kf ? kf.dataset.assess : '', live = (kind === 'licensure' || kind === 'ses') && kf.dataset.live !== undefined && scanApi();
   if (!live) { box.innerHTML = `<p class="rep-done">${FACE.ok}<span><b>Report requested.</b> In the live product it is emailed to ${clean(m)}. This demo sends nothing.</span></p>`; return; }
   const btn = f.querySelector('button[type=submit]'); if (btn) { btn.disabled = true; btn.textContent = 'One moment…'; }
-  const url = LIC.lastReport;
+  const url = kind === 'licensure' ? LIC.lastReport : null;
   try { await licCall('/lead', {kind, name: n, email: m, org: f.elements.org ? f.elements.org.value.trim() : '', ref: url || '', website: ''}); } catch (x) {}
   box.innerHTML = url
     ? `<p class="rep-done">${FACE.ok}<span><b>Your report is ready.</b> <a href="${licEsc(url)}" target="_blank" rel="noopener">Download the licensure scan report (PDF)</a>. It includes the board’s records as captured during the scan.</span></p>`
@@ -229,6 +229,7 @@ function scanApi() { return 'https://script.google.com/macros/s/AKfycbxAC-4_d7JG
 function turnstileSiteKey() { return '6LdjiRsuAAAAAIBdpgz_2bP_bBNXQpsu3HUNI_Sq'; }
 function assessHTML(k) {
   if (k === 'licensure' && scanApi()) return licLiveFormHTML();
+  if (k === 'ses' && scanApi()) return sesLiveFormHTML();
   if (k === 'licensure') return `<div class="console assess lic-scan" data-reveal>
       <div class="assess-top"><span class="bar">Free one-time scan</span><h3>One-time licensure scan</h3><p>Check a practitioner’s license at the source: status, expiration date and disciplinary actions. No account needed.</p></div>
       <form data-assess="licensure" novalidate>
@@ -833,6 +834,7 @@ function onEnter() {
   if (route === 'checkout') renderCheckout();
   if (route === 'licensure' && scanApi()) $$('#page-licensure .lic-scan').forEach(licInit);
   if (route === 'licensure') $$('#page-licensure .lic-scan form[data-assess]').forEach(licGateInit);
+  if (route === 'ses') $$('#page-ses .ses-scan form[data-assess]').forEach(licGateInit);
 }
 
 /* ---------- console stream ---------- */
@@ -1056,9 +1058,10 @@ const LIC_BTNS = {
   call: () => `<button type="button" class="btn ghost" data-lic-cta="call">Set up a call with us</button>`,
   again: () => `<button type="button" class="btn ghost" data-lic-cta="again">Run another scan</button>`
 };
-function licNextHTML() {
+function licNextHTML(f) {
+  const prod = f && f.dataset.assess === 'ses' ? 'IntegrityShield-SES' : 'IntegrityShield-Licensure';
   const left = Math.max(0, LIC_FREE - licUsed());
-  return `<div class="lic-next"><p class="lic-left">${left ? `<b>${left} of ${LIC_FREE}</b> free scans left` : 'That was your last free scan'}</p><div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to IntegrityShield-Licensure')}${LIC_BTNS.call()}${LIC_BTNS.again()}</div></div>`;
+  return `<div class="lic-next"><p class="lic-left">${left ? `<b>${left} of ${LIC_FREE}</b> free scans left` : 'That was your last free scan'}</p><div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to ' + prod)}${LIC_BTNS.call()}${LIC_BTNS.again()}</div></div>`;
 }
 function licLimitHTML() {
   return `<div class="ck-head">${FACE.maybe}<b>You’ve used your ${LIC_FREE} free scans</b></div><div class="ck-res"><span>Subscribe to verify and monitor every practitioner’s licenses continuously, or set up a call and we’ll walk you through it.</span><div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to our platform')}${LIC_BTNS.call()}</div></div>`;
@@ -1076,7 +1079,7 @@ function licAfterScan(f, out, remaining) {
   if (typeof remaining === 'number') used = Math.max(used, LIC_FREE - remaining);
   licCookie('is_lic_scans', Math.min(used, LIC_FREE));
   const res = out.querySelector('.ck-res') || out;
-  res.insertAdjacentHTML('beforeend', licNextHTML());
+  res.insertAdjacentHTML('beforeend', licNextHTML(f));
   licQuota(f); licTsReset(f);
 }
 
@@ -1138,7 +1141,7 @@ function licTsReset(f) {
 
 /* runs before either scan handler: allowance first, then the bot check */
 document.addEventListener('submit', e => {
-  const f = e.target.closest && e.target.closest('form[data-assess="licensure"]');
+  const f = e.target.closest && e.target.closest('form[data-assess="licensure"], form[data-assess="ses"][data-live]');
   if (!f || f.dataset.busy) return;
   const out = f.parentElement.querySelector('.ck-out');
   if (f.classList.contains('locked') || licUsed() >= LIC_FREE) { e.preventDefault(); e.stopImmediatePropagation(); licLock(f, out); return; }
@@ -1154,17 +1157,17 @@ document.addEventListener('submit', e => {
 document.addEventListener('click', e => {
   const b = e.target.closest && e.target.closest('[data-lic-cta]');
   if (!b) return;
-  const a = b.closest('.lic-scan'), f = a && a.querySelector('form[data-assess]'), out = a && a.querySelector('.ck-out');
+  const a = b.closest('.lic-scan, .ses-scan'), f = a && a.querySelector('form[data-assess]'), out = a && a.querySelector('.ck-out');
   const k = b.dataset.licCta;
   if (k === 'subscribe') { go('plans'); return; }
   if (k === 'call') { go('demo'); return; }
   if (k === 'again') {
     if (licUsed() >= LIC_FREE) { licLock(f, out); scrollToEl(a); return; }
-    f.querySelectorAll('input').forEach(i => { if (!i.classList.contains('hp') && i.type !== 'checkbox') i.value = ''; });
+    f.querySelectorAll('input').forEach(i => { if (!i.classList.contains('hp') && i.type !== 'checkbox' && i.type !== 'radio') i.value = ''; });
     out.innerHTML = `<div class="ck-head"><b>Ready for your next scan</b></div><p class="note">${LIC_FREE - licUsed()} of ${LIC_FREE} free scans left. Complete the security check, then run the scan.</p>`;
     licTsReset(f);
     scrollToEl(a);
-    const first = f.querySelector('input:not(.hp):not([type=checkbox])'); if (first) setTimeout(() => first.focus({preventScroll: true}), 500);
+    const first = f.querySelector('input:not(.hp):not([type=checkbox]):not([type=radio])'); if (first) setTimeout(() => first.focus({preventScroll: true}), 500);
   }
 });
 function licGateInit(f) {
@@ -1191,7 +1194,7 @@ async function licCall(p, body, signal) {
     : {headers: {'Accept': 'application/json'}, signal};
   if (gas) {
     const m = p.match(/^\/lic\/source\/(.+)$/);
-    const fn = p === '/lic/sources' ? 'sources' : m ? 'source' : p === '/lic/scan' ? 'scan' : p.replace(/^\//, '');
+    const fn = p === '/lic/sources' ? 'sources' : m ? 'source' : p === '/lic/scan' ? 'scan' : p === '/ses/scan' ? 'sanctions' : p.replace(/^\//, '');
     url = body ? base : `${base}?fn=${fn}${m ? '&id=' + encodeURIComponent(m[1]) : ''}`;
     init = body ? {method: 'POST', headers: {'Content-Type': 'text/plain;charset=utf-8'}, body: JSON.stringify({fn, ...body}), signal, redirect: 'follow'} : {signal, redirect: 'follow'};
   }
@@ -1280,6 +1283,7 @@ function licDate(s) {
 }
 function licVerdict(l) {
   const st = (l.status || '').toLowerCase();
+  if (!st) return {face: 'maybe', chip: 'warn', text: 'Status not reported'};
   const bad = l.discipline || /probation|restrict|suspend|revok|surrender|obligation|denied|condition/.test(st);
   const inactive = st && !/active|clear|current|valid|good standing/.test(st) || /inactive|expired|lapsed|null and void|retired|cancel/.test(st);
   const exp = licDate(l.expires), days = exp ? Math.round((exp - new Date()) / 864e5) : null;
@@ -1303,6 +1307,8 @@ function licLicenseHTML(l, d, many) {
   return `<div class="lic-one">${many ? `<div class="ck-head">${FACE[v.face]}<b>${licEsc(l.name || l.license || 'License')}</b><span class="chip ${v.chip}">${licEsc(v.text)}</span></div>` : ''}${licRows(rows.map(([k, val, c]) => [k, licEsc(val), c]))}${conduct}${more}</div>`;
 }
 function licResultHTML(q, d) {
+  d.licenses = (d.licenses || []).filter(l => l.name || l.license || l.status);
+  d.count = d.licenses.length;
   const who = licEsc(q.firstName || q.lastName ? `${q.firstName} ${q.lastName}`.trim() : `License ${q.licenseNumber}`);
   if (!d.count) {
     return `<div class="ck-head">${FACE.maybe}<b>${who}</b><span class="chip warn">No license found</span></div><div class="ck-res"><span>${licEsc(d.authority)} returned no license for these details.</span><span>Check the spelling, try the license number instead of the name, or pick another board if the state has more than one.</span></div>`;
@@ -1316,7 +1322,7 @@ function licResultHTML(q, d) {
 }
 const LIC_STEPS = ['Connecting to {b}', 'Looking up the license', 'Reading the license status', 'Checking the expiration date', 'Checking discipline and public complaints', 'Saving the board’s records for your report', 'Still working: some boards take up to a minute'];
 document.addEventListener('submit', async e => {
-  const f = e.target.closest && e.target.closest('form[data-assess][data-live]');
+  const f = e.target.closest && e.target.closest('form[data-assess="licensure"][data-live]');
   if (!f) return;
   e.preventDefault(); e.stopImmediatePropagation();
   if (f.dataset.busy) return;
@@ -1362,6 +1368,90 @@ document.addEventListener('submit', async e => {
 
 $$('.lic-scan').forEach(licInit);
 $$('.lic-scan form[data-assess]').forEach(licGateInit);
+/* ---------- one-time sanctions & exclusions check, live (SanctionsShield API through the website API) ---------- */
+function sesStates() { return [['AL','Alabama'],['AK','Alaska'],['AZ','Arizona'],['AR','Arkansas'],['CA','California'],['CO','Colorado'],['CT','Connecticut'],['DE','Delaware'],['DC','District of Columbia'],['FL','Florida'],['GA','Georgia'],['HI','Hawaii'],['ID','Idaho'],['IL','Illinois'],['IN','Indiana'],['IA','Iowa'],['KS','Kansas'],['KY','Kentucky'],['LA','Louisiana'],['ME','Maine'],['MD','Maryland'],['MA','Massachusetts'],['MI','Michigan'],['MN','Minnesota'],['MS','Mississippi'],['MO','Missouri'],['MT','Montana'],['NE','Nebraska'],['NV','Nevada'],['NH','New Hampshire'],['NJ','New Jersey'],['NM','New Mexico'],['NY','New York'],['NC','North Carolina'],['ND','North Dakota'],['OH','Ohio'],['OK','Oklahoma'],['OR','Oregon'],['PA','Pennsylvania'],['RI','Rhode Island'],['SC','South Carolina'],['SD','South Dakota'],['TN','Tennessee'],['TX','Texas'],['UT','Utah'],['VT','Vermont'],['VA','Virginia'],['WA','Washington'],['WV','West Virginia'],['WI','Wisconsin'],['WY','Wyoming']]; }
+function sesLiveFormHTML() {
+  return `<div class="console assess ses-scan" data-reveal>
+      <div class="assess-top"><span class="bar">Free one-time check</span><h3>Integrity violation screening check</h3><p>Search a person or business across IntegrityShield’s sanctions and exclusion lists, including OIG LEIE, SAM.gov and OFAC. No account needed.</p></div>
+      <form data-assess="ses" data-live novalidate>
+        <div class="ses-type" role="radiogroup" aria-label="Search for">
+          <label><input type="radio" name="type" value="individual" checked><span>Individual</span></label>
+          <label><input type="radio" name="type" value="entity"><span>Business</span></label>
+        </div>
+        <div class="af-row" data-ses-person><label for="ses-fn">First name<input id="ses-fn" name="firstName" autocomplete="off" maxlength="60"></label><label for="ses-ln">Last name<input id="ses-ln" name="lastName" autocomplete="off" maxlength="60"></label></div>
+        <div class="af-row" data-ses-person><label for="ses-mn"><span>Middle name <em class="opt">(optional)</em></span><input id="ses-mn" name="middleName" autocomplete="off" maxlength="60"></label><label for="ses-st"><span>State <em class="opt">(optional)</em></span><select id="ses-st" name="state"><option value="">Any state</option>${sesStates().map(([c, n]) => `<option value="${c}">${n}</option>`).join('')}</select></label></div>
+        <div data-ses-org hidden><label for="ses-org">Business name<input id="ses-org" name="orgName" autocomplete="off" maxlength="120"></label></div>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <div class="lic-ts" data-lic-ts></div>
+        <button class="btn primary" type="submit">Search now</button>
+        <p class="note lic-disc">Results come from public sanctions and exclusion lists. A name match is not a confirmed identity: compare the details before acting. This free check is for evaluating IntegrityShield and is not a substitute for your own screening program.</p>
+      </form>
+      <div class="ck-out" aria-live="polite"></div>
+    </div>`;
+}
+function sesSetType(f) {
+  const ent = (f.querySelector('input[name=type]:checked') || {}).value === 'entity';
+  f.querySelectorAll('[data-ses-person]').forEach(x => { x.hidden = ent; });
+  f.querySelector('[data-ses-org]').hidden = !ent;
+}
+document.addEventListener('change', e => {
+  const f = e.target.closest && e.target.closest('form[data-assess="ses"][data-live]');
+  if (f && e.target.name === 'type') sesSetType(f);
+});
+function sesMatchHTML(m) {
+  const pct = m.match != null ? `${m.match}% name match` : '';
+  const rows = [
+    ['Listed name', m.name + (m.dba ? ` (DBA ${m.dba})` : '')], ['List', m.source], ['Agency', m.agency], ['Program', m.program],
+    ['Type', m.type], ['Details', m.detail], ['Action', m.action], ['Date listed', m.date],
+    ['Expires', m.expires ? m.expires + (m.expired ? ' (expired)' : '') : ''], ['Location on the list', m.place], ['Match', [pct, m.quality ? m.quality.replace(/_/g, ' ').toLowerCase().replace(/^./, c => c.toUpperCase()) : ''].filter(Boolean).join(' · ')]
+  ].filter(r => r[1]);
+  return `<div class="lic-one ses-one"><div class="ck-head">${FACE.maybe}<b>${licEsc(m.name || 'Listed record')}</b><span class="chip ${m.expired ? 'warn' : 'match'}">${licEsc(m.source || 'Listed')}</span></div>${licRows(rows.map(([k, v]) => [k, licEsc(v)]))}</div>`;
+}
+function sesResultHTML(q, d) {
+  const who = licEsc(q.orgName || [q.firstName, q.middleName, q.lastName].filter(Boolean).join(' '));
+  if (!d.count) {
+    return `<div class="ck-head">${FACE.ok}<b>${who}</b><span class="chip res">No match found</span></div><div class="ck-res"><span>No records with this name on IntegrityShield’s sanctions and exclusion lists as of ${licEsc(new Date(d.checkedAt || Date.now()).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'}))}.</span>${reportCTA('ses')}</div>`;
+  }
+  const shown = d.matches.length, more = d.count > shown ? ` Showing the closest ${shown}.` : '';
+  return `<div class="ck-head">${FACE.maybe}<b>${who}</b><span class="chip match">${d.count === 1 ? 'Possible match' : `${d.count} possible matches`}</span></div><div class="ck-res"><span>These listed records match the name you searched.${more} A name match is not a confirmed identity: compare location, dates and identifiers before acting.</span>${d.matches.map(sesMatchHTML).join('')}${reportCTA('ses')}</div>`;
+}
+var SES_STEPS = ['Checking the federal exclusion lists', 'Checking state Medicaid exclusion lists', 'Checking sanctions lists', 'Comparing names'];
+document.addEventListener('submit', async e => {
+  const f = e.target.closest && e.target.closest('form[data-assess="ses"][data-live]');
+  if (!f) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  if (f.dataset.busy) return;
+  const out = f.parentElement.querySelector('.ck-out');
+  const g = n => (f.elements[n] && !f.elements[n].closest('[hidden]') ? String(f.elements[n].value || '').trim() : '');
+  const type = (f.querySelector('input[name=type]:checked') || {}).value === 'entity' ? 'entity' : 'individual';
+  const q = type === 'entity' ? {orgName: g('orgName')} : {firstName: g('firstName'), middleName: g('middleName'), lastName: g('lastName'), state: g('state')};
+  const say = (title, msg, focus) => { out.innerHTML = `<div class="ck-head"><b>${title}</b></div><p class="note">${msg}</p>`; if (focus) focus.focus(); };
+  if (type === 'entity' && !q.orgName) return say('Add the business name', 'Enter the name of the business to check.', f.elements.orgName);
+  if (type === 'individual' && !(q.firstName && q.lastName)) return say('Add a first and last name', 'Enter the person’s first and last name.', q.firstName ? f.elements.lastName : f.elements.firstName);
+  const ts = f.dataset.ts && f.dataset.ts !== 'none' ? f.dataset.ts : '';
+  f.dataset.busy = '1';
+  const btn = f.querySelector('button[type=submit]'); btn.disabled = true;
+  out.innerHTML = `<div class="ck-head"><b>${licEsc(q.orgName || `${q.firstName} ${q.lastName}`)}</b><span class="chip acc">Searching</span></div><div class="ck-bar lic-bar"><span></span></div><div class="ck-tick"></div>`;
+  const tick = out.querySelector('.ck-tick'), t0 = Date.now();
+  const step = () => { const s = Math.floor((Date.now() - t0) / 1000); tick.textContent = `${SES_STEPS[Math.min(SES_STEPS.length - 1, Math.floor(s / 3))]} · ${s}s`; };
+  step(); const iv = setInterval(step, 1000);
+  const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
+  const to = ctl ? setTimeout(() => ctl.abort(), 90000) : 0;
+  let res = null, data = {};
+  try { res = await licCall('/ses/scan', {type, ...q, website: g('website'), turnstile: ts, vid: licVid()}, ctl ? ctl.signal : undefined); data = res.data || {}; }
+  catch (x) { res = null; }
+  clearInterval(iv); clearTimeout(to);
+  delete f.dataset.busy; if (!f.classList.contains('locked')) btn.disabled = false;
+  licTsReset(f);
+  if (res && res.ok && data.ok) { out.innerHTML = sesResultHTML(q, data); licAfterScan(f, out, data.remaining); return; }
+  if (res && res.status === 429 && data.scope === 'free') { licCookie('is_lic_scans', LIC_FREE); licLock(f, out); return; }
+  if (res && res.status === 429) { say('Daily limit reached', 'Free checks are busy today. Please try again tomorrow, or subscribe for unlimited screening.'); out.insertAdjacentHTML('beforeend', `<div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to our platform')}${LIC_BTNS.call()}</div>`); return; }
+  if (data.error === 'bot_check') return say('Please confirm you’re human', 'Complete the quick check above the button, then search again.');
+  if (data.error === 'missing_fields' || data.error === 'invalid') return say('Check the details', licEsc(data.message || data.detail || 'The search couldn’t run with these details. Check the spelling and try again.'));
+  say('The search didn’t finish', 'The screening service didn’t answer in time. Please try again in a minute.');
+}, true);
+
+$$('.ses-scan form[data-assess]').forEach(f => { sesSetType(f); licGateInit(f); });
 
 /* ---------- demo booking calendar ---------- */
 const DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
