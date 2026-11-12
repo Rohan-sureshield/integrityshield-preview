@@ -19,15 +19,21 @@ const scrollToY = (y, immediate) => window.scrollTo({top: y, behavior: immediate
 
 /* ---------- content ---------- */
 const ROUTES = {
-  home: {title: "IntegrityShield | All-in-One Sanctions, Exclusion & Conflict of Interest Screening Software", desc: "All-in-one screening software for employees, vendors and healthcare providers: OFAC, OIG, SAM and 63 official sanctions and exclusion lists every night, plus conflict of interest monitoring with CMS Open Payments."},
+  home: {title: "IntegrityShield | Sanctions, Exclusion, Conflict of Interest & Licensure Screening Software", desc: "All-in-one screening software for employees, vendors and healthcare providers: OFAC, OIG, SAM and 63 official sanctions and exclusion lists every night, plus conflict of interest monitoring with CMS Open Payments, and licensure and credential monitoring."},
   ses: {title: "Sanctions & Exclusion Screening Software for Employees, Vendors & Healthcare Providers (OFAC, OIG, SAM) | IntegrityShield-SES", desc: "All-in-one sanctions and exclusion screening software for your workforce, vendors and healthcare providers. Screens against OFAC, OIG LEIE, SAM.gov and state exclusion lists from official sources, every night. Features, free assessment, demo and pricing."},
   coi: {title: "Healthcare Conflict of Interest Monitoring Software | CMS Open Payments | IntegrityShield-COI", desc: "Detect and monitor hidden financial relationships between vendors and healthcare practitioners. IntegrityShield-COI matches vendors and credentialed practitioners against CMS Open Payments: an Open Payments compliance platform for Stark Law and Anti-Kickback."},
-  licensure: {title: 'Licensure Verification and Monitoring | IntegrityShield-Licensure', desc: 'IntegrityShield-Licensure: license and certification monitoring for compliance teams. Details coming soon.'},
+  licensure: {title: 'Licensure & Credential Monitoring (LCM) Software | IntegrityShield-LCM', desc: 'IntegrityShield-LCM (Licensure & Credential Monitoring): verify practitioner licenses and credentials at the source and monitor status, expiration dates and disciplinary actions, with alerts before anything lapses.'},
   about: {title: "About IntegrityShield | Sanctions, Exclusion & Conflict of Interest Screening Software by SureShield", desc: "IntegrityShield is SureShield's integrity screening platform for compliance officers: continuous sanctions and exclusion screening against OFAC, OIG and SAM, and conflict of interest monitoring with CMS Open Payments."},
-  team: {title: "Our Team | The Compliance and Security Leaders Behind IntegrityShield", desc: "Meet the SureShield leadership team behind IntegrityShield, with decades of experience in healthcare compliance, information security, risk software and finance."},
+  team: {title: "Our Team | The Compliance and Security Leaders Behind IntegrityShield", desc: "Meet the SureShield leadership team behind IntegrityShield, with 20+ years of experience in healthcare compliance, information security, risk software and finance."},
   blog: {title: "IntegrityShield Blog | Sanctions Screening, Exclusion Monitoring & Conflict of Interest Compliance", desc: "Guides for compliance officers on OIG exclusion screening, OFAC and SAM checks, state Medicaid exclusion lists, CMS Open Payments and conflict of interest monitoring."},
   contact: {title: "Contact IntegrityShield | Book a Demo or Join a Compliance Webinar", desc: "Talk to the IntegrityShield team about sanctions and exclusion screening or conflict of interest monitoring. Book a demo, register for a live webinar or call 1-800-604-1354."},
   checkout: {title: 'Checkout | IntegrityShield', desc: 'Complete your IntegrityShield subscription: organization details, agreement and payment.'},
+  faq: {title: 'FAQs | IntegrityShield Sanctions, Conflict of Interest & Licensure Screening', desc: 'Answers to common questions about IntegrityShield-SES, IntegrityShield-COI and IntegrityShield-LCM: screening, data sources, pricing, setup and support.'},
+  privacy: {title: 'Privacy Policy | IntegrityShield', desc: 'How SureShield, Inc. handles personal information collected through the IntegrityShield website.'},
+  terms: {title: 'Terms & Conditions | IntegrityShield', desc: 'Terms and conditions for using the IntegrityShield website and services from SureShield, Inc.'},
+  cookies: {title: 'Cookie Policy | IntegrityShield', desc: 'The cookies the IntegrityShield website uses, why, and how to change your choices.'},
+  accessibility: {title: 'Accessibility Statement | IntegrityShield', desc: "IntegrityShield's commitment to an accessible website, our conformance target and how to report a problem."},
+  security: {title: 'Security & Trust | IntegrityShield', desc: 'How IntegrityShield protects your data: data handling, encryption, hosting, access controls and compliance.'},
   pricing: {title: 'Pricing | IntegrityShield', desc: 'Compare Free, Essential, Essential Plus, Essential PRO and Enterprise plans for IntegrityShield-SES, -COI and -Licensure. Save 20% with annual billing.'}
 };
 const SOLS = ['ses', 'coi', 'licensure'];
@@ -45,7 +51,7 @@ const SVG = {
   ok: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="m5 12.5 4.5 4.5L19 7.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
 };
 
-const HOME_FAQ = [["What is IntegrityShield?","All-in-one software that continuously screens the records you are required to monitor, such as employees, healthcare practitioners, vendors, board members and investors, for sanctions, exclusions, conflicts of interest and licensure issues, against official sources such as OFAC, OIG, SAM and CMS Open Payments, and keeps the audit trail for you."],["Which solutions are available?","IntegrityShield-SES for healthcare sanctions and exclusions screening, IntegrityShield-COI for conflict of interest screening of your providers against your vendors, and IntegrityShield-Licensure for live licensure and credential checks."],["Which lists do you screen against?","The same lists regulators and payors use: federal lists such as OIG LEIE, SAM.gov and OFAC SDN, state Medicaid exclusion lists, international sanctions lists, and data sources such as CMS Open Payments."],["How often does screening run?","Every night, and again whenever a source list changes or you add or update a monitoring record."],["How does IntegrityShield keep false positives down?","Identity matching algorithms compare names with other identifiers, such as date of birth, address and NPI, and clear 90% of false positives so your team reviews only the identity matches that need attention."],["What happens when there is a match?","You get an instant alert, and the exception is routed to the right person through configurable workflows for each type of integrity check. Every decision is logged for your audit trail."],["Who in our organization uses it?","Compliance, HR and onboarding, professional staff credentialing, supply chain and procurement, contract management and finance, revenue cycle, and risk and legal teams, all from one platform."],["How long does setup take?","Less than an hour from subscription activation."],["Can we stop outsourcing screening?","Yes. Teams bring screening in-house at a lower cost than outsourcing, with a full audit trail."],["How does pricing work?","Each solution has Free, Essential, Essential Plus, Essential PRO and Enterprise plans. Pay monthly or save 20% with annual billing, and save another 25% when you subscribe to two or more solutions."]];
+const HOME_FAQ = [["What is IntegrityShield?","All-in-one software that continuously screens the records you are required to monitor, such as employees, healthcare practitioners, vendors, board members and investors, for sanctions, exclusions, conflicts of interest and licensure issues, against official sources such as OFAC, OIG, SAM and CMS Open Payments, and keeps the audit trail for you."],["Which solutions are available?","IntegrityShield-SES for healthcare sanctions and exclusions screening, IntegrityShield-COI for conflict of interest screening of your providers against your vendors, and IntegrityShield-Licensure for live licensure and credential checks."],["Which lists do you screen against?","The same lists regulators and payors use: federal lists such as OIG LEIE, SAM.gov and OFAC SDN, state Medicaid exclusion lists, international sanctions lists, and data sources such as CMS Open Payments."],["How often does screening run?","Every night, and again whenever a source list changes or you add or update a monitoring record."],["How does IntegrityShield keep false positives down?","Identity matching algorithms compare names with other identifiers, such as date of birth, address and NPI, and clear 90% of false positives so your team reviews only the identity matches that need attention."],["What happens when there is a match?","You get an instant alert, and the exception is routed to the right person through configurable workflows for each type of integrity check. Every decision is logged for your audit trail."],["Who in our organization uses it?","Compliance, HR and onboarding, professional staff credentialing, supply chain and procurement, contract management and finance, revenue cycle, and risk and legal teams, all from one platform."],["How long does setup take?","Under an hour from activation, not counting integrations."],["Can we stop outsourcing screening?","Yes. Teams bring screening in-house at a lower cost than outsourcing, with a full audit trail."],["How does pricing work?","Each solution has Free, Essential, Essential Plus, Essential PRO and Enterprise plans. Pay monthly or save 20% with annual billing, and save another 25% when you subscribe to two or more solutions."]];
 const PRICING_FAQ = [
   ['Can I change plans later?', 'Placeholder answer. Plan change terms coming soon.'],
   ['How much does annual billing save?', '20% compared with paying monthly.'],
@@ -68,7 +74,7 @@ const M = {
     features: ["OFAC SDN, OIG LEIE, SAM.gov and state Medicaid exclusion lists from official government sources", "Employees, contractors, vendors and healthcare providers screened in one place", "Nightly rescreening, plus a rescreen whenever a list updates", "Match scoring that clears 80% of false positives", "Audit trail and reports for every screening and management decision", "APIs for HR, credentialing, vendor and billing systems"],
     assess: 'ses',
     faqTitle: "Sanctions &amp; exclusion screening FAQs.",
-    faq: [["What is sanctions and exclusion screening software?", "Software that checks employees, vendors and healthcare providers against government sanctions and exclusion lists, such as OFAC, OIG LEIE and SAM.gov, and flags matches for review. IntegrityShield-SES does this every night, in-house."], ["Is IntegrityShield-SES an all-in-one tool for employees, vendors and healthcare providers?", "Yes. One platform screens your workforce, contractors, vendors and healthcare providers against federal and state lists, including OFAC SDN, OIG LEIE and SAM.gov exclusions."], ["Which official exclusion lists does it check?", "OIG LEIE, SAM.gov exclusions, OFAC SDN, and state Medicaid exclusion and termination lists from official government sources, refreshed every night."], ["What should sanctions screening software include in 2026?", "Coverage of OFAC, OIG, SAM and every state list you are subject to; nightly rescreening; match scoring that clears false positives; an audit trail; and integrations with HR, credentialing and vendor systems. IntegrityShield-SES includes each of these."], ["How quickly can we start?", "Most teams screen their first watchlist within an hour."], ["Can we stop outsourcing?", "Yes. Run screening in-house for up to 90% less, with an audit trail reviewers can follow."], ["Does it connect to our systems?", "Yes. APIs connect to HR, credentialing, contract management and billing systems."], ["How does IntegrityShield-SES reduce false positives?", "Identity matching compares names with other identifiers such as date of birth, address and NPI, and clears 80% of false positives, so your team only reviews identity matches that need attention."], ["What happens when a true match is found?", "You get an instant alert, and the match is routed through a configurable workflow to the right reviewer. Every step and decision is logged for your audit trail."], ["Who should be screened?", "Employees, contractors, healthcare providers, vendors, board members and anyone else your compliance program requires you to monitor."], ["How often should we screen against the OIG exclusion list?", "OIG expects regular checks, and many organizations screen monthly. IntegrityShield-SES screens every night and again whenever a list updates, so nothing waits for the next monthly run."], ["Is there a free option?", "Yes. You can run a free integrity violation screening check on this page, and the Free plan covers fewer than 25 active monitoring records."]]
+    faq: [["What is sanctions and exclusion screening software?", "Software that checks employees, vendors and healthcare providers against government sanctions and exclusion lists, such as OFAC, OIG LEIE and SAM.gov, and flags matches for review. IntegrityShield-SES does this every night, in-house."], ["Is IntegrityShield-SES an all-in-one tool for employees, vendors and healthcare providers?", "Yes. One platform screens your workforce, contractors, vendors and healthcare providers against federal and state lists, including OFAC SDN, OIG LEIE and SAM.gov exclusions."], ["Which official exclusion lists does it check?", "OIG LEIE, SAM.gov exclusions, OFAC SDN, and state Medicaid exclusion and termination lists from official government sources, refreshed every night."], ["What should sanctions screening software include in 2026?", "Coverage of OFAC, OIG, SAM and every state list you are subject to; nightly rescreening; match scoring that clears false positives; an audit trail; and integrations with HR, credentialing and vendor systems. IntegrityShield-SES includes each of these."], ["How quickly can we start?", "Most teams are live in under an hour from activation, not counting integrations."], ["Can we stop outsourcing?", "Yes. Run screening in-house for up to 90% less, with an audit trail reviewers can follow."], ["Does it connect to our systems?", "Yes. APIs connect to HR, credentialing, contract management and billing systems."], ["How does IntegrityShield-SES reduce false positives?", "Identity matching compares names with other identifiers such as date of birth, address and NPI, and clears 80% of false positives, so your team only reviews identity matches that need attention."], ["What happens when a true match is found?", "You get an instant alert, and the match is routed through a configurable workflow to the right reviewer. Every step and decision is logged for your audit trail."], ["Who should be screened?", "Employees, contractors, healthcare providers, vendors, board members and anyone else your compliance program requires you to monitor."], ["How often should we screen against the OIG exclusion list?", "OIG expects regular checks, and many organizations screen monthly. IntegrityShield-SES screens every night and again whenever a list updates, so nothing waits for the next monthly run."], ["Is there a free option?", "Yes. You can run a free integrity violation screening check on this page, and the Free plan covers up to 25 active monitoring records."]]
   },
   coi: {
     name: 'IntegrityShield-COI', short: 'COI', title: 'Conflict of Interest Screening Solution', crumb: "Conflict of Interest Monitoring Software", vis: 'graph', visTitle: 'COI screening · CMS Open Payments',
@@ -90,6 +96,7 @@ const M = {
     oneliner: 'Live licensure and credential checks with automated primary source verification, plus alerts before anything lapses.',
     h1: 'Every license &amp; credential verified. <span class="mark">Every renewal &amp; disciplinary action tracked.</span>',
     lede: 'Licensure and credentialing monitoring is an integral component of medical staff operations.',
+    statsTodo: true, featTitle: 'What IntegrityShield-LCM includes', features: ['<span class=\"rv\">[Content needed: Licensure &amp; Credential Monitoring feature list]</span>'],
     hTitle: 'End-to-end licensure and credential monitoring.', assess: 'licensure', scanCta: true, bookH: 'See licensure and credential monitoring in action. <span class="mark">Schedule a 30-minute demo today.</span>',
     steps: [['Digitally onboard staff','Bring practitioners and staff into the platform digitally, with the licenses and credentials they hold.'],['Establish your credentialed providers','Build a verified roster of credentialed providers for your medical staff.'],['Instant, continuous licensure verification and validation checks','Licenses and credentials are verified at the source and checked for status changes and disciplinary actions.'],['Instant alerts and notifications to mitigate risk and enforce patient safety','Know the moment a license lapses, changes status or carries a disciplinary action.'],['Configurable workflows to act on issues identified','Route every issue to the right person and track it to resolution, with a full audit trail.']],
     faq: [
@@ -108,7 +115,7 @@ const TIERS = [
   {k: 'free', n: 'Free', m: 0, free: true, cap: 'Up to 25', rec: 'Up to 25 active monitoring records', blurb: 'Try continuous monitoring at no cost.'},
   {k: 'basic', n: 'Essential', m: 199, cap: 'Up to 100', rec: 'Up to 100 active monitoring records', blurb: 'For small teams getting started.'},
   {k: 'plus', n: 'Essential Plus', m: 449, pop: true, cap: 'Up to 250', rec: 'Up to 250 active monitoring records', blurb: 'For growing compliance programs.'},
-  {k: 'max', n: 'Essential PRO', m: 799, eff: true, cap: 'Up to 750', rec: 'Up to 750 active monitoring records', blurb: 'All integrations, lowest cost per record.'},
+  {k: 'max', n: 'Essential PRO', m: 799, eff: true, cap: 'Up to 750', rec: 'Up to 750 active monitoring records', blurb: 'Lowest cost per record, with third-party and one-way integrations.'},
   {k: 'ent', n: 'Enterprise', cap: 'Unlimited', rec: 'Unlimited records', blurb: 'For complex or high-volume needs.'}
 ];
 const PLANS = {
@@ -141,7 +148,7 @@ const VIS = {
   lic() {
     const rows = [['A. Collins','RN','GA','Mar 31, 2027','Active'],['P. Natarajan','MD','TX','Oct 29, 2026','Expiring'],['O. Reyes','PT','FL','Aug 15, 2027','Active'],['L. Whitman','APRN','NC','Sep 30, 2026','Expired'],['I. Calloway','DEA','GA','Jan 12, 2028','Active']];
     const chip = {Active: 'res', Expiring: 'acc', Expired: 'match'};
-    return `<div class="vis" data-anim="assets"><div class="vhead"><span>License monitor</span><span class="chip acc">Placeholder data</span></div><div class="atbl"><table><thead><tr><th>Name</th><th>License</th><th class="hide-s">State</th><th class="hide-s">Expires</th><th>Status</th></tr></thead><tbody>${rows.map(r=>`<tr class="${r[4]==='Expired'?'bad':''}"><td>${r[0]}</td><td class="m">${r[1]}</td><td class="m hide-s">${r[2]}</td><td class="m hide-s">${r[3]}</td><td><span class="chip ${chip[r[4]]}">${r[4]}</span></td></tr>`).join('')}</tbody></table></div><span class="note">Placeholder. Licensure details coming soon.</span></div>`;
+    return `<div class="vis" data-anim="assets"><div class="vhead"><span>License monitor</span><span class="chip acc">Placeholder data</span></div><div class="atbl"><table><thead><tr><th>Name</th><th>License</th><th class="hide-s">State</th><th class="hide-s">Expires</th><th>Status</th></tr></thead><tbody>${rows.map(r=>`<tr class="${r[4]==='Expired'?'bad':''}"><td>${r[0]}</td><td class="m">${r[1]}</td><td class="m hide-s">${r[2]}</td><td class="m hide-s">${r[3]}</td><td><span class="chip ${chip[r[4]]}">${r[4]}</span></td></tr>`).join('')}</tbody></table></div></div>`;
   }
 };
 const MV = {
@@ -167,6 +174,9 @@ const MV = {
 };
 
 /* ---------- render ---------- */
+function todoStatsHTML() {
+  return `<div class="band" style="margin-top:clamp(56px,7vw,88px)"><div class="wrap stats" data-reveal>${[1, 2, 3, 4].map(i => `<div class="stat"><b>—</b><span><span class="rv">[Content needed: Licensure stat ${i}]</span></span></div>`).join('')}</div></div>`;
+}
 function statsHTML(stats) {
   return `<div class="band" style="margin-top:clamp(56px,7vw,88px)"><div class="wrap stats" data-reveal>${stats.map(([n,suf,l],i) => {
     const num = parseFloat(n.replace(/,/g,'')), dec = n.includes('.') ? 1 : 0, sep = n.includes(',') ? 1 : 0;
@@ -260,6 +270,18 @@ function assessHTML(k) {
       <div class="ck-out" aria-live="polite"><div class="ck-head"><b>Dr. J. Example</b><span class="chip match">3 payments found</span></div><div class="ck-res"><span><strong>$48,200</strong> in reported payments. Largest payer: <strong>Acme Ortho</strong>.</span><span class="note">Example result. Try a name.</span>${reportCTA('coi')}</div></div>
     </div>`;
 }
+function limitsHTML(k) {
+  const L = k === 'ses' ? {
+    cov: ['Federal exclusion and sanctions lists such as OIG LEIE, SAM.gov and OFAC SDN', 'State Medicaid exclusion lists', 'Data sources such as the NPPES NPI Registry, used to confirm identities'],
+    lim: ['A name match is a possible match, not a confirmed identity: matches need review before you act.', 'Results are only as current and complete as the lists their publishers release.', 'Lists that are not in the source list on this page are not screened.']
+  } : {
+    cov: ['CMS Open Payments: payments and transfers of value reported by drug and medical device manufacturers and group purchasing organizations to covered recipients'],
+    lim: ['Open Payments covers only reporting manufacturers and group purchasing organizations, not every vendor you work with.', 'CMS publishes each program year’s data the following year, so recent payments appear later.', 'Matches between your vendors and practitioners need review before you act.']
+  };
+  return `<section class="sec limits" data-reveal><div class="wrap"><span class="bar">Data sources and limitations</span><h2>What’s covered, and what isn’t.</h2>
+    <div class="lim-grid"><div><h3>Covered</h3><ul class="checks">${L.cov.map(x => `<li>${x}</li>`).join('')}</ul></div><div><h3>Limitations</h3><ul class="checks">${L.lim.map(x => `<li>${x}</li>`).join('')}</ul></div></div>
+    <p>${RV('Needs review: coverage, refresh timing and limitations')}</p></div></section>`;
+}
 function bookHTML(k) {
   const d = M[k];
   return `<section class="sec book" data-book><div class="wrap">
@@ -289,7 +311,8 @@ function bookHTML(k) {
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <label for="${k}-bk-note">What would you like to see? (optional)<textarea id="${k}-bk-note" name="note" rows="3"></textarea></label>
           <p class="err" hidden></p>
-          ${nlBox()}
+          <div class="cal-qs" data-cal-qs></div>
+          ${nlBox()}${consentBox()}
           <button class="btn primary" type="submit">Schedule demo</button>
           <p class="note" data-demo-note>Demo form. Nothing is sent.</p>
         </form>
@@ -326,11 +349,12 @@ function renderModule(k) {
     </div>
     <div class="mvis" data-s3="${({ses: 'sieve', coi: 'web', licensure: 'vgrid'})[k]}" role="img" aria-label="${({ses: 'Index cards fall through printed exclusion lists; clean ones land in Clear, one stops on OIG LEIE as a match', coi: 'Vendors and practitioners joined by payment lines; one $48,200 payment rises as an undisclosed relationship', licensure: 'A verification grid for one practitioner: five record types (state license, DEA, controlled substance, board certification, NPI) pass three checks: found at source, status validated and disciplinary check. One record is due for renewal and one has a disciplinary action'})[k]}"></div>
   </section>
-  ${d.stats ? statsHTML(d.stats) : ''}
+  ${d.stats ? statsHTML(d.stats) : d.statsTodo ? todoStatsHTML() : ''}
   <section class="sec"><div class="wrap hiw${d.assess ? '' : ' solo'}">
     <div class="hiw-copy" data-reveal><span class="bar">How it works</span><h2>${d.hTitle}</h2>${flowHTML(d.steps)}${d.features ? `<h3 class="feat-h">${d.featTitle}</h3><ul class="checks feat">${d.features.map(f => `<li>${f}</li>`).join('')}</ul>` : ''}</div>
     ${d.assess ? assessHTML(d.assess) : ''}
   </div></section>
+  ${k !== 'licensure' ? limitsHTML(k) : ''}
   ${bookHTML(k)}
   ${pricingSecHTML(k)}
   <section class="sec" style="padding-top:0" data-faqsec>${faqHTML(d.faq, d.faqTitle || `${d.short} questions.`)}</section>`;
@@ -360,19 +384,19 @@ $('#page-pricing').innerHTML = renderPricingPage();
 /* team photos from sure-shield.com/our-team */
 const TEAM_IMG = {"sanjaya": "data:image/webp;base64,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", "chandy": "data:image/webp;base64,UklGRm4bAABXRUJQVlA4WAoAAAAgAAAA5wAARQEASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDgggBkAAJCBAJ0BKugARgE+nUaeS6WjorGmF1rSMBOJZW4ONFmaoGGjCOQRYc2u3ezT0+4Srp2X8YlwOpGGb2Wu3OZ29jxZ8276aY+aA/lK98j9131XogFsdXGviGQMptWuNogNaYvVuErshHHTzwEPVdwGOlDRYfCZi/dSE6p/BmzQu9w9GkzOpNhsFBTg1Vf25Bu2I0f0VpiRKgEv467yYrJBildQXWi75Qo7abF2T/jnRIWf/ExTSug6i2gJcP6MtEVfHUO62pETIeHYGP/kB46K5Nn7nzl5kkAAIZsLb4Uzw+QUpzv5h3VyiCuvaa5ktB0+RxWRRvWQNTEUNFPDV2JblseazUYD2ftiEiT/bCsHQv+S0/pl3/viI5Jbl7fqtTub+oCv4S6DQqcDfnak5uR7QZsnefvvvTS4cTcovVYs+eDb0PdTu/CpdnxyNI2dus1cdKskfHlteEX8FsYY/PsYvVOy+VfrIyDpq1B7mqHHwzXN6gmpYwqusd2aScD824t0Oy6jR9GnR5cTlkAnoVG6onWmcapIXScn4rfGpYtLTJT7+wrzqFS2oXi+y+7nGGBY+cD6cKaX/S1aEX0fjMjbQIfl2cBScm4NTd6c8V7KBMbCnaQTJ1IiiuI9AGNn3o9B5rddm1yvlwtdr9vn2zr5m7Y4Q013VN3UQUodYb6sUdEFb83oXmjCAOG+pffidWR+OpPil1YruP8TPzhwfZzlJXYxfpCTaUQVDCQInFQP2PeZJWLh+QuDkouxUqZHQfgKVz3+Z2nSKU57t5IDFNAcEwMeE3RYSrSkxubXDPD7JQxU6S2Yrz8uzCbMq5AKcuPKyzs+SHCzVe2/nXZm46uNxRxr/87pm659XaJAWqykPoaZxt3LedF2HIf4ArzzQXjKaxlL16yFoUEyM5P9wr1CSX04m2UeDvi1TdQKiEr9SEK3YFoDrJ5kp84X5An0ALv0ER2JbXLbnzLnYAmQMLkeekmnl7fK99ZYDhNghymJLckjTr9BpD3YXMMNluECwElnV2yze/aAEj4qBsJSOSLqeszzZIUBu4LPhbfQ7jLQ96YurrjQXZNbfP+cD3j/jzv9Pz5KNFWCZsktl1KlvghVmepD+/JOwiXbes5ycGeVpwVINNT0DblC5qG3evq2kSI+PQsYrNAv0w50uzk14xzAE3xuD1zUFJ3POgy+ka1MZ7ZAWx9gOTW3yakHy/C6SQ3cW6g5yqMOHbpCcosac5trYm6cfVsduLZRtjRYeu0ZTC1Sx7gUPaCDliZT/59jiuJZFUKsJln16nhjTurQX/awYuRDImE3BdcQs71mbEWJHkKV5jQWEhWuXV5Kgry4cmnH6I+APFLKHV/UuZ+wMM6FvUA72+4r1LhEHnS4DYNcj+kH5gmnZkAA/viHYWE54fWoCk7kR3sBppAkCcBXp2cJurqnr/0hwP4z7OEhkvrPdxNauT35AfvTrP4KS1AMYsONQ9b+OeR+S0wy+iXJ7dlUy+RD4qwpLxIJ6KiyClu8i1X+vd/eLkvlpMVDH8nS/xpWEWGD7M8EhkbrKhrt+TbLEOPC1PrEkglVwoYo2huQkfEziQD4Wr0vzYGq3eZXEc8YOxLHhwE57bGzH+EUKJ66KWZhUKwPa8NyWEQLr6gIhOO8QXLsXN6+rMDEHPxksvRSRAdpb+JS50f0P1VMZlj3iIKeBodAX8xHw3Lw95usswZow8dFGR0vmgVe52yRcFOeNRkUI1sktTHIGu/CvAhTEpu0mlLp8CkZWMYeO1wDOWcQYQujwhFxXvRbbh4m6Ec95iUKeI6rWS9kKHn/lAeiRhjI+eCrk5nvotjtLavTQ6N/XiMICrGCokxz//xCkNE5UNfEZAH3ekPEdcsHO+Gmp1JvnBiaQZD7wh6Ln2fWCDwvrfuGrM2sP4asgn6F6Kgu9DN85KvemCDDVVY8C2bnoqAkQUS/guIWf6GUHIodUw7pkBtG95vcEeokeQSlCQzZCSWE1JvLhgTclBKkJvXk1/JJwlu1hxCPibNifaaZMYwn04bYElbJ81SEf0G1A5P1mKJNxuQYD/RzDEnbkHIEWRMXunXtjMpmdQMdYkHObUENJcqI0dDuqLmOf9SVpfAJFBHPDszwRe2jM4OiFA9Y+Z5mUWD5k5tH+DHI7F0nNrOSErMnjoJ4jPgfr+5QBN0FQcim0/NwOHQ6UedKI1wi3tGGvQYcwedrIN+EpbecG8EaUPb46t9RuV85UNRCdFCPF9MmrC7NRRZUPeHQY2uuTQ4PQgLYH4rJ53yzFq70Xr166qA8KBsQcRwX86Nn60lCvhR6C7s2dSFIQqbtcK6mtFNYIlaECZHluzOnyAPlNVCEIKP/fjzwBHdvq0mdEkwe2XD6CNJ50nnBuJ1jss1k5dq13DhpgaZvKpJiYv5crUv8qp4wOKYxEH09+cfLXOUCzUMCfRyJfbYc0YrixCO0rCtUqVGB5IehLj7P3x2I8QwdUYUIrWhVdlo3Ch5oW/bAvMsbNSYIUTgdj9fdVYjek/fN6SPFV0+PSktQAOFWmdP33YVyVgLmNog7cfeyIhlkaXVS9JCxhErkc4ABnbq0te/VzZTWHwjtbM+JeFTlHjHmjmURnk72aEMxfkLzje9Qp1krxuy7/WD5h1qp8e6hno2A23VOpUQ2Hrdxup9qZtVGjwRtmV2h+ZnJK3DaHOWQGKJQ5MJsdY3m9HuoKVaDpVyYLObWYEiuUyXIrzOTeXsECsf5+n0KrnE5F46wt4BHOfZoeRpGEcqMKBz+J//vvVdhLu1I4mQ1qfHWtArFVLCl9wC4hJUFvYXNizHFFhcbfbYWdFZDfVRTEfsztF4fqwzAYh0pbE/5tce2RyNc04YnLsdiYQAZEXneZ0TK97ngfzpZGKXaQxhfmzEX7Wty7EHqptcOO0fkML/+FvVt3iVznAvhMiWtWf594+aMK16Os2b8rvbci0DEW09u3DZPwpjgH+WyXyuAs9aOvAUz24TCd5bEBEjnGhBV+bMIvjduc0HLhO9OZjI9h0YhJU1k8lrHwh2DudZH3zne0iyUYoMKw5JGsXvJwgCbkOJRfGGp5AqwxQVCCYa8jqTpRV3btfXoVwvNXIiLyZkRMNLNnk5kwAFbe1zguUr4ic3Rir7lfBzqGxjKkVuLY0o2eacNmvNn3wNPQgu3FJUXmCpZQGaVHhhGDktGSawsZOfDS66nBaQTRCy8vny+5A1wuzktHzh3yS04jliX64vKqkloNYEAOV+TBWYAcjFQjUTmfCDiJzJkOLhUJWFVFnl/MiSqvQIybWYoOgb+C870QCPP4dCBPsIZ0Trva/AOletqqqYGucJIADkE0CB8QvHVi8GBoY9hHqFFcb7dy+i8UC/NK9/xssuUjvgWaKmIfc6mbbVNmsE3tiK8LM48OGkEgWd+iY6oA1t2khAZMgVEMv4C71pP0nxfyFnWZheuIQ9JLTHELOjRI3gZpL2vPi7NWJROTCU2T3kVsSzwV7RrGOOg8JuSoXA/uWics6K9lA3XuGvVrefIXbuGwoBRlHAApclEdTpHkW3ak1EKbbPFgC9qjok3YiH+6gOmJDMMv7WbDz2pIp+TyvNYCcR6+2t0lW9M4PJOpEfpu9+tWuCH+QDvEHJITY2CJWLbOYdWU63EQxaLy1/OCMdRP2uSUMTYlfpasxcuMwDJ88uwxTfPEwl9axCmNSbr4ZII3gTKAoxjuo3fQNks+X/qxTb7KU2p9yhGvgMAWrIn9h0KU79Bp2ukuj11MVVuAZJVhbS4zjHX7FbabX4PXiqwlpX1LU1WGLpkvURJpWxUFg0e0CVMJR2U1Ezq89LOjSkao05+skXEcyt+2u1Ly/2peLRN+/Wm4rdrHYDhdFAw3j3JaoxJ6yUkoYqHPnBpykgryJfgaFOjv5Dp2IiFIhqtLOw9lFNaQKmHTpvv+pwaRp5tiRDvAU7O8ATjZkOcY6IG+PEI+U3cmjACogVIURfkBmW7rTkYnLU6wGZW7MnQSjVfgcVJrM8pRYiV+7uN2ABJfX/jJPZf4lJPlT9RRBP5iXMGbLXrAEY9ksGpve6y+hcA/uJGggPVlBm9TQAWLsEElayZ7EyHfM7I9sDbIHtYPBruZTE7Rg7Yy9XohBcXKn6Pwic5BAcYwb+EUYKIs5pcEKGxBbpvA/mUuNaQDtOIM8OJ333ITm7yWMRQuh533XhZpX51xRxlvkWVmugClzjzPKA0tefJXEbE1egaIAXpF+trETH8cvWqiHtraTlhzvG/lmpQicpm+3rcRaTXxwzkQaIShVtKFhOoZVs1sLT+EEpw+oKFBKT3Hw0EVRJDUo+vrfEDhLhPp+LD3FyGqI7fjjkSJuKYIikhaoIDg0zASfY6Cc8qLaczvXRUJRmRYslf3kYEX/EkzIhIaKAB2zcOebdVLsnpmPAZ6dgfTISoBdPzFfEYmiVP25fWP6dxHzXox9gQz8cfBGfasaPwxmNP06KCXYMjHmVMg3i2Rtjo3rHFSdj8UOClZfE+gWlV5rpuu6Xh8YRtT/VqdISskPT0LetCmGvDUrN4+m7rEQJH7+wyiS3wUmmYVqSJlI0MCTbAKcsWA2oDrm1sUgUCsj6tVonfZw9qQ7TGT2NV9v1eV2b3+P9OAqSkqVsh8DtokZUfbAECoS1+4VCQZFfhs11taQTftfZFoyschcjegii3kL3JrAkhNuPypFMrAfWycdi7y7iUkgIv/Fclbiuzoh3ekcr8TVhzdKWzUuBuamuK5KtpO6aAMQSDwwVce1X83/EyR45DoRfbtt44IpcclmmiGj/q2v+ifTnPkh622WuAYu4G/xWem5XxUUYZpQw8tvRhgE3Awuv8bNZCq1bRc2ra8cZpjqkLF9F2kQpqPfU+CWa4uhK9NDUhrCya6HVx2czJNUZ1vLwV715/+1qvkW0rmnVXNlDjGmgr42Pub/FpAwm/K8+jT2t6r3wDEQAzeiS3K1GCcDW1xKefZMprJFeKzSUtuOngdKGh9dgJBrI+ovi0vlwl8er0kCFKYG0egweQOJKX4+57FN/89HBhsClNNsYhBnObZOUznxv25bkwlfMnHqnRvxownePAfqWAYlhmOSTlq6eFUlLaXJEHJsTih8/IQFs/HgEkGwkHzGKGIZRfzxEI4VmQC8V9/2qQBOpKYU1G4JfHxsVtJ/Tc7XDrX9UyLxaHdeSFhqSYonmRdmUIaQGwI5cionvTWp8X2ab1uUN/NIQ4302OLl0D7TxzOCErxsqxSrOILJ9dkq6SEJqYatBtx/idRaOGT8iQyTXPgcZOQn4GJ1HBymHmIpv5O1T/7H396xd1mhDhNkD+J5FvRCwHCfaLBPM0OspqoqKdc2G2JXImWSg/aaiLEiIlShnmlLDvsbiipxfKzlL09yQ5ISmQLfbysBXZSEAt9uhh3HVtlIMES2SA47arI5qABHCoGEI8X9ssO6UBLnhbYA9KsUzDGBy+aMICPPBPe0LdmOUvkuHdVENDrDRa0vZbUDAXLwJcUHO1zF9YlPJ6vVhmz9lMAbnSimYchA75urW5uzKjU09vY/d0rqDWxXZuRUwaQdr3PvSrNF0JyIfAG1xD48N8laIYjqIq+5TEgcWoEkuVIxOFU/OQDZW8DG2czNR8fWTx1hetIi+tKW8G12jcM9LXl6oywOmwaZ7EYB6HZBFUnhXsAImZWWY9OjI/z8L1DaHrdue5gzRk7TLKstSTeQLNEkcp+Zvx/gpm8UFu+WgCQQNdzlELb4I/snhwtZuFPMZtuVef8B75bttyDITJqZdx/MuPLSWmAxf1Ang4MSSe/XsuETZLSMi4sBlRTeoh/daUUL3MQX2khd6GfGykB/442AnCbRxUuuLLALHs5ihF7jZ1nA3J2S6v3wLAgl20NHlGEGziBwOg/VPVFuYBDh1aKaloZcZ4LBaMf8HW4k36Hf18Q5xvnaFy78oOEu3VcU4SAeGVMbr4U5IKigA3VdOrnXQVgVw7imPz1Lx7guR0IBfXYgq1qOVPseNm7TrKw3oDiWRkGmmuypmOpCyaMAZiOEnkQhf5P+/NkDI03susaVArztB06f3NtQENaJTY94TUVPcaiyGimAISwYj/asAUpEepPVYFlEOah4+K/jWSf836+yGH/e5TQJ/Xt9bCeaFuVfQ7oorntPyzJWc9I+yox6d57PdhiQ3G5rAJTgcgIkZ8b6WFS23yguC2WiEd0Al7T3bZZI0w7Anpbqn+4IZD88Rs3pKlviV51dIXOI+1Ho6fxgThs3GjWwgekmUDfPaUwlqB3RSPzBCrlNZkAD/qyo+8Q4C1tlTnqJ2PeX03RcGMQ2GGOSXE8vHxLTtO2BoVANz5U7EWH/mxjYy9+rHkWs9awKDiqxsz78HLDWfl3/6IM/ZFi9WV3Fc4YUs5OSCE++TVrXruVajRaf+uq8rd0vdkwfaKcSHDcu/cnfax6MX6LuztR2kG8Sg58+wYgEy9w77eOepZZHuVCVPBk+dl2j3Ac/+L+9guqrCWQPuBl2zkhNGOKyA5cIexO7bwrAFOtVAy32OVgvc4nQcEdBQWz1OsBls77njlnZfLhJTGRFacrv2Al9cygDUfZwF38xX/q7RwMDZbg68CuRc/rtugbzkRDDflUGGH52MGRC6RmTqxy32LGGXGnlZK8HGtDz4n4W/STRmwqI+SBbxr/qR40J0ATZBYhY6CySrJXp8S3dg0z2J0NsMJwcsXTknlessyN2qfwQUMD0YE5QPEeQA+zTSWNUeQUxT/4Ba0Tc1e1Z7b4OGvgEUskuKC7LZV96ttEgQN9s1FSFWER3F5LYRqk5ka5nFsGlwY5VIS8DSLow0smrcsoNSleVEfJyyB7xiyziC5AGvt7AZGwZixbQx8uSw9GBKYkZD9lTqnZEMA5IFTVFJYtp+2YRB8WezMFGwVqhknTN4ZKAtVCjba/k8qKz2k+aDd4NOK3sbelOuFRTYE5YB1l00oyfNobEEGUjAaHOS8m9EhCegShrw6M3DBlPOQGlRXLi55UliNATzYUIwd1TCcYvVw8SndAAm/mICRAdTfvjltldIb7r6bavkI2KbtZFh4DCSgY0+CNchVZgQ8W6HR+K8Z8Hx+mJ/NeFxtUb7fJmkgR6uDjh/cxc7rth/WsWcvzemr+IDYAuRepzCqwgFI5AHY8IfXksLgHzJfHoKQVoagVDXKeo7CRpm98XdtCFcVgHLz1ZH1bI3yj+PRpxC1JLzlSEzwhZKdRa4kWB7KWQTLPf5BnyaFS4+AeAG87E2iwD9cxkPdNruH0ZifCRY80bm2GgoG7r+ghN8ja9z5h6w2wiYhsUGQ5FoCY1IZJ99FhBXY2a/OWYtM3LR+KVlTfBrUmvF74jtnr0Jb2qqUAbtaTC0fkOiDuENDSBAi3PFTb0rrMxeOiWMS+U3YV2S9CBjgXrHT197EctXJcEK7AYYUsCVHw+LsKf40G2Hp9BV7jeSxMxp37c4oyyS8cxUThuGxz0i8qdX+A5ieYH+Q+m+Bgykhk04ymc2aMYmkp5WviAr9qRnpke/VHaeJ/kLUmdgAzEXe5C7ruLiASErOKJnSc0sKbMKpRiavf5r63Qy/VtA5mQAVNda/2uZEOvCP7XSq+R4NrmQIf2X9NLGcPIaZnY8MxwM7RLhWrF6dOGFqeXEEYlp6i1uJ1wzFE/l42wdbv93NNtXfWf/8WDfnOQhe83DMhM9QKplN2WHInU6sG91m7alzuGFzQ9CAUGxfa1A0NElzS/RM7UFrNJDvrEmxQU0ZEFNb9QnKlXPPRcDFV3jEBpnsycAbt8w3SwHU1IqrrRlozX/4H/YG/M+lXbXVD2xViTlioUfwIAWsL6NNsRqS+4nhabu9tkptxYwMiAiU9iShzOSMZIADE0NyRfJFQC6QPeTyXU/0W92bIvCTe9Jnf24rqZkR5wRVgWF2O81Xwr+BJWISHtQzSB6Bo2rvHZqi6IPRSD91Sy2zSPW5bGK48eE4VcveTUlZ0lGuJh4Imkqydp169NiRVX4aqvno72DOINU8dxBeJP1GWqZBdvoO+wjP+StnnR5G7LHPw2FMuW3yaYkEsrZfIib48Ci3N97/H7PRfCgNa0qk69RGZ9cVgeSAHLD7EZg8cEsAyuXJIdKcgLC0Wr4iYoclx5ccaHpJou0fmMbL1W34GK9/SM+3/AIcuatSXU4w3ej8X0KKH3olqWwYtkTIG7uZg4HKnCZI+jFmyJ+SGi6M28U9YUjDmWG7NamA24XNrBKcWF3t8bmRVa83QHYcChIYTWhe/flv+NuQjt6BqhwjpL+vNNhfORJTYuWzoBihAnMyXOM8eUMPjIH14s+1/g4wHS0RdidF88SvYx2oQTtRkKDZk6iMTYJVPKTk3BHkOrCOGnluSiFYJVH9C85WbJo6hnMYMYPMOiMSxfy7TXTz4RXmPXCCHPThjHQXqlIV+jj892n4vtXl4e/tFNiXWElYm8LTUDpIB2cKWhw6A0TYllElw82DPOmcjOedj/XubMh9l4/GrX3gO2RPMSBFT5l4X+m+6SjMkj9IvpmQNZJLZJi+bzVeTqowFZFl05owIS7NP+eQMW+cDrcJusNpsl0XF6zIf04THjrM8LxYqGOmvGGKXXP8ISYZyyCCqm899WLxZj9l6jso/ZwUOAzfHmahnTxheU/ngpRb+OsCj9N4NyFb+3Y2V2UvoxML0EpgUXlgp9TEp8WLYCqwjgEakAAAAA==", "tom": "data:image/webp;base64,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", "susan": "data:image/webp;base64,UklGRpAcAABXRUJQVlA4WAoAAAAgAAAA5wAARQEASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDggohoAAPB/AJ0BKugARgE+nUieSyWkIqonNsqBQBOJY269QXoubpoCgU74uV7/tuN40iQXPUZuLOdw86rfwN6cn5Xz3ZyxNbcnbT+0cZlFK8z4Ufz2u5nnu/x+777stkQjHjFVEcK0rRbWESEd4BKKvSN8HX5oDhdRGqppb9jtTZ3akoG+B639KX6qINUZyoQO1C423/DkESsSOsrjwR0xH2kp+6NHtw+EyhJUhTGFuoUrOaQv3ye3n6QvCNUwUQbNraMkHh0osOZsCKOAdhazhaHmi5a7ENYyYMqutCYr2rcb3Ev1vS61feslk0jWV3121kVLk35Rhf41GHu+9rZ4vCzQPu0kTeLWTCWDwH8EUpJQ0kIswv2A6Tw/qCsTqh0F18E8CffJYo+GRwjbxBRAXnv7ivHsXoJ7mTCTpqylPemNINfbulOuUiQDOYetY34phJlTgHmRBesh01QhNVquUSme9OtEuGTXeXln4RLDJFY2C2XdszHF4sIh3dlauR/iV1K+fRUsOeY9vbw5ybyegb76O75S9DRHEXe4UqyqE4L2E4S3usyHHLiP0YxUDr6ckgiWPBxPs5falHhCMxoVn7eIBdJRl2lQLnCLpVTak/nvDu1yCAt0MrT2NNRwBMomk6Nu5k1HIIkhax3Zo9oLFD14ooDiLINF/yvuM4bVAwpocawqT5MaSWNfgOT01fPtfoRqYW7P+rotWwp25XzQOp6h17n5o4I+JRIe4LiAT1+VkozGEsCt/HcAbdkk5ME9QEbYEJ94byftdL/RXuk3D8vdh0mvZkEErpNNPYiuojqx484govuXxWYHOUNv6mJ1eqBhM9rcJp1KsxRsVpI7IpQWSN1mGj/93HKkuM7ucIo0CkcK1S74fTmReDnMoZUZCUuvLSj9JV41gSvCkCzWL38kT0Shb7QtK0snmQ3xxtFbq/evjZyLxb82cU+N++gF13DcaXxRDVDBpJbvKiSD6Bm3K9z1FKzZv/IZJ9E35NReFNaZ+hB53R4TchaaL+PrTVmNiPFr1xSwbdW+QMvOcsOeCNSPUlRBHSxDVxQVJ0UX+LUr6iJ74DOCIA/YwOgw7AFClxwCJraYhmQEmQRfKOGGATkwsO8jvsnksXmxdx1JqH+t9DOZBxudnhSE3ReXvlfm6IprtL8lhecmkSFoJHx3/aTrcEkOEEhrIbMMkEJlxL96LffdXeruXpteJja5czk8gAzOC9RO76YbqCJPuA8EMnd4KY5zoOMuZtZ93jKUl6plx+I0ReCVp+MfDe2AuISm4UPwTStjWmad6YRfP3kKRV1rGqU025iH+85RxbY+hrsfcBKxvby0B7DtUmTnKSlcoEi1N4u92rjfHKCpVtgKieZa1jj4fOkVAAD+8+4B28EVElHnCiSjqm7GCrMlgIbFyni6sOc5HiITOXFm6xs8Tig9TK9HCJiwP8sDYGqlxky5Xoq4LAj2nQ2SNzDLnoNHjEh4z9/74nmnfkfA220zlHen7Zr8fwxr02iubJulEhsdxo/d7JT/tdMgZpgq0KdwP9eLEWo6GMYglHZD7dujwq5so0rmTlBYGpUydT0vAeAFiAcUhFzK6kdMQEb3p3zOnd6axIqFeR0wAETDhWm46wifH4Jzrkn0OTZWIPko5LDJ23geaHCfDGKlrx42y+hCISgcXVM4Wr6Ufug7yF/nAePIkGwt1Pju1krSQb1zDRwFQDdAuK/wWt+iBeioLpA1LHlZFDNsqDfHZr00qItFWXEUoQSo2p/PqMzD363Ikhez3VOd8ivmeT5LPky+fEym3/m/Sf6vdHoEUOUhNwbRMSthxuiH74yWsA+9OL+1qkJgjnTwCkBcGc42Og09rX8NbYykQRK7GuEW4U8iPskLJLmv3l4gPzcn59F1pbknQPTmnm2IK76Guo0B2KjkN5QJgYk3r2YUHV2ixMrHD4GBoqpEScb/8TfsuhALemEcgKCvFVsxaOwK/Ove3n8ANgl6tjMIuYT8IxZDmvcnR6zonIB5Mv0pw1rBXPUPmlcWgRd2vtMucpKvOFPmj1xqz1EIUdFI1MNeswltv3BRGCKRpUSNeB9EbCGR7X6WAX4Mmn+16HaCbuFmzkJl3TlWxYRZzEa4W2JgPpMW3rW3h8Sqol/HLpgf6oKVKASCdBCIl/ws7GWpY1icZxska22HkyIitVAeBvqLvMsGXgeUCgtOK2TIm8qb9r6BkvJkkdolXWMgO3+SKWv9RfAl4KbyeDEfasoVVCQdc2cvCcBGRQzRhH+Z+CoK71PakmynQKRmfkyA3Rmf8KdTfFO6X9adMMD/ucMCoUQr6r6AIXjtLczE6BJxF9LRfknXyc88kXOaM2zGTpk1W23hg3VcEkF090RmTgSFcDgNgUJSRt/bV+mJUA7buhqykvSwcxg6cz64JEK9Wu7yKyIbzzHVdxiHP1d9HoSTAXE05swYzMAyQICEox5G7g35OB75T3t1Nsv/oCyNlnDjKzMhh5FlNeMHDP0tRB6BO7zIs+tv2FcxC9I6FJ083BV6a7wLKzfTQkEFejAMpEgy+hXoqCdH+9dThi8bu67laSXdG3oCiJGukDqJhdyoUkx7KcxBE+kXUtK5fH4ry2r6MwaYWPH2u5eIjZGACq/OjAWwJS/6CsaIVApydDoEJucRj+g3EFiB3VxpuGMIQUzBnj5nm1om+0spUWNCoyJrFZhxoA+Nkrqqxa7GuUPokx6BTrMNFojqwLy3zMsUKioSxdNbJ0kgD3CckiRDqKzb7LH76BNNqJQnC83soQih2HdKCLoy9hu+aCp4pizbxNANrbjsDF6vRDf/zc/jcRokdOLIfda6NVXUPw7oo8KGNiyf3Fq+DB5Nzj3wcY0GKqw6D72D+BEVsYjAdg7yWzk8m97BcMXykAHQGuAt35HpxpS6WKPZzCBlRj6SEdR6SPOVL8zun3lpLIdf6PJQAaEykS6ZOw2j3DDCburI1YMNAED4S8QfI3g/PP0gGhQBl7vrW5oDVrrC/h+QE12MoJvqfFAD1Dz/1zw5Pql6E1yQBsHPyiuWIxwFwWRLX0me7qyR04K4aXztAfVVzxmu4dbRd3GtTlk1tiFJAk7zQYzUJpiG7PShl/YMvrPUjcPtGivrzWzlwzdyOmlkZgDa76r8vHR4z1MW+vADyJpYXxToeuLoslIfKbiW4OzDUZ1uAwiB0bmCjVbjVQrWFvXu/ecXPZXYMUtRb9gYQ6Z9IPavHiWanNbhCPFn0Fv4nBVUxZI5iyMxys3+Gm8JlMMlfJg1iwX3pizSu/u8UNg1mgy7+L+7r4MPvVLHR+JiiSejwrc1lTEpgSMfS1u1OQ2+oZzAtif28xx5dSp0Y0yU36J+uJgrpeNqmt4dizQaayHL2MbYEpcvfCaFm2YFY3b2/KPJSSWl+b4zGeM+X1zcCBwA4JCz+tu7JBvqk+nxzrSId72yK6AHofI1AYHDYkfmc4vIJChDfzZzF824D+x4O2ViB60gNcZEgqGzuAbwi5iVrvUCL9wQk5SL7CJhw8zyuonzDg/dyU96elVFe7Cqyx9ft+eFyrMtFKZaX+MafetuoD+zlk4DKUaojiBOlHdC2ifiATT6kl3YhRWqEi9+yRekjdV8G7eRdrnxxBXnPQ20NK1gHhfGy17+VIvkOj6fLdhnPT8LL+8M8WE30W0r3Znk5j6r2hMDvckBMcA0Ixm1s7a0h2AFs3UIL1neZGIOOFx56IpHIiMDYBN9ervPdKraM28IS0y96Rjhvp2/I7eFaftrWb9l3vtLC3DHWZY3xyP5r1I8869G/I0mhDDhco56UrKg9/gCQQSeVeEzbCJ/1y5uUWpVfBgXRA6ISYL0VIu/c7gazQoq0ohbrlcqueANwEw1yb8CBpJtKITAsw9uPb9Dq/FX+CZjyHArgfRY6zkfRyjjRIH91+/fygvgQK+yT3DNChtXCn6UmrRRLT6BfAGnDKgnlKwjDvEMDJVw+FeVxd6OyOoEHQZG+Nuof4cOmsljWbpZPFlPy0cVNrgjCFMbtJfiIPf280ndHqIThtMmFLmFXlRwtOQUjZgQMFrRCCCu79kadt3+2IEOUcmtUICS24k2tyK6LDpKoh7DMmUDjLDNnSx9ck/gPj/blMkGX5Cks5TGiQotwyqfbgxPHqT8Lf1EZbYEuh/At6aAoDmw/2Dn+KqSYGXC6G+dfzI4WBgHstV8VW/Rm98Wp+959pQBvOWKdOVc5ypzwKOHf5MGBzmPY1/z8DMUTxM/akuC6cuHSAfBvv/dwzpHyiA45jbY7PiGaFAxXG+y89AatlbH5UQk3mksRf6qzcOmKfOTRRCg5u7qduSv5XXfi0qvNlcoDeev0sa+Eyn4akkH7++puQ/gz4NtJD20rvLsiTrnPWCNqOkqLpxyDaMzSdDMxHVCjlxw3A+1RKueh4I46E9S/A3B0iFSJ78qkCM1JzIUSV8bpptl7Z579UZzaBVviuHKG/fpfB3V2dXv5MLmu2dVK6bUr7atqCFf5GlY6VlRTrHV3lixGh7xiS9jgprL3H6/na6GrvJYFH1hueDLBhIykF+vJWIkkFhVL35fHlPmF8yzymbCNA7Lz5f6OVXY7Y16fbEuPzmD5xxM5aPY46ACFq5MOXsXagrD9CdTOBM3pq9PzQDwTfSqQTxWqnKd/9LgQKajGUlM6sUfDJ29lhBmQSl/QA6VYIyDBKYISu7uYzwKhFXZHDLIEqcoxw5r9vjQFWY3hVeEGXnGseLoilyUChBQSpbazfoVWTcu1KbdhFiQNmZEAcro5qeRuQWR+Hf6VXA1STybs9NNvu8KBAz8FqXIJXVQ29HwHuAmzpprABTA1PY40Xo0pJ0buMA8eRZTgVTKZz8GipLY2rIc2XbwCqe8UsFYzRpZ3YE0kApvoNtcBhISwUu9VbzE2iPTpoFTrtNZ092oELNxUVrTp9Yn1Cw4olIc64RytFPWPuwvGugij8I+9vCNH96bRSKfE5VwNfihicS7lQ4fvsKPgM2kDZzd9H6Q3WjsafaTdkPpSyxmjWQg4dljAT2ZJT5yDbzgAaA2uw04fdADU3NdK56fTQncmowWbfudUjMx5/n41vr2X3IZi82qxMFTn0l+b8C4oD3TM43TJ5fpbu2zySNcMm1nNl6oV9kHkPcmP3XbkY0ryWQtifTvVONUYuhy9DHbqH++7D2/+SyfF+OmeJFyZ7kvqGAVIuNUd3xVXUMdf6nG2a1p/J90biJQFMj2mxfYZBc2S9GLJcAxgu9hDGCXsDGcS6vvder5Zxh6dgV27FfOqrdV7noVGPye0Yk2hj/p0l4yqnfx17QRNAVQtrOUsn0W0CuENGzg4wigGm+2+OfoAs8CGz1Qz3DhQIhGla+HhmAbGKbver7BqxTrAnJFfofv3bCTJhr4ZxOTZok3hJErnD4WeWO18l4YLejKZ1pcDMiIii/u3TaG4/TC58HGRJGcjEseEcAxenmCO08VdNao41HQl/9BJU1wBJeH/tmz/ffvD+v/Eo1au6rvY+iwGG+PFeEThwov2OdSAWRac4ikBaaQI8Y3AAA/de6mxChXt3vmlLF1DKLhEasl/f+oTXIg+fPBZD9nsNA/rNll7K0zRWvnlStUzQPU1QT6LLz/PLnQPf1w6/gZyJrzBXlzNuq1xhQVeOGTUgQheplZyohQ+EMcuUhuZjAJtkrVOwJpknKv+DcdGI0RoAwj+dp1S1qUsbP5Sg5Y4vKOg0JRcAIuHe3w7ySLc7UZVpAa4Ly5oPJ06xUik9ljyD6z5c2HAqC+zqCNRj2l7aC/u9BNHqRr7V487WZlMzr+1bFrRm6CLky8oB77GVREAUMvC1Ni5l8CZCsydbqeD9h3lfIjUji7DKZz4TO9iL0Pfi/93gPx+Kk80l8Ok1ipYrETb0n+hWGNVLGHvkLfbKBN9ldlgljmwNiRbGSn8PIwNoh/DypG6Hw58UiBVeG0WfOvRZGO5JBBzxuVL0Ba1eCmo9yMSrsSpCGfNSOOY7HQpgVlQQAzm3r5f/H/LKPmcEeSpoRVTrV3fJZj7aT/cdGey1ocO0PcZr+ZIH9p+sKuTmyTHTP95YAQ50PyXGkBcfDctOVSRcapS65N1fcCVDUHzZG9VN4xyLIyRrfq3gx9yvXDvDJDIZV20RUFU53y9w7g/EwULkOEXllxfmfJg4Ig+TUk9ZmH7H28i5rGrWL1IYKoXGbmWISuIacB8xdkDTwjzwK5u2tiufJmTyRN9k+f7m6+BLvHIqRVEFHP3dabbJO2LkVQRKm2gqAcsimkNPZDvXJMpj9sv8KJW4MPtIRs6hzht/v2NLShi7t8Dr3Jj4fGLqHgrKAJWG6NAjk3wEj2gHG11mY2nnV/U2Su23uyWCYnibOXkAxCKkN7TfCYe7bQfxoxe0NiDJaTlvfsOTW8U9BOXiRGVJmI6xy4guCUzhTPNjVX/wdGWrAQfBPo/R9iYzHNJAPPdOdCmxVYZiDcyNn6/0nt4ioZMTSDQ+z4k/3P/ZP4LQQC3sZqZcEkLTtS2loQ7vLbJd1OpSt2g7Vb7B2IDyiKTcjK10g2ge96XDAXOP32D3zpfcmLKPs7K8DApcPDQ54MMlo0h6sq42Fhb/MN1CEJmd+RAkSRhDGqNyPc0fM30UJNa7Q002hUdvlRd3vviGqbUNCQuL1ViCBwlaWiDWXQu/oyC9Uc1X98gqw+dkkY/aK74HHjHNpXynBZB65/D7VbvfLGBdj6JM3y83kMgyUBqsejJTgzjIkIPLvQlhcCGAkXb02lrTv2Rto8A3HqcUel+EQokiVBMGVruM0TRFVbBt4MbqJyAkbbEKsmSGxeOdNTNQQnuyM9V72FqzUEsSIu5I5hOjFOZjSQ2pFDab2BzOq47eDinNqTV+QszxEJCy03ezGvpjrezjsxygzZ/4p4sc3F4YgLHkWH3yg7twNO+a1RxBeCy3BQbctLbV3K9ZSTFtrKdFbzRU4Bcu/fRzgHX+C0UKCG39hZHfPk4JxrZw/CPThwp+zLiUVYzSf6X9OdScM5+EGhvca8Mb2+GnXxlYdGCDM2ESD2dGFAO4sNCPynN8rIUkz0cCPFnYJpOtsYfUOssAr/S8yBFDr2tHks8YpNZ+WsOFGzyA/BWmDRXUhWSJ/b/UF1JF9AUxScFfRg/+iag3nwGfD7Q6/jGYyihz/JcsV5A3yQl6n8OhPQbn/vmmCwXeal/aPTOV7f3mT8lPAOPmPdTaH0eF5MZlx8IBbeOX5mxzml0QexUc14I/F4MqzIZZIMQIE64yHdlxrX/OpTi5gYD3I+520pf77frs3tKcd7tFly8pEm7loesNmQucxSd2Qw+avHQ7A7uxi0m4yE+7Go5vrztz7t1w4yAv01AUwGViY/vgBCo3ujTraaMDA1YzKXPgOAQUwjdjpZWRRhbKkA8QsqmF+bGIloK+rFo6tG35+N+ZSQ/sQhUB0PJDvkKX+r7usxrxTwqv5/ZdpANhz25B97llDaHudkHNQ1dbrNy7sXPvnUtfDGvVjj5A+7jPacDNOdyUnQVFLAYE0yFxhgyZ5p42wXZ2YUTJGvvG1/k1fYTKQDNOICj3lnJByV7P4aAiiZLWGxzCLAEWZR+sMbaNhL7OJx+wqQaWbv2qvLceoHf0xXtmjSmhT6SN6qjfRUPVAp7rNzyvbz5J2z+1+8MWYR0gKLyvpss6Tg72/V2IyMJsfLtMHGzfJbabk7Qw6YRzShKqmMctS8MmK5VL+4ezO+Sk1eUqh2zkZIUpGLCc3ziqp/K3mCOMt5pL1yGrLtxIn49PDVfcy9MirE/N/wwP2XrErCYnQwCGXz0uBXSuJaB9ktRAkUjruKJNJrye2WkrEndZRjinDvKIQDic3LGHCDmREqDBgmVEy1/b94P3sYtmZNG2JGveht6vP1pxmfBKqNRP+QR8WgUVUYGIJOh5FfDTflDEXYC5AnWmQZbRhz2OgxTHkU+D5YN+/pfHNqAe5nz3iVQ1D2ZUZLDXwU9aXseD28Sq0DbXm/kg1mjqH7xzVLe5+aAcg9FjVHInRcEk/5JOkJw80kPOgTLbgYI4xyoCuWxQ3LBxbz/A6H11Kv6eP57owAwf1Ct4WzT5MCpOp7f3pa73kg6FHl26je5m1G4tnCgkYM2ak+aqoLKyKnfVTeXgUnsSROP4a9hRFVlRg6qEwSvV+KGqLOYi1rFXpinEpSdOVlBfyxuhbbmAEBqaeva0rY+mIm9GPn0hCcXXtIFm1qsrD6vxSOTM1cCUrIs2PAV8yWj8tY7Bcno2b1XjeD7u6p7FtwXcyXtggKu3yj0+pvDzdkSfAW1HphbYx9TdqSB8OMdtkKg0t6ug02zQUTV6fAfk6t+x5fmumxVslcZkmUyVLLbvuHVKevpVRqXaaWtd45xyXbp75r6yaoW1jfkrnr3e8s+0p62y49+0mXRUQdPM/PQRx2l5g6i54oKUJN+Cgx2xgMdp/eXenIOt78vHKVFU+3vRl4UO7qSeOku2WnobYdxx9/Hx2ZfnnVanAJpuEYKpGsdfnOxZVhzTwCIBpv1mBlfbrCkG47cy5lQL+ZkU6jH/iGMMViiHoH+lv1VRTPW1D8riUqCvWQSJg38fXE05GklNs8MWPujDVtgEirLtmQvu90yb5UDmz/XDKB3rgZzbCsZparpEF2uNQaBfcNEanxjQyS0r1d8Y7KbxUxr2cZwDRfustxqq5m+ehs2FTeDXeHq0AhkvGOV/JfKC1KaPRZIjA83SIVSk/3PB3J60xOxWyKqcw+Ow8BlyAp4ZZ+ur6NB1a5K3WCNjiPWGqu6J4QvE0fTqfEnCYKLU7MP7e4Bx5kbRkLQOnw0yAvPs/aagAsj2KHEQMVhFA/zFByCzUmRcnRFSOQYTZN+17GpPgwrf8qWGiMz1emCy6Ghzpf5xFK06QT+TLpLdazQ9xIArmXDQj8hJMRMrw5SZXDpJZZ775+sQzaiGm1CNYp7h6ZDFYDNWoVUSjRlAuezQzO9rzBLF1QKTLtAAqiF94PsQOQ6dN2DtpBExsm0Q6hhFmMACbTBOwLw1QZt7jIQ6Tv/3Y9ekZ4BVgyBi+0OAizItqylNd70eQsCnnLgYgVOLOAqEpgjN8C8j7DeIAA", "john": "data:image/webp;base64,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"};
 /* ---------- company pages: about, team, blog, contact ---------- */
-const ABOUT_ROUTES = ['about', 'team', 'blog', 'contact'];
+const ABOUT_ROUTES = ['about', 'team', 'blog', 'contact', 'privacy', 'terms'];
 M.gen = {name: 'IntegrityShield'};
 
 const TEAM = [
-  {k: 'sanjaya', name: 'Sanjaya Kumar', role: 'Chief Executive Officer', short: 'CEO', group: 'leadership',
+  {k: 'sanjaya', li: 'https://www.linkedin.com/in/sanjaya-kumar-7bb68815/', name: 'Sanjaya Kumar', role: 'Chief Executive Officer', short: 'CEO', group: 'leadership',
    tags: ['Healthcare', 'Health informatics', 'SaaS'],
    bio: 'Sanjaya leads SureShield and IntegrityShield. He is a healthcare-focused executive with deep experience in health informatics and SaaS, and holds a master’s degree in public health with a focus on epidemiology.',
    focus: 'Company strategy, healthcare partnerships and business development.'},
-  {k: 'chandy', name: 'Chandrasekhar Bilugu', role: 'Chief Technology Officer', short: 'CTO', group: 'leadership',
+  {k: 'chandy', li: 'https://www.linkedin.com/in/chandybilugu/', name: 'Chandrasekhar Bilugu', role: 'Chief Technology Officer', short: 'CTO', group: 'leadership',
    tags: ['Information security', 'Product', 'Engineering'],
-   bio: 'Chandrasekhar is a technology executive and repeat founder with decades of experience in product development and information security. He has led large engineering teams from first build to launch.',
+   bio: 'Chandrasekhar is a technology executive and repeat founder with 20+ years of experience in product development and information security. He has led large engineering teams from first build to launch.',
    focus: 'The IntegrityShield platform, data sources, matching and security.'},
-  {k: 'tom', name: 'Tom Leahy', role: 'SVP, Sales', short: 'SVP, Sales', group: 'leadership',
+  {k: 'tom', li: 'https://www.linkedin.com/in/thomas-leahy-a497aa4/', name: 'Tom Leahy', role: 'SVP, Sales', short: 'SVP, Sales', group: 'leadership',
    tags: ['Compliance software', 'Risk', 'Growth'],
    bio: 'Tom has spent his career selling and building compliance, security and risk software, taking several companies from founding to exit. He and Sanjaya are on their fourth venture together.',
    focus: 'Helping compliance teams choose and roll out IntegrityShield.'},
@@ -380,7 +404,7 @@ const TEAM = [
    tags: ['Finance', 'Venture', 'Operations'],
    bio: 'John is a finance executive for high-tech companies, with about 25 years of investing in, founding and running early-stage businesses. He holds degrees in engineering and business administration.',
    focus: 'Finance, operations and pricing.'},
-  {k: 'susan', name: 'Susan Moore', role: 'Advisor, Healthcare', short: 'Advisor', group: 'advisors',
+  {k: 'susan', li: 'https://www.linkedin.com/in/susanwmooremph2b03a9/', name: 'Susan Moore', role: 'Advisor, Healthcare', short: 'Advisor', group: 'advisors',
    tags: ['Quality and risk', 'Public health', 'Policy'],
    bio: 'Susan is a former senior healthcare leader whose work spans clinical care, quality and risk, public health and policy. She has built industry partnerships that serve diverse patient communities.',
    focus: 'Healthcare compliance practice and what providers need from screening.'}
@@ -414,7 +438,7 @@ const POSTS = [
    excerpt: 'Excluded vendors and contractors create the same exposure as excluded staff. How to build one screening program for your whole workforce and supply chain.',
    outline: ['Where vendor exposure comes from', 'Screening contractors and new hires', 'One program, one audit trail']},
   {id: 'licensure', cat: 2, sol: 'licensure', mins: 5, title: 'Primary source license verification: what continuous licensure monitoring should cover',
-   excerpt: 'Expired and restricted licenses are an easy audit finding. What to look for in license and certification monitoring. IntegrityShield-Licensure is coming soon.',
+   excerpt: 'Expired and restricted licenses are an easy audit finding. What to look for in license and certification monitoring. IntegrityShield-Licensure is available now.',
    outline: ['Primary source verification', 'Expirations and restrictions', 'Alerts before a license lapses']},
   {id: 'webinar-recap', cat: 4, sol: 'ses', mins: 4, title: 'Webinar recap: continuous sanctions and exclusion screening in practice',
    excerpt: 'Highlights and audience questions from our live session on continuous screening. The full recording goes to everyone who registers.',
@@ -490,7 +514,7 @@ function webinarNextHTML(px = 'home') {
         <label>First name<input name="first" autocomplete="given-name"></label>
         <label>Work email<input name="email" type="email" autocomplete="email"></label>
         <label>Organization<input name="org" autocomplete="organization"></label>
-        ${nlBox()}
+        ${nlBox()}${consentBox()}
         <button class="btn primary" type="submit">Save my seat</button>
         <p class="err" hidden></p>
       </form>
@@ -501,7 +525,7 @@ function webinarNextHTML(px = 'home') {
         <label>Work email<input name="email" type="email" autocomplete="email" placeholder="you@organization.org"></label>
         <label><span>Industry <em class="opt">(optional)</em></span><select name="industry"><option value="">Select your industry</option>${industriesList().map(x => `<option>${x}</option>`).join('')}</select></label>
         <button class="btn primary" type="submit">Notify me</button>
-        ${nlBox()}
+        ${nlBox()}${consentBox()}
         <p class="err" hidden></p>
       </form>
       <div class="wnx-done" hidden><span class="wd-ic" aria-hidden="true">✓</span><p>You’re on the list. We’ll email you the date and topic of every upcoming IntegrityShield webinar, plus the recording if you miss one.</p></div>
@@ -524,7 +548,7 @@ function webinarCompactHTML(px) {
         <div class="two"><label>First name<input name="first" autocomplete="given-name"></label><label>Work email<input name="email" type="email" autocomplete="email"></label></div>
         <label>Organization<input name="org" autocomplete="organization"></label>
         <p class="err" hidden></p>
-        ${nlBox()}
+        ${nlBox()}${consentBox()}
         <button class="btn primary" type="submit">Save my seat</button>
         ${scanApi() ? '' : '<p class="note">Demo form. Nothing is sent.</p>'}
       </form>
@@ -556,7 +580,7 @@ function webinarHTML(px) {
         <label>Work email<input name="email" type="email" autocomplete="email"></label>
         <div class="two"><label>Organization<input name="org" autocomplete="organization"></label><label>Role<select name="role"><option value="">Select</option><option>Compliance officer</option><option>Chief compliance officer</option><option>Privacy officer</option><option>Credentialing</option><option>HR</option><option>Procurement or finance</option><option>Other</option></select></label></div>
         <p class="err" hidden></p>
-        ${nlBox()}
+        ${nlBox()}${consentBox()}
         <button class="btn primary" type="submit">Register for the webinar</button>
         ${scanApi() ? '' : '<p class="note">Demo form. Nothing is sent.</p>'}
       </form>
@@ -565,13 +589,53 @@ function webinarHTML(px) {
   </div></section>`;
 }
 
+function renderFaqPage() {
+  const groups = [['General', HOME_FAQ], ['IntegrityShield-SES · Sanctions & Exclusion Screening', M.ses.faq], ['IntegrityShield-COI · Conflict of Interest', M.coi.faq],
+    ['IntegrityShield-LCM · Licensure & Credential Monitoring', M.licensure.faq], ['Pricing and plans', PRICING_FAQ], ['About SureShield', ABOUT_FAQ], ['Demos, webinars and support', CONTACT_FAQ]];
+  return `${pageHero('FAQs', 'Answers about <span class="mark">IntegrityShield.</span>', 'Common questions about screening, data sources, pricing, setup and support, grouped by solution.')}
+    ${groups.map(([t, list]) => `<section class="sec faqpage" data-faqsec>${faqHTML(list, t)}</section>`).join('')}`;
+}
+const INFO = {
+  privacy: ['Privacy Policy', 'Privacy <span class="mark">Policy.</span>', 'How SureShield, Inc. handles personal information collected through this website.',
+    ['Information we collect', 'How we use information', 'Newsletter and marketing emails', 'Cookies', 'Sharing and service providers', 'Data retention', 'Your rights and choices', 'Contact us']],
+  terms: ['Terms & Conditions', 'Terms &amp; <span class="mark">Conditions.</span>', 'The terms for using this website and IntegrityShield services.',
+    ['Acceptance of terms', 'Use of the website', 'Free assessments and free plans', 'Subscriptions and payment', 'Intellectual property', 'Disclaimers and limitation of liability', 'Governing law', 'Contact us']],
+  cookies: ['Cookie Policy', 'Cookie <span class="mark">Policy.</span>', 'The cookies this website uses, why, and how to change your choices.', null],
+  accessibility: ['Accessibility', 'Accessibility <span class="mark">statement.</span>', 'We want everyone to be able to use this website.', null],
+  security: ['Security & Trust', 'Security &amp; <span class="mark">trust.</span>', 'How IntegrityShield protects the data you screen.',
+    ['Data handling', 'Encryption', 'Hosting', 'Access controls', 'HIPAA and business associate agreements (BAA)', 'Certifications and audits (for example SOC 2)', 'Reporting a security issue']]
+};
+function renderInfoPage(k) {
+  const [label, h1, lede, secs] = INFO[k];
+  let body;
+  if (k === 'cookies') body = `<p>${RV('TODO: final Cookie Policy text from counsel')}</p>
+    <h2>Necessary cookies</h2><p>Always on. The site needs these to work.</p>
+    <div class="fx-wrap"><table class="fx ck-t"><thead><tr><th scope="col">Cookie</th><th scope="col">Purpose</th><th scope="col">Lasts</th></tr></thead><tbody>
+      <tr><th scope="row">is_vid</th><td>A random visitor ID used to count free assessments</td><td>1 year</td></tr>
+      <tr><th scope="row">is_scans_ses</th><td>Free sanctions and exclusion assessments used (10 per visitor)</td><td>1 year</td></tr>
+      <tr><th scope="row">is_scans_lic</th><td>Free licensure assessments used (10 per visitor)</td><td>1 year</td></tr>
+      <tr><th scope="row">is_consent</th><td>Remembers your cookie choices</td><td>1 year</td></tr>
+      <tr><th scope="row">Google reCAPTCHA</th><td>Set by Google when the human check runs before a free assessment</td><td>Set by Google</td></tr>
+    </tbody></table></div>
+    <h2>Optional cookies</h2><p>Off unless you turn them on. ${RV('Needs clarification: which analytics and marketing tools will be used (built-in visitor tracking planned)')}</p>
+    <ul class="checks"><li><b>Analytics:</b> how visitors find and use the site.</li><li><b>Marketing:</b> measuring campaigns and showing relevant ads.</li></ul>
+    <p><button type="button" class="btn primary sm" data-ck-open>Change cookie settings</button></p>`;
+  else if (k === 'accessibility') body = `<p>${RV('TODO: final accessibility statement from counsel')}</p>
+    <h2>Our target</h2><p>We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2, level AA.</p>
+    <h2>Known issues</h2><p>${RV('Content needed: list any known issues after an accessibility review')}</p>
+    <h2>Report a problem</h2><p>If something on this site is hard to use, email <a href="mailto:support@sureshield.ai">support@sureshield.ai</a> or call <a href="tel:18006041354">1-800-604-1354</a>.</p>`;
+  else body = `<p>${RV(k === 'security' ? 'Content needed: real facts only (no claims without evidence)' : 'TODO: legal text from counsel')}</p>` +
+    secs.map(s => `<h2>${s}</h2><p>${RV(k === 'security' ? 'Content needed' : 'TODO')}</p>`).join('');
+  return `${pageHero(label, h1, lede)}<section class="sec info"><div class="wrap legal">${body}</div></section>`;
+}
 function renderAbout() {
   const tl = [
-    ['Two decades', 'Compliance software, built and scaled', 'Our leadership team has spent about 20 years building companies in compliance, safety, policy management and data analytics.'],
+    ['20+ years', 'Compliance software, built and scaled', 'SureShield was founded in 2018 and is led by a team with 20+ years of experience building compliance software, across compliance, safety, policy management and data analytics.'],
     ['2018', 'SureShield is founded', 'Security, compliance and integrity tools were complicated, fragmented and costly. SureShield set out to make them easy to deploy and cheaper to run.'],
-    ['IntegrityShield', 'Sanctions & exclusion screening', 'IntegrityShield-SES screens employees, vendors and healthcare providers against OFAC, OIG, SAM and 63 official lists, every night.'],
-    ['IntegrityShield', 'Conflict of interest monitoring', 'IntegrityShield-COI detects hidden financial relationships between vendors and credentialed practitioners using CMS Open Payments.'],
-    ['Now', 'Licensure and credentials', 'IntegrityShield-Licensure adds live licensure and credential checks, with automated primary source verification documentation.']
+    ['SES', 'Sanctions & Exclusion Screening', 'IntegrityShield-SES screens employees, vendors and healthcare providers against official sanctions and exclusion lists, and gives your team one worklist for possible matches.'],
+    ['COI', 'Conflict of Interest monitoring', 'IntegrityShield-COI finds financial relationships between your vendors and credentialed practitioners using CMS Open Payments data.'],
+    ['LCM', 'Licensure & Credential Monitoring', 'IntegrityShield-LCM verifies licenses and credentials at the source and tracks status, expiration dates and disciplinary actions.'],
+    ['One platform', 'Screen once, see everything', 'All three solutions share one platform, so a person can be screened for exclusions, conflicts of interest and licensure in one place.']
   ];
   const values = [
     ['Customer delight', 'We build what compliance officers ask for, and measure ourselves by how easy their audits get.'],
@@ -580,7 +644,7 @@ function renderAbout() {
     ['Customer success', 'A team that helps you load watchlists, connect systems and prepare for audits.'],
     ['Continuous improvement', 'Sources, matching and reports keep getting better, release after release.'],
     ['Agility', 'Custom sources, rules and integrations for complex organizations.'],
-    ['Simplicity', 'Most teams screen their first watchlist within an hour.'],
+    ['Simplicity', 'Most teams are live in under an hour from activation, not counting integrations.'],
     ['Lower cost, better outcomes', 'In-house screening for up to 90% less than outsourcing, with a stronger audit trail.']
   ];
   const serve = [
@@ -589,8 +653,8 @@ function renderAbout() {
     ['Defense and government contractors', 'Contractors checking SAM.gov exclusions across staff, suppliers and subcontractors.'],
     ['Manufacturing', 'Manufacturers screening suppliers, distributors and contractors.']
   ];
-  return `${pageHero('About IntegrityShield', 'Integrity screening from people who have built <span class="mark">compliance software for 20 years.</span>',
-      'IntegrityShield is the integrity screening platform from SureShield, Inc., an Atlanta company that builds automated security, compliance and integrity software. We help compliance officers screen employees, vendors and healthcare providers for sanctions, exclusions and conflicts of interest, in-house and every night.',
+  return `${pageHero('About IntegrityShield', 'Integrity screening from people who have built <span class="mark">compliance software for 20+ years.</span>',
+      'IntegrityShield is a product of SureShield, Inc., an Atlanta company that builds automated security, compliance and integrity software. We help compliance officers screen employees, vendors and healthcare providers for sanctions, exclusions and conflicts of interest, in-house and every night.',
       `<div class="cta-row"><a class="btn primary" href="#team">Discover our team ${ARROW}</a><a class="btn ghost" href="#contact">Contact us</a></div>`)}
   <section class="sec ab-story"><div class="wrap ab-grid">
     <div class="ab-copy" data-reveal><span class="bar">Our story</span><h2>Why we built IntegrityShield.</h2>
@@ -618,9 +682,9 @@ function renderAbout() {
 }
 function renderTeam() {
   return `${pageHero('Our team', 'The people behind <span class="mark">IntegrityShield.</span>',
-      'IntegrityShield is built by SureShield’s leadership team: operators with decades of experience in healthcare compliance, information security, risk software and finance.',
+      'IntegrityShield is built by SureShield’s leadership team: operators with 20+ years of experience in healthcare compliance, information security, risk software and finance.',
       `<div class="tfilter" role="tablist" aria-label="Filter team">${[['all', 'Everyone', TEAM.length], ['leadership', 'Leadership', TEAM.filter(p => p.group === 'leadership').length], ['advisors', 'Advisors', TEAM.filter(p => p.group === 'advisors').length]].map((f, i) => `<button type="button" role="tab" class="tf${i === 0 ? ' on' : ''}" data-f="${f[0]}" aria-selected="${i === 0}">${f[1]} <span>${f[2]}</span></button>`).join('')}</div>`)}
-  <section class="sec team-sec"><div class="wrap"><div class="tgrid">${TEAM.map((p, i) => `<article class="tcard" data-g="${p.group}" data-reveal>
+  <section class="sec team-sec"><div class="wrap"><h2 class="vh">Leadership team</h2><div class="tgrid">${TEAM.map((p, i) => `<article class="tcard" data-g="${p.group}" data-reveal>
       <button type="button" class="tc-hit" data-person="${i}" aria-label="View profile: ${p.name}, ${p.role}"></button>
       <div class="tc-ph"><img src="${p.img}" alt="${p.name}, ${p.role} at SureShield" width="232" height="326" loading="lazy"><span class="tc-view">View profile ${ARROW}</span></div>
       <div class="tc-b"><h3>${p.name}</h3><p class="tc-r">${p.role}</p><p class="tc-tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</p></div>
@@ -637,6 +701,7 @@ function renderBlog() {
       <div class="bchips" role="tablist" aria-label="Filter by topic"><button type="button" class="bc on" data-bc="-1" aria-selected="true">All <span>${POSTS.length}</span></button>${BLOG_CATS.map((c, i) => `<button type="button" class="bc" data-bc="${i}" aria-selected="false">${c} <span>${counts[i]}</span></button>`).join('')}</div>
     </div>
     <p class="bcount note" aria-live="polite" data-bcount></p>
+    <h2 class="vh">Articles</h2>
     <div class="bgrid" data-bgrid>${POSTS.map((p, i) => postCard(p, i === 0)).join('')}</div>
     <p class="bempty" hidden>No articles match. Try another word, or <button type="button" class="link" data-bclear>clear the filters</button>.</p>
     <p class="note" style="margin-top:22px">Articles are placeholders for this demo. Full posts are coming soon.</p>
@@ -655,7 +720,7 @@ function renderContact() {
   <section class="sec" style="padding-top:clamp(36px,5vw,56px)"><div class="wrap">
     <div class="copts">${opts.map(o => `<${o[3] ? `a href="${o[3]}"` : 'div'} class="copt" data-reveal><span class="co-k">${o[0]}</span><b>${o[1]}</b><span>${o[2]}</span></${o[3] ? 'a' : 'div'}>`).join('')}</div>
     <div class="cform-wrap" data-reveal>
-      <div class="cf-copy"><div class="cf-std"><h2>Send us a message.</h2><p class="lede">Tell us what you screen today and what you need. The right person on our team will get back to you.</p></div><div class="cf-ent"><h2>Talk to us about Enterprise.</h2><p class="lede">Leave your name and work email. Our team will contact you to scope your Enterprise plan.</p></div></div>
+      <div class="cf-copy"><div class="cf-std"><h2>Send us a message.</h2><p class="lede">Tell us what you screen today and what you need. The right person on our team will get back to you within the next 48 hours.</p></div><div class="cf-ent"><h2>Talk to us about Enterprise.</h2><p class="lede">Leave your name and work email. Our team will contact you to scope your Enterprise plan.</p></div></div>
       <form class="cform" novalidate><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <p class="ent-tag"><b>Enterprise plan</b><button type="button" class="link" data-ent-off>Not an Enterprise inquiry?</button></p>
         <fieldset class="topics"><legend>What can we help with?</legend>${topics.map((t, i) => `<label class="topic"><input type="radio" name="topic" value="${t}"${i === 0 ? ' checked' : ''}><span>${t}</span></label>`).join('')}</fieldset>
@@ -663,7 +728,7 @@ function renderContact() {
         <div class="two ph-row"><label>Organization<input name="org" autocomplete="organization"></label><label class="ph-l">Phone (optional)<input name="phone" type="tel" autocomplete="tel"></label></div>
         <label>Message<textarea name="msg" rows="4" placeholder="For example: we screen 3,000 employees and 600 vendors monthly and want to move to nightly screening."></textarea></label>
         <p class="err" hidden></p>
-        ${nlBox()}
+        ${nlBox()}${consentBox()}
         <button class="btn primary" type="submit">Send message</button>
         ${scanApi() ? '' : '<p class="note">Demo form. Nothing is sent.</p>'}
       </form>
@@ -685,6 +750,8 @@ $('#page-about').innerHTML = renderAbout();
 $('#page-team').innerHTML = renderTeam();
 $('#page-blog').innerHTML = renderBlog();
 $('#page-contact').innerHTML = renderContact();
+$('#page-faq').innerHTML = renderFaqPage();
+['privacy', 'terms', 'cookies', 'accessibility', 'security'].forEach(k => { $('#page-' + k).innerHTML = renderInfoPage(k); });
 $('[data-blog="home"]').outerHTML = blogHomeHTML();
 
 
@@ -746,7 +813,7 @@ function show(r, instant) {
   route = r; active = next;
   document.title = ROUTES[r].title;
   if (metaDesc) metaDesc.setAttribute('content', ROUTES[r].desc);
-  $$('[data-nav]').forEach(a => a.classList.toggle('cur', a.dataset.nav === r));
+  $$('[data-nav]').forEach(a => { const on = a.dataset.nav === r; a.classList.toggle('cur', on); if (on) a.setAttribute('aria-current', 'page'); else a.removeAttribute('aria-current'); });
   ddBtn.classList.toggle('cur', SOLS.includes(r));
   const enter = () => { scrollToY(0, true); onEnter(); flushPending(reduce ? 0 : 180); };
   if (!prev || instant || reduce) { if (prev) prev.hidden = true; next.hidden = false; enter(); return; }
@@ -1060,7 +1127,8 @@ function licCookie(name, val) {
   licMem[name] = String(val);
   try { document.cookie = `${name}=${encodeURIComponent(val)}; Max-Age=31536000; Path=/; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`; } catch (e) {}
 }
-const licUsed = () => Math.max(0, parseInt(licCookie('is_lic_scans') || '0', 10) || 0);
+const licCK = f => 'is_scans_' + (f && f.dataset && f.dataset.assess === 'ses' ? 'ses' : 'lic');   // necessary cookie: free assessments used, per solution
+const licUsed = f => Math.max(0, parseInt(licCookie(licCK(f)) || '0', 10) || 0);
 function licVid() {
   let v = licCookie('is_vid');
   if (!/^[a-f0-9]{24}$/.test(v || '')) {
@@ -1073,7 +1141,7 @@ function licVid() {
 }
 function licQuota(f) {
   const q = f.querySelector('[data-lic-quota]'); if (!q) return;
-  const left = Math.max(0, LIC_FREE - licUsed());
+  const left = Math.max(0, LIC_FREE - licUsed(f));
   q.textContent = left >= LIC_FREE ? `${LIC_FREE} free assessments included.` : `${left} of ${LIC_FREE} free assessments left.`;
 }
 const LIC_BTNS = {
@@ -1083,7 +1151,7 @@ const LIC_BTNS = {
 };
 function licNextHTML(f) {
   const prod = f && f.dataset.assess === 'ses' ? 'IntegrityShield-SES' : 'IntegrityShield-Licensure';
-  const left = Math.max(0, LIC_FREE - licUsed());
+  const left = Math.max(0, LIC_FREE - licUsed(f));
   return `<div class="lic-next"><p class="lic-left">${left ? `<b>${left} of ${LIC_FREE}</b> free assessments left` : 'That was your last free assessment'}</p><div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to ' + prod)}${LIC_BTNS.call()}${LIC_BTNS.again()}</div></div>`;
 }
 function licLimitHTML() {
@@ -1098,9 +1166,9 @@ function licLock(f, out) {
   if (out) out.innerHTML = licLimitHTML();
 }
 function licAfterScan(f, out, remaining) {
-  let used = licUsed() + 1;
+  let used = licUsed(f) + 1;
   if (typeof remaining === 'number') used = Math.max(used, LIC_FREE - remaining);
-  licCookie('is_lic_scans', Math.min(used, LIC_FREE));
+  licCookie(licCK(f), Math.min(used, LIC_FREE));
   const res = out.querySelector('.ck-res') || out;
   res.insertAdjacentHTML('beforeend', licNextHTML(f));
   licQuota(f); licTsReset(f);
@@ -1167,7 +1235,7 @@ document.addEventListener('submit', e => {
   const f = e.target.closest && e.target.closest('form[data-assess="licensure"], form[data-assess="ses"][data-live]');
   if (!f || f.dataset.busy) return;
   const out = f.parentElement.querySelector('.ck-out');
-  if (f.classList.contains('locked') || licUsed() >= LIC_FREE) { e.preventDefault(); e.stopImmediatePropagation(); licLock(f, out); return; }
+  if (f.classList.contains('locked') || licUsed(f) >= LIC_FREE) { e.preventDefault(); e.stopImmediatePropagation(); licLock(f, out); return; }
   const tok = licTsToken(f);
   if (!tok) {
     e.preventDefault(); e.stopImmediatePropagation();
@@ -1185,9 +1253,9 @@ document.addEventListener('click', e => {
   if (k === 'subscribe') { go('plans'); return; }
   if (k === 'call') { go('demo'); return; }
   if (k === 'again') {
-    if (licUsed() >= LIC_FREE) { licLock(f, out); scrollToEl(a); return; }
+    if (licUsed(f) >= LIC_FREE) { licLock(f, out); scrollToEl(a); return; }
     f.querySelectorAll('input').forEach(i => { if (!i.classList.contains('hp') && i.type !== 'checkbox' && i.type !== 'radio') i.value = ''; });
-    out.innerHTML = `<div class="ck-head"><b>Ready for your next scan</b></div><p class="note">${LIC_FREE - licUsed()} of ${LIC_FREE} free assessments left. Complete the security check, then run the scan.</p>`;
+    out.innerHTML = `<div class="ck-head"><b>Ready for your next scan</b></div><p class="note">${LIC_FREE - licUsed(f)} of ${LIC_FREE} free assessments left. Complete the security check, then run the scan.</p>`;
     licTsReset(f);
     scrollToEl(a);
     const first = f.querySelector('input:not(.hp):not([type=checkbox]):not([type=radio])'); if (first) setTimeout(() => first.focus({preventScroll: true}), 500);
@@ -1200,7 +1268,7 @@ function licGateInit(f) {
   const btn = f.querySelector('button[type=submit]');
   if (btn && !f.querySelector('[data-lic-quota]')) btn.insertAdjacentHTML('afterend', '<p class="lic-quota" data-lic-quota></p>');
   licQuota(f);
-  if (licUsed() >= LIC_FREE) licLock(f, f.parentElement.querySelector('.ck-out'));
+  if (licUsed(f) >= LIC_FREE) licLock(f, f.parentElement.querySelector('.ck-out'));
 }
 
 /* ---------- one-time licensure scan, live (through the IntegrityShield website API) ---------- */
@@ -1382,7 +1450,7 @@ document.addEventListener('submit', async e => {
   licTsReset(f);
   if (res && res.ok && data.ok) { out.innerHTML = licResultHTML(q, data); licAfterScan(f, out, data.remaining); return; }
   const err = (data && data.error) || '';
-  if (res && res.status === 429 && data.scope === 'free') { licCookie('is_lic_scans', LIC_FREE); licLock(f, out); return; }
+  if (res && res.status === 429 && data.scope === 'free') { licCookie(licCK(f), LIC_FREE); licLock(f, out); return; }
   if (res && res.status === 429) { say('Daily limit reached', data.scope === 'site' ? 'Free assessments are busy today. Please try again tomorrow, or subscribe for unlimited checks.' : 'Too many free assessments from this network today. Please try again tomorrow, or subscribe for unlimited checks.'); out.insertAdjacentHTML('beforeend', `<div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to our platform')}${LIC_BTNS.call()}</div>`); return; }
   if (err === 'bot_check') return say('Please confirm you’re human', 'Complete the quick check above the button, then scan again.');
   if (err === 'missing_fields' || err === 'invalid') return say('Check the details', licEsc(data.message || data.detail || 'The board couldn’t search with these details. Check the license number or name and try again.'));
@@ -1467,7 +1535,7 @@ document.addEventListener('submit', async e => {
   delete f.dataset.busy; if (!f.classList.contains('locked')) btn.disabled = false;
   licTsReset(f);
   if (res && res.ok && data.ok) { out.innerHTML = sesResultHTML(q, data); licAfterScan(f, out, data.remaining); return; }
-  if (res && res.status === 429 && data.scope === 'free') { licCookie('is_lic_scans', LIC_FREE); licLock(f, out); return; }
+  if (res && res.status === 429 && data.scope === 'free') { licCookie(licCK(f), LIC_FREE); licLock(f, out); return; }
   if (res && res.status === 429) { say('Daily limit reached', 'Free assessments are busy today. Please try again tomorrow, or subscribe for unlimited screening.'); out.insertAdjacentHTML('beforeend', `<div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to our platform')}${LIC_BTNS.call()}</div>`); return; }
   if (data.error === 'bot_check') return say('Please confirm you’re human', 'Complete the quick check above the button, then search again.');
   if (data.error === 'missing_fields' || data.error === 'invalid') return say('Check the details', licEsc(data.message || data.detail || 'The search couldn’t run with these details. Check the spelling and try again.'));
@@ -1512,7 +1580,7 @@ function fillTZ() { document.querySelectorAll('.tzname').forEach(el => { el.text
 /* ---------- live demo booking (Calendly, through the booking API) ----------
    Set BOOKING_API to the booking Worker's address to switch every demo calendar
    from sample times to real Calendly availability. Empty = demo mode. */
-const BOOKING_API = '';
+const BOOKING_API = scanApi();   // live Calendly booking whenever the website API is set
 const BOOK_LEN_MIN = 30;
 const LOCAL_TZ = (() => { try { return Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) { return ''; } })();
 const fmtClock = d => d.toLocaleTimeString('en-US', {hour: 'numeric', minute: '2-digit'});
@@ -1520,6 +1588,30 @@ function bookUtm() {
   const q = new URLSearchParams(location.search), u = {};
   ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(k => { if (q.get(k)) u[k] = q.get(k); });
   return u;
+}
+function calQs(root, qs) {
+  const box = root.querySelector('[data-cal-qs]');
+  if (!box || box.dataset.done) return;
+  box.dataset.done = '1';
+  qs.filter(q => !q.map).forEach(q => {
+    const id = `cq-${root.dataset.product}-${q.position}`, req = q.required ? ' required aria-required="true"' : '';
+    const lab = `${licEsc(q.name)}${q.required ? ' <i class="req" aria-hidden="true">*</i>' : ' <em class="opt">(optional)</em>'}`;
+    let ctl;
+    if (q.type === 'single_select' && q.choices.length) ctl = `<select id="${id}" data-cq="${q.position}"${req}><option value="">Select</option>${q.choices.map(c => `<option>${licEsc(c)}</option>`).join('')}</select>`;
+    else if (q.type === 'multi_select' && q.choices.length) ctl = `<span class="cq-multi">${q.choices.map(c => `<label class="nl-opt"><input type="checkbox" data-cq="${q.position}" value="${licEsc(c)}"><span>${licEsc(c)}</span></label>`).join('')}</span>`;
+    else if (q.type === 'text') ctl = `<textarea id="${id}" rows="2" data-cq="${q.position}"${req}></textarea>`;
+    else ctl = `<input id="${id}" data-cq="${q.position}"${q.type === 'phone_number' ? ' type="tel" autocomplete="tel"' : ''}${req}>`;
+    box.insertAdjacentHTML('beforeend', `<label for="${id}" data-cq-req="${q.required ? 1 : 0}" data-cq-name="${licEsc(q.name)}"><span>${lab}</span>${ctl}</label>`);
+  });
+}
+function calAnswers(f) {
+  const a = {};
+  f.querySelectorAll('[data-cq]').forEach(el => {
+    const p = el.dataset.cq;
+    if (el.type === 'checkbox') { if (el.checked) a[p] = a[p] ? a[p] + ', ' + el.value : el.value; }
+    else if (String(el.value || '').trim()) a[p] = String(el.value).trim();
+  });
+  return a;
 }
 function initCalLive(root) {
   const $r = s => root.querySelector(s);
@@ -1548,9 +1640,10 @@ function initCalLive(root) {
     try {
       const start = new Date(y, m, 1), end = new Date(y, m + 1, 1);
       const q = new URLSearchParams({type, start: start.toISOString(), end: end.toISOString()});
-      const r = await fetch(`${BOOKING_API}/slots?${q}`, {headers: {'Accept': 'application/json'}});
-      if (!r.ok) throw new Error('slots ' + r.status);
+      const r = await fetch(`${BOOKING_API}?fn=slots&${q}`, {redirect: 'follow'});
       const body = await r.json();
+      if (!body.ok) throw new Error('slots ' + body.status);
+      calQs(root, body.questions || []);
       const map = new Map();
       (body.slots || []).forEach(iso => {
         const d = new Date(iso);
@@ -1623,6 +1716,7 @@ function initCalLive(root) {
     const nx = slots.querySelector('[data-nx]'); if (nx) nx.focus({preventScroll: true});
   });
   $r('[data-back]').addEventListener('click', () => showStep('pick'));
+  calKeys(days); dayLbl.setAttribute('aria-live', 'polite');
   steps.form.addEventListener('submit', async e => {
     e.preventDefault();
     const f = steps.form, err = f.querySelector('.err'), btn = f.querySelector('button[type=submit]');
@@ -1632,16 +1726,18 @@ function initCalLive(root) {
     if (!name) miss.push('your name');
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) miss.push('a work email');
     if (!org) miss.push('your organization');
+    const ans = calAnswers(f);
+    f.querySelectorAll('[data-cq-req="1"]').forEach(l => { const el = l.querySelector('[data-cq]'); if (el && !ans[el.dataset.cq]) miss.push(l.dataset.cqName.toLowerCase()); });
     if (miss.length) { err.textContent = 'Add ' + miss.join(', ').replace(/, ([^,]*)$/, ' and $1') + ' to schedule your demo.'; err.hidden = false; return; }
     err.hidden = true;
     const label = btn.textContent; btn.disabled = true; btn.textContent = 'Scheduling…';
     let res = null, data = {};
     try {
-      res = await fetch(`${BOOKING_API}/book`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({
-        type, start: st.time, name, email, org, note: f.elements.note.value.trim(), timezone: LOCAL_TZ,
-        utm: bookUtm(), newsletter: NL(f), website: f.elements.website ? f.elements.website.value : ''
-      })});
-      try { data = await res.json(); } catch (x) {}
+      res = await licCall('/book', {
+        type, start: st.time, name, email, org, note: f.elements.note.value.trim(), timezone: LOCAL_TZ, answers: calAnswers(f),
+        utm: bookUtm(), newsletter: NL(f), page: location.pathname, ms: FORM_T0.has(f) ? Date.now() - FORM_T0.get(f) : 0, website: f.elements.website ? f.elements.website.value : ''
+      });
+      data = res.data || {};
     } catch (x) { res = null; }
     btn.disabled = false; btn.textContent = label;
     if (res && res.ok && data.ok) {
@@ -1649,6 +1745,7 @@ function initCalLive(root) {
       const dn = steps.done.querySelector('[data-done-note]');
       if (dn) { dn.textContent = ''; dn.append('A calendar invite with the video link is on its way to ', Object.assign(document.createElement('b'), {textContent: email}), '. Check your spam folder if it hasn’t arrived in a few minutes.'); }
       showStep('done');
+      root.dispatchEvent(new CustomEvent('cal:booked', {bubbles: true, detail: {when: when(), start: st.time, name, email, org, newsletter: !!(f.elements.newsletter && f.elements.newsletter.checked), live: true}}));
       return;
     }
     if (res && res.status === 409) {
@@ -1657,6 +1754,8 @@ function initCalLive(root) {
       showStep('pick'); loadMonth(st.y, st.m, true);
       return;
     }
+    if (res && res.status === 400 && data.message) { err.textContent = data.message; err.hidden = false; return; }
+    if (res && res.status === 429) { err.textContent = 'You’ve booked several demos today. Please call 1-800-604-1354 to book another.'; err.hidden = false; return; }
     err.textContent = 'We couldn’t schedule the demo just now. Please try again, or call 1-800-604-1354.'; err.hidden = false;
   });
   $r('[data-again]').addEventListener('click', () => { st.time = null; pick.hidden = true; steps.form.reset(); Object.keys(st.months).forEach(k => delete st.months[k]); showStep('pick'); loadMonth(st.y, st.m, true); });
@@ -1664,6 +1763,18 @@ function initCalLive(root) {
   loadMonth(st.y, st.m);
 }
 
+function calKeys(days) {
+  days.setAttribute('role', 'group'); days.setAttribute('aria-label', 'Choose a date');
+  days.addEventListener('keydown', e => {
+    const step = {ArrowLeft: -1, ArrowRight: 1, ArrowUp: -7, ArrowDown: 7}[e.key];
+    if (!step || !e.target.matches('button[data-d]')) return;
+    e.preventDefault();
+    const all = [...days.querySelectorAll('button[data-d]')];
+    let i = all.indexOf(e.target) + step;
+    while (i >= 0 && i < all.length && all[i].disabled) i += step > 0 ? 1 : -1;
+    if (all[i]) all[i].focus();
+  });
+}
 function initCal(root) {
   if (BOOKING_API) return initCalLive(root);
   const $r = s => root.querySelector(s);
@@ -1727,6 +1838,7 @@ function initCal(root) {
     steps.done.querySelector('[data-when]').textContent = when();
     steps.done.querySelector('[data-who]').textContent = email;
     showStep('done');
+    root.dispatchEvent(new CustomEvent('cal:booked', {bubbles: true, detail: {when: when(), start: etToLocal(st.sel, st.time).toISOString(), name, email, org, newsletter: !!(f.elements.newsletter && f.elements.newsletter.checked), live: false}}));
   });
   $r('[data-again]').addEventListener('click', () => { st.time = null; pick.hidden = true; steps.form.reset(); drawSlots(); showStep('pick'); });
   drawMonth(); drawSlots();
@@ -1738,7 +1850,7 @@ const BUNDLE_OFF = .25;
 const priceOf = (t, bill) => bill === 'annual' ? Math.round(t.m * (1 - ANNUAL_OFF)) : t.m;
 const money = n => '$' + Math.round(n).toLocaleString('en-US');
 const CHECK = '<svg class="fx-y" viewBox="0 0 20 20" aria-label="Included" role="img"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6.2"/></svg>';
-const DASH = '<span class="fx-n" aria-label="Not included">—</span>';
+const DASH = '<span class="fx-n" role="img" aria-label="Not included">—</span>';
 function cartLines() {
   return SOLS.filter(s => PR.cart[s]).map(s => ({sol: s, t: PLANS[s].tiers.find(x => x.k === PR.cart[s])})).filter(x => x.t && x.t.m);
 }
@@ -1748,8 +1860,12 @@ function cartTotals(bill) {
   const bundle = lines.length >= 2 ? Math.round((list - annual) * BUNDLE_OFF) : 0;
   return {lines, list, annual, bundle, total: list - annual - bundle};
 }
+function bundleExample() {
+  const t = PLANS.ses.tiers.find(x => x.k === 'plus'), list = t.m * 2, annual = Math.round(list * ANNUAL_OFF), bundle = Math.round((list - annual) * BUNDLE_OFF), total = list - annual - bundle;
+  return `Example: ${t.n} for two solutions is ${money(list)}/mo at list price. Annual billing saves ${money(annual)} and the bundle saves another ${money(bundle)}, for ${money(total)}/mo: ${Math.round((1 - total / list) * 100)}% off list.`;
+}
 function bundleHTML() {
-  return `<div class="bundle"><span class="bd-ic" aria-hidden="true">%</span><div><b>Bundle discount: save an extra 25%</b><span>Subscribe to two or more IntegrityShield solutions and take another 25% off, on top of your annual billing savings.</span></div></div>`;
+  return `<div class="bundle"><span class="bd-ic" aria-hidden="true">%</span><div><b>Bundle discount: save an extra 25%</b><span>Subscribe to two or more IntegrityShield solutions and take another 25% off, on top of your annual billing savings.</span><span class="bd-ex">${bundleExample()}</span></div></div><p class="plans-same">Same plans and prices for every IntegrityShield solution. ${RV('Needs clarification: what counts as one active monitoring record (is a person in both SES and COI counted twice?), what happens at the limit, overage pricing, and the gap between 750 records and Enterprise')}</p>`;
 }
 function checkoutHTML(bill) {
   const c = cartTotals(bill);
@@ -1789,7 +1905,7 @@ function matrixHTML(sol) {
   ];
   return `<div class="fx-wrap" tabindex="0" role="region" aria-label="Compare ${M[sol].name} plans"><table class="fx">
     <thead><tr><th scope="col">Compare plans</th>${T.map(t => `<th scope="col"${t.pop ? ' class="pop"' : t.eff ? ' class="eff"' : ''}>${t.n}</th>`).join('')}</tr></thead>
-    <tbody>${rows.map(([n, sub, v]) => `<tr><th scope="row">${n}${sub ? `<small>${sub}</small>` : ''}</th>${v.map((x, i) => `<td${T[i].pop ? ' class="pop"' : T[i].eff ? ' class="eff"' : ''}>${typeof x === 'string' ? `<b>${x}</b>` : x ? CHECK : DASH}</td>`).join('')}</tr>`).join('')}</tbody>
+    <tbody>${rows.map(([n, sub, v]) => `<tr><th scope="row">${n}${sol === 'licensure' && /Nightly Integrity Scans|Screening list customization/.test(n) ? RV('Needs review: does this row apply to LCM?') : ''}${sub ? `<small>${sub}</small>` : ''}</th>${v.map((x, i) => `<td${T[i].pop ? ' class="pop"' : T[i].eff ? ' class="eff"' : ''}>${typeof x === 'string' ? `<b>${x}</b>` : x ? CHECK : DASH}</td>`).join('')}</tr>`).join('')}</tbody>
   </table></div>`;
 }
 function renderPlans(el) {
@@ -1811,7 +1927,7 @@ function renderPlans(el) {
     const badge = t.pop ? '<span class="badge">Most popular</span>' : t.eff ? '<span class="badge eff">Most cost-efficient</span>' : '';
     return `<div class="tier${t.pop ? ' pop' : ''}${t.eff ? ' eff' : ''}${ent ? ' ent' : ''}${t.free ? ' free' : ''}${sel ? ' sel' : ''}">${badge}<div><h3>${t.n}</h3></div><p class="tb">${t.blurb}</p><div class="tprice">${priceBlock}</div><p class="trec">${t.rec}</p>${btn}</div>`;
   }).join('');
-  el.innerHTML = `${pick}<div class="plans-bar"><span class="plans-for">${hub ? `Showing plans for <b>${M[sol].name}</b>` : 'Prices in USD'}</span><div class="bill" role="radiogroup" aria-label="Billing period"><button type="button" role="radio" aria-checked="${bill === 'monthly'}" class="${bill === 'monthly' ? 'on' : ''}" data-billing="monthly">Monthly</button><button type="button" role="radio" aria-checked="${bill === 'annual'}" class="${bill === 'annual' ? 'on' : ''}" data-billing="annual">Annually <em>Save 20%</em></button></div></div>${bundleHTML()}<div class="tiers">${tiers}</div>${hub ? checkoutHTML(bill) : ''}${matrixHTML(sol)}`;
+  el.innerHTML = `${pick}<div class="plans-bar"><span class="plans-for">${hub ? `Showing plans for <b>${M[sol].name}</b>` : 'Prices in USD'}</span><div class="bill" role="radiogroup" aria-label="Billing period"><button type="button" role="radio" aria-checked="${bill === 'monthly'}" class="${bill === 'monthly' ? 'on' : ''}" data-billing="monthly">Monthly</button><button type="button" role="radio" aria-checked="${bill === 'annual'}" class="${bill === 'annual' ? 'on' : ''}" data-billing="annual">Annually <em>Save 20%</em></button></div></div>${bundleHTML()}<h2 class="vh">Plans for ${M[sol].name}</h2><div class="tiers">${tiers}</div>${hub ? checkoutHTML(bill) : ''}${matrixHTML(sol)}`;
 }
 document.addEventListener('click', e => {
   const el = e.target.closest('[data-plans]');
@@ -1837,15 +1953,15 @@ document.addEventListener('click', e => {
     return;
   }
   const en = e.target.closest('[data-ent]');
-  if (en) { entInquiry(en.dataset.ent); return; }
+  if (en) { goSignup('ent', en.dataset.ent); return; }
   const c = e.target.closest('[data-contact]');
-  if (c) { goTo(c.dataset.contact, '.book'); return; }
+  if (c) { goSignup('free', c.dataset.contact); return; }
 });
 
 /* ---------- checkout: organization → agreement → payment → confirmation ---------- */
-const SUPPORT = {phone: '1-800-604-1354', tel: 'tel:18006041354', email: 'support@sureshield.com'};
+const SUPPORT = {phone: '1-800-604-1354', tel: 'tel:18006041354', email: 'support@sureshield.ai'};
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'})[c]);
-const cartQS = () => '?sol=' + PR.sol + '&cart=' + Object.entries(PR.cart).map(x => x.join(':')).join(',') + '&bill=' + PR.bill;
+const cartQS = () => '?sol=' + PR.sol + '&cart=' + Object.entries(PR.cart).map(x => x.join(':')).join(',') + '&bill=' + PR.bill + (CO.mode !== 'paid' ? '&mode=' + CO.mode + '&sols=' + coSolList().join(',') : '');
 function goCheckout() { location.href = U('checkout') + cartQS(); }
 function goPricing() { location.href = U('pricing') + cartQS(); }
 const ORG_TYPES = ['Hospital or health system', 'Physician group or clinic', 'Post-acute or long-term care', 'Health plan or payer', 'Pharmacy', 'Behavioral health', 'Government contractor', 'Financial services', 'Other'];
@@ -1853,11 +1969,19 @@ const INDUSTRIES = ['Healthcare', 'Finance', 'Defense and government contracting
 const COUNTRIES = ['United States', 'Canada', 'Mexico', 'United Kingdom', 'India', 'Other'];
 const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming','Puerto Rico'];
 const CO_STEPS = ['Organization', 'Agreement', 'Payment', 'Confirmation'];
-const CO = {step: 0, org: {country: 'United States', industries: []}, contacts: [], sign: null, order: null, contractNo: ''};
+const CO = {step: 0, org: {country: 'United States', industries: []}, contacts: [], sign: null, order: null, contractNo: '', mode: 'paid', sols: {}, meeting: null};
+{ const q = new URLSearchParams(location.search); if (q.get('mode') === 'free' || q.get('mode') === 'ent') { CO.mode = q.get('mode'); (q.get('sols') || '').split(',').forEach(s => { if (M[s]) CO.sols[s] = true; }); } }
+function coStepNames() { return CO.mode === 'free' ? ['Organization', 'Agreement', 'Confirmation'] : CO.mode === 'ent' ? ['Organization', 'Meeting', 'Confirmation'] : CO_STEPS; }
+function coLast() { return coStepNames().length - 1; }
+function coSolList() { return SOLS.filter(s => CO.sols[s]); }
+function goSignup(mode, sol) { CO.mode = mode; CO.sols = {}; if (M[sol]) CO.sols[sol] = true; CO.step = 0; CO.order = null; CO.sign = null; CO.contractNo = ''; CO.meeting = null; goCheckout(); }
 
 function coDate(d) { return d.toLocaleDateString('en-US', {year: 'numeric', month: 'long', day: 'numeric'}); }
-function coTotals() { return cartTotals(PR.bill); }
-function coDueToday(c) { return PR.bill === 'annual' ? c.total * 12 : c.total; }
+function coTotals() {
+  if (CO.mode !== 'paid') return {lines: coSolList().map(s => ({sol: s, t: PLANS[s].tiers.find(x => CO.mode === 'free' ? x.free : !x.m && !x.free)})).filter(x => x.t), list: 0, annual: 0, bundle: 0, total: 0};
+  return cartTotals(PR.bill);
+}
+function coDueToday(c) { return CO.mode !== 'paid' ? 0 : PR.bill === 'annual' ? c.total * 12 : c.total; }
 function coNewNo(prefix) {
   const d = new Date(), p = n => String(n).padStart(2, '0');
   return `${prefix}-${String(d.getFullYear()).slice(2)}${p(d.getMonth() + 1)}${p(d.getDate())}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
@@ -1865,6 +1989,13 @@ function coNewNo(prefix) {
 
 /* summary beside every step */
 function coSummaryHTML(c, open) {
+  if (CO.mode !== 'paid') {
+    const free = CO.mode === 'free';
+    const lines = c.lines.length ? c.lines.map(x => `<li><span>${M[x.sol].name}<small>${free ? `Free · ${x.t.rec}` : 'Enterprise · unlimited records'}</small></span><b>${free ? '$0' : 'Custom'}</b></li>`).join('') : '<li><span>Choose at least one solution</span><b></b></li>';
+    const body = `<ul class="cs-lines">${lines}</ul><p class="cs-due"><span>${free ? 'Due today · no credit card required' : 'Pricing tailored in your meeting'}</span><b>${free ? '$0' : ''}</b></p>`;
+    const h = free ? 'Free plan' : 'Enterprise request';
+    return `<aside class="co-sum2" aria-label="${h}"><details class="cs-m"${open ? ' open' : ''}><summary><span>${h}</span><b>${free ? '$0' : ''}</b></summary>${body}</details><div class="cs-d"><p class="cs-h">${h}</p>${body}</div></aside>`;
+  }
   const lines = c.lines.map(x => `<li><span>${M[x.sol].name}<small>${x.t.n} · ${x.t.rec}</small></span><b>${money(x.t.m)}<small>/mo</small></b></li>`).join('');
   const body = `<ul class="cs-lines">${lines}
       ${c.annual ? `<li class="disc"><span>Annual billing savings (20%)</span><b>−${money(c.annual)}<small>/mo</small></b></li>` : ''}
@@ -1879,9 +2010,9 @@ function coSummaryHTML(c, open) {
   </aside>`;
 }
 function coStepsHTML() {
-  return `<ol class="co-steps" aria-label="Checkout steps">${CO_STEPS.map((s, i) => {
+  return `<ol class="co-steps" aria-label="Checkout steps">${coStepNames().map((s, i) => {
     const st = i < CO.step ? 'done' : i === CO.step ? 'cur' : '';
-    const back = i < CO.step && CO.step < 3;
+    const back = i < CO.step && CO.step < coLast();
     return `<li class="${st}"${i === CO.step ? ' aria-current="step"' : ''}>${back ? `<button type="button" data-co-go="${i}">` : '<span class="cst">'}<i>${i < CO.step ? '✓' : i + 1}</i><span>${s}</span>${back ? '</button>' : '</span>'}</li>`;
   }).join('')}</ol>`;
 }
@@ -1916,7 +2047,10 @@ function contactRow(k, i) {
 function coOrgHTML() {
   const o = CO.org;
   return `<form class="co-card co-form" data-co-form="org" novalidate>
-    <div class="co-head2"><h2>Organization details</h2><p>Tell us who the subscription is for. Fields marked <i class="req">*</i> are required.</p></div>
+    <div class="co-head2"><h2>Organization details</h2><p>${CO.mode === 'free' ? 'Tell us who the free plan is for. We use these details to set up your account.' : CO.mode === 'ent' ? 'Tell us about your organization. Next, you’ll choose a time to meet our team.' : 'Tell us who the subscription is for.'} Fields marked <i class="req">*</i> are required.</p></div>
+    ${CO.mode !== 'paid' ? `<fieldset class="co-fs"><legend>Solutions <i class="req">*</i></legend><p class="co-hint">${CO.mode === 'free' ? 'Choose the solutions you want on the Free plan, up to 25 active monitoring records each.' : 'Choose the solutions you’d like to discuss.'}</p>
+      <div class="chips">${SOLS.map(s => `<label class="chip-c"><input type="checkbox" name="sols" value="${s}"${CO.sols[s] ? ' checked' : ''}><span>${M[s].name}</span></label>`).join('')}</div><p class="fe" id="co-sols-e" hidden></p></fieldset>` : ''}
+    <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
     <fieldset class="co-fs"><legend>Organization</legend><div class="cgrid">
       ${fText('name', 'Organization name', {req: true, ac: 'organization', wide: true})}
       ${fText('short', 'Short form / acronym', {ph: 'e.g. ACME'})}
@@ -1934,9 +2068,9 @@ function coOrgHTML() {
       ${fText('zip', 'ZIP code', {req: true, ac: 'postal-code', im: o.country === 'United States' ? 'numeric' : 'text'})}
     </div></fieldset>
     <fieldset class="co-fs"><legend>System administrator</legend><p class="co-hint">The person who will set up and manage your IntegrityShield account.</p><div class="cgrid">
-      ${fText('adminName', 'Full name', {ac: 'name'})}
+      ${fText('adminName', 'Full name', {ac: 'name', req: CO.mode !== 'paid'})}
       ${fText('adminTitle', 'Title', {ac: 'organization-title'})}
-      ${fText('adminEmail', 'Work email', {type: 'email', ac: 'email'})}
+      ${fText('adminEmail', 'Work email', {type: 'email', ac: 'email', req: CO.mode !== 'paid'})}
       ${fText('adminPhone', 'Phone', {type: 'tel', ac: 'tel'})}
     </div></fieldset>
     <fieldset class="co-fs"><legend>Other key contacts</legend><p class="co-hint">For example compliance, billing or IT contacts. Add up to five.</p>
@@ -1944,7 +2078,7 @@ function coOrgHTML() {
       ${CO.contacts.length < 5 ? `<button type="button" class="btn ghost sm" data-kc-add>+ Add a key contact</button>` : ''}
     </fieldset>
     <p class="co-formerr" role="alert" hidden></p>
-    <div class="co-nav"><button type="button" class="link" data-co-edit>← Back to plans</button><button type="submit" class="btn primary">Continue to agreement</button></div>
+    <div class="co-nav"><button type="button" class="link" data-co-edit>← Back to plans</button><button type="submit" class="btn primary">${CO.mode === 'ent' ? 'Continue to choose a time' : 'Continue to agreement'}</button></div>
   </form>`;
 }
 
@@ -1973,7 +2107,7 @@ function coAddress() { const o = CO.org; return [o.addr, o.city, [o.state, o.zip
 function coAgreementHTML(c) {
   const o = CO.org, s = CO.sign;
   const start = coDate(new Date());
-  const term = PR.bill === 'annual' ? '12 months from the start date, billed annually in advance' : 'Month to month, billed monthly';
+  const term = CO.mode === 'free' ? 'Free plan at no charge, until cancelled or upgraded' : PR.bill === 'annual' ? '12 months from the start date, billed annually in advance' : 'Month to month, billed monthly';
   const rows = c.lines.map(x => `<tr><td>${M[x.sol].name}</td><td>${x.t.n}</td><td>${x.t.rec}</td><td class="n">${money(x.t.m)}/mo</td></tr>`).join('');
   return `<div class="co-card">
     <div class="co-head2"><h2>Review and sign your agreement</h2><p>Read the purchase summary, Terms and Conditions and Privacy Policy, then sign below. <span class="ph-tag">Placeholder content</span></p></div>
@@ -1991,7 +2125,7 @@ function coAgreementHTML(c) {
           ${c.annual ? `<tr><td colspan="3">Annual billing savings (20%)</td><td class="n">−${money(c.annual)}/mo</td></tr>` : ''}
           ${c.bundle ? `<tr><td colspan="3">Bundle discount (25%)</td><td class="n">−${money(c.bundle)}/mo</td></tr>` : ''}
           <tr class="tt"><td colspan="3">Total</td><td class="n">${money(c.total)}/mo</td></tr>
-          <tr class="tt"><td colspan="3">${PR.bill === 'annual' ? 'Amount due today (12 months)' : 'Amount due today (first month)'}</td><td class="n">${money(coDueToday(c))}</td></tr>
+          ${CO.mode === 'free' ? '<tr class="tt"><td colspan="3">Amount due</td><td class="n">$0, no credit card required</td></tr>' : `<tr class="tt"><td colspan="3">${PR.bill === 'annual' ? 'Amount due today (12 months)' : 'Amount due today (first month)'}</td><td class="n">${money(coDueToday(c))}</td></tr>`}
         </tfoot></table></div>
     </section>
     ${coDocHTML('co-tc-h', 'Terms and Conditions', TERMS)}
@@ -2017,8 +2151,8 @@ function coSignedHTML() {
   const s = CO.sign;
   return `<div class="co-signed">
     <div class="sig-pad on"><span class="sig-l">Signed</span><span class="sig-v">${esc(s.name)}</span><span class="sig-d">${esc(s.title)} · ${s.date}</span></div>
-    <p class="co-ok"><b>Agreement signed.</b> You can download a copy now. We’ll also email the signed contract to <b>${esc(s.email)}</b> after payment.</p>
-    <div class="co-nav"><button type="button" class="btn ghost" data-co-dl>Download contract (PDF)</button><button type="button" class="btn primary" data-co-go="2">Continue to payment</button></div>
+    <p class="co-ok"><b>Agreement signed.</b> You can download a copy now. We’ll also email the signed contract to <b>${esc(s.email)}</b> ${CO.mode === 'free' ? 'with your account details' : 'after payment'}.</p>
+    ${CO.mode === 'free' ? '<p class="co-formerr" role="alert" hidden data-co-senderr></p>' : ''}<div class="co-nav"><button type="button" class="btn ghost" data-co-dl>Download contract (PDF)</button>${CO.mode === 'free' ? '<button type="button" class="btn primary" data-co-free>Complete sign-up</button>' : '<button type="button" class="btn primary" data-co-go="2">Continue to payment</button>'}</div>
     <button type="button" class="link co-resign" data-co-resign>Edit signer details</button>
   </div>`;
 }
@@ -2066,6 +2200,77 @@ function coDoneHTML() {
   </div>`;
 }
 
+function coMeetingHTML() {
+  const list = coSolList(), k = list.length === 1 ? list[0] : 'gen';
+  const tmp = document.createElement('div'); tmp.innerHTML = bookHTML(k);
+  const cal = tmp.querySelector('.cal'); cal.removeAttribute('data-reveal');
+  const h3 = cal.querySelector('.cal-info h3'); if (h3) h3.textContent = 'IntegrityShield Enterprise consultation';
+  const sb = cal.querySelector('.cal-form button[type=submit]'); if (sb) sb.textContent = 'Book meeting and send request';
+  const dn = cal.querySelector('[data-demo-note]'); if (dn && scanApi()) dn.remove();
+  return `<div class="co-card co-meet">
+    <div class="co-head2"><h2>Choose a time to meet our team</h2><p>Enterprise plans are tailored to your organization. Pick a time for a 30-minute call to go through your needs and pricing. Booking a time sends your request.</p></div>
+    ${cal.outerHTML}
+    <p class="co-formerr" role="alert" hidden data-co-senderr></p>
+    <div class="co-nav"><button type="button" class="link" data-co-go="0">← Back</button></div>
+  </div>`;
+}
+function coSignupBody(extra) {
+  const o = CO.org, s = CO.sign || {};
+  return {kind: CO.mode === 'free' ? 'free' : 'enterprise', solutions: coSolList().map(x => M[x].name).join(', '), org: o.name, short: o.short, type: o.type, url: o.url,
+    industries: (o.industries || []).join(', '), addr: o.addr, city: o.city, state: o.state, zip: o.zip, country: o.country,
+    adminName: o.adminName, adminTitle: o.adminTitle, adminEmail: o.adminEmail, adminPhone: o.adminPhone,
+    contacts: CO.contacts.filter(k => k.name || k.email).map(k => [k.name, k.role, k.email, k.phone].filter(Boolean).join(', ')).join('; '),
+    signName: s.name || '', signTitle: s.title || '', signEmail: s.email || '', contractNo: CO.mode === 'free' ? CO.contractNo : '',
+    page: location.pathname, utm: Object.entries(bookUtm()).map(([a, b]) => `${a}=${b}`).join('&'), website: o.hp || '', ...extra};
+}
+async function coSignupSend(extra) {
+  if (!scanApi()) return {ok: true};
+  try { return await licCall('/signup', coSignupBody(extra)); } catch (x) { return {ok: false}; }
+}
+function coSendErr(r) {
+  const p = $('#page-checkout [data-co-senderr]');
+  if (!p) return;
+  p.textContent = r && r.status === 429 ? `We’ve had an unusual number of requests today. Please try again tomorrow, or call ${SUPPORT.phone}.` : `We couldn’t send this just now. Please try again, or call ${SUPPORT.phone}.`;
+  p.hidden = false;
+}
+document.addEventListener('cal:booked', async e => {
+  if (!e.target.closest || !e.target.closest('#page-checkout') || CO.mode !== 'ent') return;
+  const d = e.detail, no = coNewNo('ISE');
+  const r = await coSignupSend({ref: no, meeting: d.when, meetingStart: d.start || '', meetingName: d.name, meetingEmail: d.email, meetingBooked: d.live, newsletter: d.newsletter});
+  if (!r.ok) { coSendErr(r); return; }
+  CO.order = {no, date: coDate(new Date()), org: CO.org.name, email: d.email, meeting: d.when, booked: d.live, lines: coTotals().lines};
+  CO.step = coLast(); renderCheckout(true);
+});
+function coDoneAltHTML() {
+  const d = CO.order, free = CO.mode === 'free';
+  const help = `<div class="cd-help"><h3>Need help?</h3><p>Reach us about anything to do with your ${free ? 'account' : 'request'}.</p>
+      <div class="cd-ways"><a href="${SUPPORT.tel}"><span>Call</span><b>${SUPPORT.phone}</b></a><a href="mailto:${SUPPORT.email}"><span>Email</span><b>${SUPPORT.email}</b></a></div></div>`;
+  if (free) return `<div class="co-card co-done">
+    <div class="cd-top"><span class="cd-ic" aria-hidden="true">✓</span><div><h2>Thank you. Your free plan is on its way.</h2><p>Reference <b>${d.no}</b> for ${esc(d.org)}.</p></div></div>
+    <div class="cd-next"><h3>What happens next</h3>
+      <p>You’ll receive an email at <b>${esc(d.email)}</b> within the next <b>24 to 48 hours</b> with your account setup details and signed agreement.</p>
+      <p class="cd-spam">Please keep an eye on your spam or junk folder in case the email lands there.</p></div>
+    <dl class="cc-dl cd-dl">
+      <div><dt>Reference</dt><dd>${d.no}</dd></div><div><dt>Date</dt><dd>${d.date}</dd></div><div><dt>Organization</dt><dd>${esc(d.org)}</dd></div>
+      <div><dt>Plans</dt><dd>${d.lines.map(x => `${M[x.sol].name} · Free (${x.t.rec.toLowerCase()})`).join('<br>')}</dd></div>
+      <div><dt>Agreement</dt><dd>No. ${d.contractNo}, signed by ${esc(d.signer)}</dd></div>
+    </dl>${help}
+    <div class="co-nav"><button type="button" class="btn ghost" data-co-dl>Download agreement (PDF)</button><a class="btn primary" href="#home">Back to home</a></div>
+  </div>`;
+  return `<div class="co-card co-done">
+    <div class="cd-top"><span class="cd-ic" aria-hidden="true">✓</span><div><h2>Thank you. Your Enterprise request is in.</h2><p>Reference <b>${d.no}</b> for ${esc(d.org)}.</p></div></div>
+    <div class="cd-next"><h3>Your meeting</h3>
+      <p><b>${esc(d.meeting)}</b></p>
+      <p>${d.booked ? `A calendar invite with the video link is on its way to <b>${esc(d.email)}</b>.` : `Our team will confirm this time by email at <b>${esc(d.email)}</b>, with the video link.`} In the meeting we’ll go through your needs and prepare a tailored Enterprise quote.</p>
+      <p class="cd-spam">Please keep an eye on your spam or junk folder in case the email lands there.</p></div>
+    <dl class="cc-dl cd-dl">
+      <div><dt>Reference</dt><dd>${d.no}</dd></div><div><dt>Date</dt><dd>${d.date}</dd></div><div><dt>Organization</dt><dd>${esc(d.org)}</dd></div>
+      <div><dt>Solutions</dt><dd>${d.lines.map(x => M[x.sol].name).join('<br>')}</dd></div>
+    </dl>${help}
+    <div class="co-nav"><a class="btn primary" href="#home">Back to home</a></div>
+  </div>`;
+}
+
 function coEmptyHTML() {
   return `<div class="co-card co-empty"><h2>Your plan is empty.</h2><p>Choose a plan on the pricing page, then continue to checkout.</p><div class="co-nav"><a class="btn primary" href="#pricing">See plans</a></div></div>`;
 }
@@ -2076,18 +2281,29 @@ function renderCheckout(focusTop) {
   if (!CO.draftSign) CO.draftSign = {};
   const c = coTotals();
   let main, aside = '';
-  if (CO.step === 3 && CO.order) main = coDoneHTML();
-  else if (!c.lines.length) main = coEmptyHTML();
+  const alt = CO.mode !== 'paid';
+  if (CO.step === coLast() && CO.order) main = alt ? coDoneAltHTML() : coDoneHTML();
+  else if (!alt && !c.lines.length) main = coEmptyHTML();
   else {
+    if (alt && CO.step > 0 && !c.lines.length) CO.step = 0;
     if (!CO.contractNo) CO.contractNo = coNewNo('ISA');
-    main = CO.step === 0 ? coOrgHTML() : CO.step === 1 ? coAgreementHTML(c) : coPaymentHTML(c);
-    aside = coSummaryHTML(c);
+    main = CO.step === 0 ? coOrgHTML() : CO.step === 1 ? (CO.mode === 'ent' ? coMeetingHTML() : coAgreementHTML(c)) : coPaymentHTML(c);
+    aside = CO.mode === 'ent' && CO.step === 1 ? '' : coSummaryHTML(c);
   }
+  const done = CO.step === coLast() && CO.order;
+  const bar = CO.mode === 'free' ? 'Free plan' : CO.mode === 'ent' ? 'Enterprise' : 'Checkout';
+  const h1 = CO.mode === 'free' ? (done ? 'You’re signed up' : 'Start your free plan') : CO.mode === 'ent' ? (done ? 'Request sent' : 'Request IntegrityShield Enterprise') : (done ? 'Order confirmed' : 'Complete your subscription');
   root.innerHTML = `<div class="co-bg" aria-hidden="true"><i></i><i></i></div>
     <section class="wrap co-wrap">
-      <div class="co-top"><span class="bar">Checkout</span><h1>${CO.step === 3 ? 'Order confirmed' : 'Complete your subscription'}</h1>${(c.lines.length || CO.order) ? coStepsHTML() : ''}</div>
+      <div class="co-top"><span class="bar">${bar}</span><h1>${h1}</h1>${(alt || c.lines.length || CO.order) ? coStepsHTML() : ''}</div>
       <div class="co-grid${aside ? '' : ' solo'}"><div class="co-main2">${main}</div>${aside}</div>
     </section>`;
+  const mc = root.querySelector('.co-meet [data-cal]');
+  if (mc) {
+    initCal(mc);
+    const set = (n, v) => { const i = mc.querySelector(`.cal-form [name=${n}]`); if (i && v && !i.value) i.value = v; };
+    set('name', CO.org.adminName); set('email', CO.org.adminEmail); set('org', CO.org.name);
+  }
   if (focusTop) { scrollToY(0, true); const h = root.querySelector('.co-head2 h2, .cd-top h2'); if (h) { h.setAttribute('tabindex', '-1'); h.focus({preventScroll: true}); } }
 }
 
@@ -2104,6 +2320,8 @@ function coReadOrg(f) {
   const o = CO.org, g = n => (f.elements[n] ? f.elements[n].value.trim() : '');
   ['name', 'short', 'type', 'url', 'addr', 'country', 'state', 'city', 'zip', 'adminName', 'adminTitle', 'adminEmail', 'adminPhone'].forEach(n => { o[n] = g(n); });
   o.industries = $$('input[name=industries]:checked', f).map(x => x.value);
+  o.hp = g('website');
+  if (CO.mode !== 'paid') { CO.sols = {}; $$('input[name=sols]:checked', f).forEach(x => { CO.sols[x.value] = true; }); }
   $$('[data-kc]', f).forEach(row => { const i = +row.dataset.kc; $$('[data-kc-f]', row).forEach(inp => { CO.contacts[i][inp.dataset.kcF] = inp.value.trim(); }); });
 }
 function coValidateOrg(f) {
@@ -2114,6 +2332,13 @@ function coValidateOrg(f) {
   if (o.zip && o.country === 'United States' && !/^\d{5}(-\d{4})?$/.test(o.zip)) { coErr(f, 'zip', 'Enter a 5-digit ZIP code, for example 30326.'); bad.push('zip'); }
   if (o.url && !/^(https?:\/\/)?[^\s.]+\.[^\s]{2,}$/i.test(o.url)) { coErr(f, 'url', 'Enter a web address, for example www.example.org.'); bad.push('url'); } else coErr(f, 'url', '');
   if (o.adminEmail && !CO_EMAIL(o.adminEmail)) { coErr(f, 'adminEmail', 'Enter a valid email address.'); bad.push('adminEmail'); } else coErr(f, 'adminEmail', '');
+  if (CO.mode !== 'paid') {
+    if (!o.adminName) { coErr(f, 'adminName', 'Enter the administrator’s name.'); bad.push('adminName'); } else coErr(f, 'adminName', '');
+    if (!o.adminEmail) { coErr(f, 'adminEmail', 'Enter the administrator’s work email.'); bad.push('adminEmail'); }
+    const se = f.querySelector('#co-sols-e'), none = !coSolList().length;
+    if (se) { se.textContent = none ? 'Choose at least one solution.' : ''; se.hidden = !none; }
+    if (none) bad.push('sols');
+  }
   CO.contacts.forEach((c, i) => { const ok = !c.email || CO_EMAIL(c.email); coErr(f, '', ok ? '' : 'Enter a valid email address.', `#co-kc${i}-email`); if (!ok) bad.push(`kc${i}`); });
   return bad;
 }
@@ -2137,7 +2362,7 @@ document.addEventListener('submit', e => {
   }
   if (f.dataset.coForm === 'sign') {
     const g = n => f.elements[n].value.trim(), bad = [];
-    const d = CO.draftSign; d.sname = g('sname'); d.stitle = g('stitle'); d.semail = g('semail'); d.tc = f.elements.tc.checked; d.pp = f.elements.pp.checked; d.es = f.elements.es.checked;
+    const d = CO.draftSign; d.sname = g('sname'); d.stitle = g('stitle'); d.semail = g('semail'); d.tc = f.elements.tc.checked; d.pp = f.elements.pp.checked; d.es = f.elements.es.checked; d.newsletter = !!(f.elements.newsletter && f.elements.newsletter.checked);
     [['sname', !d.sname && 'Enter the signer’s full name.'], ['stitle', !d.stitle && 'Enter the signer’s title.'], ['semail', !d.semail ? 'Enter a work email.' : !CO_EMAIL(d.semail) && 'Enter a valid email address.']].forEach(([n, m]) => { coErr(f, n, m || ''); if (m) bad.push(n); });
     ['tc', 'pp', 'es'].forEach(n => { const box = f.elements[n]; box.setAttribute('aria-invalid', box.checked ? 'false' : 'true'); box.closest('.ck').classList.toggle('bad', !box.checked); if (!box.checked) bad.push(n); });
     const p = f.querySelector('.co-formerr');
@@ -2172,7 +2397,7 @@ document.addEventListener('click', e => {
   const inCo = e.target.closest('#page-checkout');
   if (e.target.closest('[data-checkout]')) {
     if (!cartLines().length) return;
-    CO.step = 0; CO.order = null; CO.sign = null; CO.contractNo = '';
+    CO.mode = 'paid'; CO.step = 0; CO.order = null; CO.sign = null; CO.contractNo = '';
     goCheckout(); return;
   }
   if (!inCo) return;
@@ -2193,6 +2418,20 @@ document.addEventListener('click', e => {
   }
   if (e.target.closest('[data-co-resign]')) { CO.draftSign = {sname: CO.sign.name, stitle: CO.sign.title, semail: CO.sign.email, tc: true, pp: true, es: true}; CO.sign = null; renderCheckout(false); return; }
   if (e.target.closest('[data-co-dl]')) { coDownload(); return; }
+  const fr = e.target.closest('[data-co-free]');
+  if (fr) {
+    if (fr.disabled || !CO.sign) return;
+    const label = fr.textContent; fr.disabled = true; fr.textContent = 'Sending…';
+    const no = coNewNo('ISF');
+    coSignupSend({ref: no, newsletter: CO.draftSign.newsletter !== false}).then(r => {
+      fr.disabled = false; fr.textContent = label;
+      if (!r.ok) { coSendErr(r); return; }
+      const c = coTotals();
+      CO.order = {no, date: coDate(new Date()), org: CO.org.name, email: CO.org.adminEmail || CO.sign.email, signer: CO.sign.name, lines: c.lines, bill: 'free', paid: 0, total: 0, annual: 0, bundle: 0, list: 0, contractNo: CO.contractNo, address: coAddress()};
+      CO.step = coLast(); renderCheckout(true);
+    });
+    return;
+  }
   if (e.target.closest('[data-co-pay]')) {
     const c = coTotals();
     CO.order = {no: coNewNo('IS'), date: coDate(new Date()), org: CO.org.name, email: CO.sign.email, signer: CO.sign.name, lines: c.lines, bill: PR.bill, paid: coDueToday(c), total: c.total, annual: c.annual, bundle: c.bundle, list: c.list, contractNo: CO.contractNo, address: coAddress()};
@@ -2275,7 +2514,7 @@ function coContractBlocks() {
   if (c.annual) p(`Annual billing savings (20%): -${money(c.annual)} per month`);
   if (c.bundle) p(`Bundle discount (25%): -${money(c.bundle)} per month`);
   p(`Total: ${money(c.total)} per month`);
-  p(`Billing: ${bill === 'annual' ? 'annual, billed in advance for 12 months' : 'monthly'}`);
+  p(`Billing: ${bill === 'free' || CO.mode === 'free' ? 'Free plan, no charge' : bill === 'annual' ? 'annual, billed in advance for 12 months' : 'monthly'}`);
   p(`Amount due at signing: ${money(due)}`);
   p(`Start date: ${s ? s.date : coDate(new Date())}`);
   h('Terms and Conditions');
@@ -2333,7 +2572,8 @@ const LOGO = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQUAAABACAYAAAATdGL6
 $$('.logo-img').forEach(img => img.src = LOGO);
 
 /* ---------- init ---------- */
-{ const q = new URLSearchParams(location.search); if (M[q.get('sol')]) PR.sol = q.get('sol'); (q.get('cart') || '').split(',').forEach(x => { const [k, v] = x.split(':'); if (M[k] && v) PR.cart[k] = v; }); if (q.get('bill')) PR.bill = q.get('bill'); if (M[q.get('ent')]) entSetup(q.get('ent')); }
+setTimeout(() => { markReq(); rvAll(); }, 0);
+{ const q = new URLSearchParams(location.search); if (M[q.get('sol')]) PR.sol = q.get('sol'); (q.get('cart') || '').split(',').forEach(x => { const [k, v] = x.split(':'); if (M[k] && v) PR.cart[k] = v; }); if (q.get('bill')) PR.bill = q.get('bill'); if (M[q.get('ent')]) { location.replace(U('checkout') + '?mode=ent&sols=' + q.get('ent')); } }
 $$('[data-plans]').forEach(renderPlans);
 $$('[data-cal]').forEach(initCal);
 { const s = HASH_SEC[location.hash.slice(1)]; if (s) pending = s; }
@@ -2346,7 +2586,7 @@ let drList = null, drIdx = 0, drLast = null;
 function personHTML(p) {
   return `<div class="dp"><div class="dp-ph"><img src="${p.img}" alt="${p.name}, ${p.role}" width="232" height="326"></div><div class="dp-b"><p class="dp-r">${p.role}</p><h2 id="drTitle">${p.name}</h2><p class="tc-tags">${p.tags.map(t => `<span>${t}</span>`).join('')}</p></div></div>
     <p class="dp-bio">${p.bio}</p><div class="dp-f"><b>Focus at IntegrityShield</b><p>${p.focus}</p></div>
-    <div class="cta-row"><a class="btn primary sm" href="#contact" data-close>Contact the team</a></div>`;
+    <div class="cta-row"><a class="btn primary sm" href="#contact" data-close>Contact the team</a>${p.li ? `<a class="btn ghost sm" href="${p.li}" target="_blank" rel="noopener">LinkedIn profile <span class="vh">(opens in a new tab)</span></a>` : ''}</div>`;
 }
 function postHTML(p) {
   const sol = M[p.sol];
@@ -2489,12 +2729,101 @@ function industriesList() { return ['Healthcare providers', 'Health plans & insu
   'Insurance (non-health)', 'Government & public sector', 'Defense & aerospace', 'Education', 'Nonprofit', 'Technology & software', 'Telecommunications',
   'Manufacturing', 'Retail & e-commerce', 'Energy & utilities', 'Transportation & logistics', 'Construction & real estate', 'Hospitality & travel',
   'Media & entertainment', 'Professional services', 'Legal', 'Staffing & HR', 'Agriculture & food', 'Other']; }
+function consentBox() { return `<label class="nl-opt consent"><input type="checkbox" name="consent"><span>I agree to the <a href="#privacy" target="_blank" rel="noopener">Privacy Policy</a>. <i class="req" aria-hidden="true">*</i></span></label>`; }
 function nlBox(on) { return `<label class="nl-opt"><input type="checkbox" name="newsletter"${on === false ? '' : ' checked'}><span>Send me SureShield news, new offerings and updates. Unsubscribe anytime.</span></label>`; }
 const NL = f => !!(f.elements.newsletter && f.elements.newsletter.checked);
+/* ---------- privacy consent: forms with the box cannot be sent unless it is ticked ---------- */
+document.addEventListener('submit', e => {
+  const f = e.target, c = f && f.querySelector && f.querySelector('input[name=consent]');
+  if (!c || c.checked) return;
+  e.preventDefault(); e.stopImmediatePropagation();
+  const err = f.querySelector('.err');
+  if (err) { err.textContent = 'Please tick the box to agree to the Privacy Policy.'; err.hidden = false; }
+  c.focus();
+}, true);
+/* required markers and error association on lead forms */
+const REQ = {'.cform': ['name', 'email', 'msg'], '.web-form': ['first', 'email', 'org'], '.wnx-alert': ['email'], '.cal-form': ['name', 'email', 'org']};
+function markReq() {
+  Object.entries(REQ).forEach(([sel, names]) => document.querySelectorAll(sel).forEach(f => {
+    names.forEach(n => {
+      const el = f.elements[n]; if (!el || el.dataset.req) return;
+      el.dataset.req = '1'; el.setAttribute('aria-required', 'true');
+      const lab = el.closest('label'); if (!lab) return;
+      const node = [...lab.childNodes].find(x => x.nodeType === 3 && x.nodeValue.trim()) || lab.querySelector('span');
+      if (node) node.after(Object.assign(document.createElement('i'), {className: 'req', textContent: ' *', ariaHidden: 'true'}));
+    });
+    const err = f.querySelector('.err');
+    if (err) { if (!err.id) err.id = 'err-' + Math.random().toString(36).slice(2, 8); err.setAttribute('role', 'alert'); f.setAttribute('aria-describedby', err.id); }
+  }));
+}
+/* ---------- review markers (remove a rule once the item is resolved) ---------- */
+const REVIEW = [
+  [/\b(?:80|90)% of false positives/i, 'Needs review: false-positive figure differs across pages (80% vs 90%)'],
+  [/reduce your current costs and complexity by 75%|75% lower cost|up to 90%|90% less/i, 'Needs review: cost-savings figure and baseline differ (75% vs up to 90%; compared with outsourcing?)'],
+  [/63 official (?:sanctions and exclusion )?(?:lists|government sources)|Hundreds of sources|\b63\b (?:official )?(?:lists|sources)|Sources, updated nightly|Records checked against/i, 'Needs review: source count (63 lists / “hundreds” / 440k records)'],
+  [/US federal, national and state lists|Federal, state and international lists|international sanctions lists/i, 'Needs rework: coverage scope (federal / state / national / international)'],
+  [/\b(?:continuous(?:ly)?(?! improvement)|real-time|instant(?:ly)?|24 ?\/ ?7)\b/i, 'Needs clarification: screening cadence (continuous / real-time / 24/7 vs nightly)'],
+  [/2017 to 2024|2017–2024|2017-2024/, 'Needs clarification: Open Payments year range (CMS published 2025 data on July 7, 2026)'],
+  [/99%\+?|Less time to find cases|Lower admin cost|Reduction in time to identify suspect COI cases|Reduction in administrative cost burden|100% audit|Avoid penalties|Customers see/i, 'Needs clarification: legal'],
+  [/date of birth, address and NPI|name, date of birth and address/i, 'Needs clarification: matching inputs (name, DOB, address, NPI?)'],
+  [/For information only|A name match is not a confirmed identity/i, 'Needs review: disclaimer wording from legal'],
+  [/Stark Law|Anti-Kickback|Sunshine Act|by governing law|Report by law/i, 'Needs legal / compliance review']
+];
+function RV(t) { return `<span class="rv">[${t}]</span>`; }
+const RV_DONE = new WeakSet();
+function rvMark(root) {
+  if (!root) return;
+  const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {acceptNode: n => {
+    const p = n.parentElement;
+    if (!p || RV_DONE.has(n) || !n.nodeValue.trim() || p.closest('.rv, script, style, textarea, option, select, title, svg, [data-no-rv], .ix, .ixs, .ck-ban')) return NodeFilter.FILTER_REJECT;
+    return NodeFilter.FILTER_ACCEPT;
+  }});
+  const todo = [];
+  for (let n = w.nextNode(); n; n = w.nextNode()) {
+    for (const [re, note] of REVIEW) { const m = re.exec(n.nodeValue); if (m) { todo.push([n, m.index + m[0].length, note]); break; } }
+  }
+  todo.forEach(([n, at, note]) => {
+    const after = n.splitText(at);
+    RV_DONE.add(n);
+    const s = document.createElement('span'); s.className = 'rv'; s.textContent = '[' + note + ']';
+    after.parentNode.insertBefore(s, after);
+  });
+}
+let rvTimer = 0;
+function rvAll() { clearTimeout(rvTimer); rvTimer = setTimeout(() => { rvObs.disconnect(); document.querySelectorAll('main, header.nav, footer, #drawer').forEach(rvMark); rvWatch(); }, 60); }
+const rvObs = new MutationObserver(rvAll);
+function rvWatch() { document.querySelectorAll('main, #drawer').forEach(m => rvObs.observe(m, {childList: true, subtree: true})); }
+/* ---------- cookie consent: necessary always on; analytics and marketing only with consent ---------- */
+const CK = (() => { try { const m = document.cookie.match(/(?:^|; )is_consent=([^;]*)/); return m ? JSON.parse(decodeURIComponent(m[1])) : null; } catch (e) { return null; } })();
+window.isConsent = {analytics: !!(CK && CK.a), marketing: !!(CK && CK.m), decided: !!CK};
+function ckSave(a, m) {
+  const v = {a: a ? 1 : 0, m: m ? 1 : 0, t: new Date().toISOString().slice(0, 10)};
+  try { document.cookie = `is_consent=${encodeURIComponent(JSON.stringify(v))}; Max-Age=31536000; Path=/; SameSite=Lax${location.protocol === 'https:' ? '; Secure' : ''}`; } catch (e) {}
+  window.isConsent = {analytics: !!a, marketing: !!m, decided: true};
+  document.dispatchEvent(new CustomEvent('is:consent', {detail: window.isConsent}));
+  ckBan.hidden = true;
+}
+const ckBan = $('#ckBan'), ckFab = $('#ckFab');
+function ckOpen(custom) {
+  ckBan.hidden = false;
+  const o = ckBan.querySelector('.ck-opts'); o.hidden = !custom;
+  ckBan.querySelector('[data-ck="save"]').hidden = !custom; ckBan.querySelector('[data-ck="custom"]').hidden = !!custom;
+  ckBan.querySelector('[name=ck-a]').checked = window.isConsent.analytics; ckBan.querySelector('[name=ck-m]').checked = window.isConsent.marketing;
+  if (custom) ckBan.querySelector('[name=ck-a]').focus();
+}
+ckBan.addEventListener('click', e => {
+  const b = e.target.closest('[data-ck]'); if (!b) return;
+  const k = b.dataset.ck;
+  if (k === 'accept') ckSave(1, 1); else if (k === 'reject') ckSave(0, 0); else if (k === 'custom') ckOpen(true);
+  else if (k === 'save') ckSave(ckBan.querySelector('[name=ck-a]').checked, ckBan.querySelector('[name=ck-m]').checked);
+});
+ckFab.addEventListener('click', () => ckOpen(true));
+document.addEventListener('click', e => { if (e.target.closest && e.target.closest('[data-ck-open]')) ckOpen(true); });
+if (!CK) setTimeout(() => { if (!window.isConsent.decided) ckBan.hidden = false; }, 1200);
 const EMAIL_OK = v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
 /* forms send to the website API's "form" step; empty API = demo, nothing is sent */
 const FORM_T0 = new WeakMap();
-document.addEventListener('focusin', e => { const f = e.target.closest && e.target.closest('.web-form, .cform, .wnx-alert'); if (f && !FORM_T0.has(f)) FORM_T0.set(f, Date.now()); });
+document.addEventListener('focusin', e => { const f = e.target.closest && e.target.closest('.web-form, .cform, .wnx-alert, .cal-form'); if (f && !FORM_T0.has(f)) FORM_T0.set(f, Date.now()); });
 async function formSend(f, body) {
   if (!scanApi()) return {ok: true};
   const btn = f.querySelector('button[type=submit]'), label = btn ? btn.textContent : '';
@@ -3088,7 +3417,7 @@ document.addEventListener('click', e => {
   $$('[data-wnx-panel]', card).forEach(p => { p.hidden = p.dataset.wnxPanel !== k ? true : !p.hidden; });
   $$('[data-wnx]', card).forEach(x => x.classList.toggle('on', x === b && !card.querySelector(`[data-wnx-panel="${k}"]`).hidden));
   const open = card.querySelector(`[data-wnx-panel="${k}"]`);
-  card.querySelector('.wnx-demo').hidden = open.hidden;
+  card.querySelector('.wnx-demo').hidden = open.hidden || !!scanApi();
   if (!open.hidden) { const i = open.querySelector('input:not([type=hidden])'); if (i) setTimeout(() => i.focus({preventScroll: true}), 50); }
 });
 document.addEventListener('submit', async e => {
@@ -3266,6 +3595,7 @@ function ixReset() {
   ixSlot.innerHTML = ''; ixSlot.style.width = '0px';
 }
 function ixPlay() {
+  { const sk = document.querySelector('.ix-skip'); if (sk) setTimeout(() => sk.focus({preventScroll: true}), 60); }
   if (reduce) { ixDone(); return; }
   ixReset(); ixBuildRows();
   ROOT.classList.add('intro-on', 'intro-hold');
