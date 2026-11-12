@@ -186,6 +186,7 @@ const FACE = {
 };
 const REPORT_LBL = {ses: 'View Screening Log Report', coi: 'View Payment Report', licensure: 'View Licensure Scan Report'};
 function reportCTA(k) {
+  return '';   // free assessments come without a report
   return `<div class="rep-cta"><button type="button" class="btn primary sm" data-report="${k}">${REPORT_LBL[k]}</button></div>`;
 }
 document.addEventListener('click', e => {
@@ -288,6 +289,7 @@ function bookHTML(k) {
           <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
           <label for="${k}-bk-note">What would you like to see? (optional)<textarea id="${k}-bk-note" name="note" rows="3"></textarea></label>
           <p class="err" hidden></p>
+          ${nlBox()}
           <button class="btn primary" type="submit">Schedule demo</button>
           <p class="note" data-demo-note>Demo form. Nothing is sent.</p>
         </form>
@@ -424,11 +426,10 @@ const ABOUT_FAQ = [
   ['What does IntegrityShield do?', 'It screens employees, vendors and healthcare providers against OFAC, OIG, SAM and 63 official sanctions and exclusion lists every night, and monitors conflicts of interest between vendors and credentialed practitioners using CMS Open Payments.'],
   ['Who is IntegrityShield for?', 'Compliance officers and their teams in healthcare, finance, defense, manufacturing and other regulated industries.'],
   ['Who leads SureShield?', 'Sanjaya Kumar (CEO), Chandrasekhar Bilugu (CTO), Tom Leahy (SVP, Sales) and John Hammer (CFO), with Susan Moore advising on healthcare.'],
-  ['Can MSPs and MSSPs work with SureShield?', 'Yes. SureShield’s partner program lets MSPs and MSSPs offer its managed, automated services without a large upfront investment. Contact us to talk about IntegrityShield.']
 ];
 const CONTACT_FAQ = [
   ['How do I book an IntegrityShield demo?', 'Pick a day and time in the calendar on this page. Demos take 30 minutes and use your own use case.'],
-  ['Can I try IntegrityShield before a demo?', 'Yes. The SES and COI pages each have a free assessment: run an exclusion check or an Open Payments lookup in seconds.'],
+  ['Can I try IntegrityShield before a demo?', 'Yes. The SES, COI and Licensure pages each have a free assessment: run an exclusion check, an Open Payments lookup or a license check in seconds.'],
   ['How do I join an IntegrityShield webinar?', 'Register with the webinar form on this page. Everyone who registers gets the recording.'],
   ['How can I reach the team?', 'Call 1-800-604-1354, email info@sureshield.ai, or send a message with the form on this page.']
 ];
@@ -489,15 +490,18 @@ function webinarNextHTML(px = 'home') {
         <label>First name<input name="first" autocomplete="given-name"></label>
         <label>Work email<input name="email" type="email" autocomplete="email"></label>
         <label>Organization<input name="org" autocomplete="organization"></label>
+        ${nlBox()}
         <button class="btn primary" type="submit">Save my seat</button>
         <p class="err" hidden></p>
       </form>
       <div class="web-done" hidden><span class="wd-ic" aria-hidden="true">✓</span><p class="wf-title">You’re registered.</p><p class="wd-t"></p><button type="button" class="btn ghost sm" data-web-again>Register someone else</button></div>
     </div>
     <div class="wnx-panel" data-wnx-panel="alert" hidden>
-      <form class="wnx-alert" novalidate>
+      <form class="wnx-alert" novalidate><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <label>Work email<input name="email" type="email" autocomplete="email" placeholder="you@organization.org"></label>
+        <label><span>Industry <em class="opt">(optional)</em></span><select name="industry"><option value="">Select your industry</option>${industriesList().map(x => `<option>${x}</option>`).join('')}</select></label>
         <button class="btn primary" type="submit">Notify me</button>
+        ${nlBox()}
         <p class="err" hidden></p>
       </form>
       <div class="wnx-done" hidden><span class="wd-ic" aria-hidden="true">✓</span><p>You’re on the list. We’ll email you the date and topic of every upcoming IntegrityShield webinar, plus the recording if you miss one.</p></div>
@@ -515,13 +519,14 @@ function webinarCompactHTML(px) {
       <p class="web-chips"><span>Date to be announced</span><span>45 minutes, online</span><span>Recording for every registrant</span></p>
     </div>
     <div class="web-card" data-reveal>
-      <form class="web-form" novalidate>
+      <form class="web-form" novalidate><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <label>Session<select name="session"><option value="ses">Sanctions &amp; exclusion screening</option><option value="coi">Conflict of interest monitoring</option><option value="both">Both sessions</option></select></label>
         <div class="two"><label>First name<input name="first" autocomplete="given-name"></label><label>Work email<input name="email" type="email" autocomplete="email"></label></div>
         <label>Organization<input name="org" autocomplete="organization"></label>
         <p class="err" hidden></p>
+        ${nlBox()}
         <button class="btn primary" type="submit">Save my seat</button>
-        <p class="note">Demo form. Nothing is sent.</p>
+        ${scanApi() ? '' : '<p class="note">Demo form. Nothing is sent.</p>'}
       </form>
       <div class="web-done" hidden><span class="wd-ic" aria-hidden="true">✓</span><p class="wf-title">You’re registered.</p><p class="wd-t"></p><button type="button" class="btn ghost sm" data-web-again>Register someone else</button></div>
     </div>
@@ -540,7 +545,7 @@ function webinarHTML(px) {
       <ul class="checks sm web-learn" data-wl>${w.learn.map(l => `<li>${l}</li>`).join('')}</ul>
     </div>
     <div class="web-card" data-reveal>
-      <form class="web-form" novalidate>
+      <form class="web-form" novalidate><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <p class="wf-title">Save your seat</p>
         <fieldset class="sess"><legend>Choose a session</legend>
           <label class="sess-opt"><input type="radio" name="${px}-session" value="ses" checked><span><b>Sanctions &amp; exclusion screening</b><small>OIG, SAM, OFAC and state lists</small></span></label>
@@ -551,8 +556,9 @@ function webinarHTML(px) {
         <label>Work email<input name="email" type="email" autocomplete="email"></label>
         <div class="two"><label>Organization<input name="org" autocomplete="organization"></label><label>Role<select name="role"><option value="">Select</option><option>Compliance officer</option><option>Chief compliance officer</option><option>Privacy officer</option><option>Credentialing</option><option>HR</option><option>Procurement or finance</option><option>Other</option></select></label></div>
         <p class="err" hidden></p>
+        ${nlBox()}
         <button class="btn primary" type="submit">Register for the webinar</button>
-        <p class="note">Demo form. Nothing is sent.</p>
+        ${scanApi() ? '' : '<p class="note">Demo form. Nothing is sent.</p>'}
       </form>
       <div class="web-done" hidden><span class="wd-ic" aria-hidden="true">✓</span><p class="wf-title">You’re registered.</p><p class="wd-t"></p><button type="button" class="btn ghost sm" data-web-again>Register someone else</button></div>
     </div>
@@ -581,8 +587,7 @@ function renderAbout() {
     ['Healthcare', 'Hospitals, health systems, provider groups and post-acute care screening staff, vendors and practitioners.'],
     ['Finance', 'Banks and financial firms screening people and counterparties against OFAC and other sanctions lists.'],
     ['Defense and government contractors', 'Contractors checking SAM.gov exclusions across staff, suppliers and subcontractors.'],
-    ['Manufacturing', 'Manufacturers screening suppliers, distributors and contractors.'],
-    ['MSPs and MSSPs', 'Managed service providers offering SureShield’s automated services through its partner program.']
+    ['Manufacturing', 'Manufacturers screening suppliers, distributors and contractors.']
   ];
   return `${pageHero('About IntegrityShield', 'Integrity screening from people who have built <span class="mark">compliance software for 20 years.</span>',
       'IntegrityShield is the integrity screening platform from SureShield, Inc., an Atlanta company that builds automated security, compliance and integrity software. We help compliance officers screen employees, vendors and healthcare providers for sanctions, exclusions and conflicts of interest, in-house and every night.',
@@ -641,10 +646,9 @@ function renderContact() {
   const opts = [
     ['Call sales', '1-800-604-1354', 'Talk to someone about your screening program.', 'tel:18006041354'],
     ['Email us', 'info@sureshield.ai', 'Questions, quotes and support.', 'mailto:info@sureshield.ai'],
-    ['Visit', 'Atlanta, Georgia', '3343 Peachtree Rd NE, Ste 145-1564, Atlanta, GA 30326', ''],
-    ['Partners', 'MSPs and MSSPs', 'Offer SureShield’s automated services to your clients.', 'https://sure-shield.com/partnershield/']
+    ['Headquarters', 'Atlanta, Georgia', '3343 Peachtree Rd NE, Ste 145-1564, Atlanta, GA 30326', '']
   ];
-  const topics = ['Sanctions & exclusion screening', 'Conflict of interest monitoring', 'Licensure', 'Pricing', 'Partnerships', 'Something else'];
+  const topics = ['Sanctions & exclusion screening', 'Conflict of interest monitoring', 'Licensure', 'Pricing', 'Something else'];
   return `${pageHero('Contact us', 'Talk to the <span class="mark">IntegrityShield team.</span>',
       'Questions about sanctions and exclusion screening, conflict of interest monitoring or pricing? Book a demo, join a live webinar or send us a note.',
       `<div class="cta-row"><button class="btn primary" data-go="demo">Book a demo</button><button class="btn ghost" data-to-web>Join a webinar</button></div>`)}
@@ -652,17 +656,18 @@ function renderContact() {
     <div class="copts">${opts.map(o => `<${o[3] ? `a href="${o[3]}"` : 'div'} class="copt" data-reveal><span class="co-k">${o[0]}</span><b>${o[1]}</b><span>${o[2]}</span></${o[3] ? 'a' : 'div'}>`).join('')}</div>
     <div class="cform-wrap" data-reveal>
       <div class="cf-copy"><div class="cf-std"><h2>Send us a message.</h2><p class="lede">Tell us what you screen today and what you need. The right person on our team will get back to you.</p></div><div class="cf-ent"><h2>Talk to us about Enterprise.</h2><p class="lede">Leave your name and work email. Our team will contact you to scope your Enterprise plan.</p></div></div>
-      <form class="cform" novalidate>
+      <form class="cform" novalidate><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <p class="ent-tag"><b>Enterprise plan</b><button type="button" class="link" data-ent-off>Not an Enterprise inquiry?</button></p>
         <fieldset class="topics"><legend>What can we help with?</legend>${topics.map((t, i) => `<label class="topic"><input type="radio" name="topic" value="${t}"${i === 0 ? ' checked' : ''}><span>${t}</span></label>`).join('')}</fieldset>
         <div class="two"><label>Full name<input name="name" autocomplete="name"></label><label>Work email<input name="email" type="email" autocomplete="email"></label></div>
         <div class="two ph-row"><label>Organization<input name="org" autocomplete="organization"></label><label class="ph-l">Phone (optional)<input name="phone" type="tel" autocomplete="tel"></label></div>
         <label>Message<textarea name="msg" rows="4" placeholder="For example: we screen 3,000 employees and 600 vendors monthly and want to move to nightly screening."></textarea></label>
         <p class="err" hidden></p>
+        ${nlBox()}
         <button class="btn primary" type="submit">Send message</button>
-        <p class="note">Demo form. Nothing is sent.</p>
+        ${scanApi() ? '' : '<p class="note">Demo form. Nothing is sent.</p>'}
       </form>
-      <div class="cdone" hidden><span class="wd-ic" aria-hidden="true">✓</span><p class="wf-title">Thanks, your message is ready.</p><p class="cd-t"></p><button type="button" class="btn ghost sm" data-c-again>Send another</button></div>
+      <div class="cdone" hidden><span class="wd-ic" aria-hidden="true">✓</span><p class="wf-title">${scanApi() ? 'Thanks, your message is on its way.' : 'Thanks, your message is ready.'}</p><p class="cd-t"></p><button type="button" class="btn ghost sm" data-c-again>Send another</button></div>
     </div>
   </div></section>
   ${webinarNextHTML('contact')}
@@ -1338,7 +1343,7 @@ function licResultHTML(q, d) {
   LIC.lastReport = d.report || null;
   return `${head}<div class="ck-res">${d.licenses.map(l => licLicenseHTML(l, d, !one)).join('')}${reportCTA('licensure')}</div>`;
 }
-const LIC_STEPS = ['Connecting to {b}', 'Looking up the license', 'Reading the license status', 'Checking the expiration date', 'Checking discipline and public complaints', 'Saving the board’s records for your report', 'Still working: some boards take up to a minute'];
+const LIC_STEPS = ['Connecting to {b}', 'Looking up the license', 'Reading the license status', 'Checking the expiration date', 'Checking discipline and public complaints', 'Saving the board’s records', 'Still working: some boards take up to a minute'];
 document.addEventListener('submit', async e => {
   const f = e.target.closest && e.target.closest('form[data-assess="licensure"][data-live]');
   if (!f) return;
@@ -1634,7 +1639,7 @@ function initCalLive(root) {
     try {
       res = await fetch(`${BOOKING_API}/book`, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({
         type, start: st.time, name, email, org, note: f.elements.note.value.trim(), timezone: LOCAL_TZ,
-        utm: bookUtm(), website: f.elements.website ? f.elements.website.value : ''
+        utm: bookUtm(), newsletter: NL(f), website: f.elements.website ? f.elements.website.value : ''
       })});
       try { data = await res.json(); } catch (x) {}
     } catch (x) { res = null; }
@@ -1843,7 +1848,7 @@ const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&': '&am
 const cartQS = () => '?sol=' + PR.sol + '&cart=' + Object.entries(PR.cart).map(x => x.join(':')).join(',') + '&bill=' + PR.bill;
 function goCheckout() { location.href = U('checkout') + cartQS(); }
 function goPricing() { location.href = U('pricing') + cartQS(); }
-const ORG_TYPES = ['Hospital or health system', 'Physician group or clinic', 'Post-acute or long-term care', 'Health plan or payer', 'Pharmacy', 'Behavioral health', 'Government contractor', 'Financial services', 'Managed service provider (MSP or MSSP)', 'Other'];
+const ORG_TYPES = ['Hospital or health system', 'Physician group or clinic', 'Post-acute or long-term care', 'Health plan or payer', 'Pharmacy', 'Behavioral health', 'Government contractor', 'Financial services', 'Other'];
 const INDUSTRIES = ['Healthcare', 'Finance', 'Defense and government contracting', 'Manufacturing', 'Education', 'Nonprofit', 'Technology', 'Other'];
 const COUNTRIES = ['United States', 'Canada', 'Mexico', 'United Kingdom', 'India', 'Other'];
 const US_STATES = ['Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming','Puerto Rico'];
@@ -1928,7 +1933,7 @@ function coOrgHTML() {
       ${fText('city', 'City', {req: true, ac: 'address-level2'})}
       ${fText('zip', 'ZIP code', {req: true, ac: 'postal-code', im: o.country === 'United States' ? 'numeric' : 'text'})}
     </div></fieldset>
-    <fieldset class="co-fs"><legend>Partner system administrator</legend><p class="co-hint">The person who will set up and manage your IntegrityShield account.</p><div class="cgrid">
+    <fieldset class="co-fs"><legend>System administrator</legend><p class="co-hint">The person who will set up and manage your IntegrityShield account.</p><div class="cgrid">
       ${fText('adminName', 'Full name', {ac: 'name'})}
       ${fText('adminTitle', 'Title', {ac: 'organization-title'})}
       ${fText('adminEmail', 'Work email', {type: 'email', ac: 'email'})}
@@ -2002,6 +2007,7 @@ function coAgreementHTML(c) {
       <label class="ck"><input type="checkbox" name="tc"${CO.draftSign.tc ? ' checked' : ''}><span>I have read and agree to the Terms and Conditions. <i aria-hidden="true">*</i></span></label>
       <label class="ck"><input type="checkbox" name="pp"${CO.draftSign.pp ? ' checked' : ''}><span>I have read and agree to the Privacy Policy. <i aria-hidden="true">*</i></span></label>
       <label class="ck"><input type="checkbox" name="es"${CO.draftSign.es ? ' checked' : ''}><span>I am authorized to sign for ${esc(o.name)}, and typing my name above is my electronic signature. <i aria-hidden="true">*</i></span></label>
+      ${nlBox(CO.draftSign.newsletter !== false)}
       <p class="co-formerr" role="alert" hidden></p>
       <div class="co-nav"><button type="button" class="link" data-co-go="0">← Back</button><button type="submit" class="btn primary">Sign agreement</button></div>
     </form>`}
@@ -2262,7 +2268,7 @@ function coContractBlocks() {
   if (o.type) p(`Organization type: ${o.type}`);
   if (o.url) p(`Website: ${o.url}`);
   if (o.industries.length) p(`Industries served: ${o.industries.join(', ')}`);
-  if (o.adminName || o.adminEmail) p(`Partner system administrator: ${[o.adminName, o.adminTitle, o.adminEmail, o.adminPhone].filter(Boolean).join(', ')}`);
+  if (o.adminName || o.adminEmail) p(`System administrator: ${[o.adminName, o.adminTitle, o.adminEmail, o.adminPhone].filter(Boolean).join(', ')}`);
   CO.contacts.filter(k => k.name || k.email).forEach((k, i) => p(`Key contact ${i + 1}: ${[k.name, k.role, k.email, k.phone].filter(Boolean).join(', ')}`));
   h('Summary of purchase');
   lines.forEach(x => p(`${M[x.sol].name} - ${x.t.n} (${x.t.rec}): ${money(x.t.m)} per month list price`));
@@ -2479,8 +2485,39 @@ function webSession(f) {
   setTimeout(() => { h.textContent = w.h; p.textContent = w.p; l.innerHTML = w.learn.map(x => `<li>${x}</li>`).join(''); sec.classList.remove('swap'); }, reduce ? 0 : 180);
 }
 document.addEventListener('change', e => { const f = e.target.closest('.web-form'); if (f && e.target.type === 'radio') webSession(f); });
+function industriesList() { return ['Healthcare providers', 'Health plans & insurance', 'Pharmacy', 'Life sciences (pharma, biotech, medical devices)', 'Financial services & banking',
+  'Insurance (non-health)', 'Government & public sector', 'Defense & aerospace', 'Education', 'Nonprofit', 'Technology & software', 'Telecommunications',
+  'Manufacturing', 'Retail & e-commerce', 'Energy & utilities', 'Transportation & logistics', 'Construction & real estate', 'Hospitality & travel',
+  'Media & entertainment', 'Professional services', 'Legal', 'Staffing & HR', 'Agriculture & food', 'Other']; }
+function nlBox(on) { return `<label class="nl-opt"><input type="checkbox" name="newsletter"${on === false ? '' : ' checked'}><span>Send me SureShield news, new offerings and updates. Unsubscribe anytime.</span></label>`; }
+const NL = f => !!(f.elements.newsletter && f.elements.newsletter.checked);
 const EMAIL_OK = v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
-document.addEventListener('submit', e => {
+/* forms send to the website API's "form" step; empty API = demo, nothing is sent */
+const FORM_T0 = new WeakMap();
+document.addEventListener('focusin', e => { const f = e.target.closest && e.target.closest('.web-form, .cform, .wnx-alert'); if (f && !FORM_T0.has(f)) FORM_T0.set(f, Date.now()); });
+async function formSend(f, body) {
+  if (!scanApi()) return {ok: true};
+  const btn = f.querySelector('button[type=submit]'), label = btn ? btn.textContent : '';
+  if (f.dataset.busy) return {ok: false, busy: true};
+  f.dataset.busy = '1'; if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+  const u = bookUtm();
+  let res = null;
+  try {
+    res = await licCall('/form', {...body, page: location.pathname + location.hash, utm: Object.entries(u).map(([k, v]) => `${k}=${v}`).join('&'),
+      ms: FORM_T0.has(f) ? Date.now() - FORM_T0.get(f) : 0, website: f.elements.website ? f.elements.website.value : ''});
+  } catch (x) { res = null; }
+  delete f.dataset.busy; if (btn) { btn.disabled = false; btn.textContent = label; }
+  if (res && res.ok) return {ok: true};
+  const err = f.querySelector('.err');
+  if (err) {
+    err.textContent = res && res.status === 429 ? 'We’ve had an unusual number of messages today. Please try again tomorrow, or call 1-800-604-1354.'
+      : res && res.status === 400 ? 'Check your details and try again.'
+      : 'We couldn’t send this just now. Please try again, or call 1-800-604-1354.';
+    err.hidden = false;
+  }
+  return {ok: false};
+}
+document.addEventListener('submit', async e => {
   const wf = e.target.closest('.web-form'), cf = e.target.closest('.cform');
   if (!wf && !cf) return;
   e.preventDefault();
@@ -2496,6 +2533,20 @@ document.addEventListener('submit', e => {
   }
   if (miss.length) { err.textContent = 'Add ' + miss.join(', ').replace(/, ([^,]*)$/, ' and $1') + '.'; err.hidden = false; return; }
   err.hidden = true;
+  const val = n => f.elements[n] ? String(f.elements[n].value || '').trim() : '';
+  if (wf) {
+    const v0 = (f.querySelector('input[type=radio]:checked') || f.elements.session || {}).value || 'ses';
+    const names0 = {ses: 'Sanctions & exclusion screening', coi: 'Conflict of interest monitoring', both: 'Both sessions'};
+    const card = f.closest('.web-card, .wnx-card, section'), wt = card && card.querySelector('h2, h3');
+    const sent = await formSend(f, {kind: 'webinar', name: [val('first'), val('last')].filter(Boolean).join(' '), email: val('email'), org: val('org'), role: val('role'),
+      topic: [names0[v0] || v0, wt ? wt.textContent.trim() : ''].filter(Boolean).join(' · '), newsletter: NL(f)});
+    if (!sent.ok) return;
+  } else {
+    const ent = f.classList.contains('ent');
+    const sent = await formSend(f, {kind: ent ? 'enterprise' : 'contact', name: val('name'), email: val('email'), org: val('org'), phone: val('phone'),
+      topic: ent ? $('.ent-tag b', f.closest('.cform-wrap')).textContent : val('topic'), message: val('msg'), newsletter: NL(f)});
+    if (!sent.ok) return;
+  }
   if (wf) {
     const v = (f.querySelector('input[type=radio]:checked') || f.elements.session || {}).value || 'ses';
     const names = {ses: 'Sanctions & exclusion screening', coi: 'Conflict of interest monitoring', both: 'Both sessions'};
@@ -2504,7 +2555,7 @@ document.addEventListener('submit', e => {
     f.hidden = true; done.hidden = false;
   } else {
     const done = $('.cdone', f.closest('.cform-wrap'));
-    $('.cd-t', done).textContent = f.classList.contains('ent') ? `${$('.ent-tag b', f).textContent}. We’d contact you at ${f.elements.email.value.trim()}.` : `Topic: ${f.elements.topic.value}. We’d reply to ${f.elements.email.value.trim()}.`;
+    $('.cd-t', done).textContent = f.classList.contains('ent') ? `${$('.ent-tag b', f).textContent}. ${scanApi() ? 'We’ll' : 'We’d'} contact you at ${f.elements.email.value.trim()}.` : `Topic: ${f.elements.topic.value}. ${scanApi() ? 'We’ll' : 'We’d'} reply to ${f.elements.email.value.trim()}.`;
     f.hidden = true; done.hidden = false;
   }
 });
@@ -3040,13 +3091,15 @@ document.addEventListener('click', e => {
   card.querySelector('.wnx-demo').hidden = open.hidden;
   if (!open.hidden) { const i = open.querySelector('input:not([type=hidden])'); if (i) setTimeout(() => i.focus({preventScroll: true}), 50); }
 });
-document.addEventListener('submit', e => {
+document.addEventListener('submit', async e => {
   const f = e.target.closest('.wnx-alert');
   if (!f) return;
   e.preventDefault();
   const v = f.elements.email.value.trim(), err = f.querySelector('.err');
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) { err.textContent = 'Add a work email.'; err.hidden = false; return; }
-  err.hidden = true; f.hidden = true; f.parentElement.querySelector('.wnx-done').hidden = false;
+  err.hidden = true;
+  if (!(await formSend(f, {kind: 'webinar-alert', email: v, industry: f.elements.industry ? f.elements.industry.value : '', newsletter: NL(f)})).ok) return;
+  f.hidden = true; f.parentElement.querySelector('.wnx-done').hidden = false;
 });
 /* ---------- next webinar from a Google Sheet ----------
    WEBINAR_SHEET is the sheet tab's "Publish to web" CSV link. Empty = use nextWebinar() above.
