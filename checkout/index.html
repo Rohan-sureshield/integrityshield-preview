@@ -90,19 +90,18 @@
         <p class="lede intro" style="--d:2">Continuous integrity screening for healthcare practitioners, CXOs and board members, investors, vendors and key assets. Stop outsourcing and run it in-house.</p>
       </div>
       <div class="film hero-film intro" id="film" style="--d:3">
-      <div class="film-card" id="filmCard">
-        <!-- To add the real film: replace .vid-ph with
-             <video id="introVideo" src="integrityshield-30s.mp4" playsinline preload="metadata"></video> -->
-        <div class="vid-ph" role="img" aria-label="Placeholder for the IntegrityShield intro video">
-          <span class="vid-tag">Placeholder video · 0:30</span>
+      <div class="film-card has-video" id="filmCard">
+        <video id="introVideo" playsinline preload="none" data-src="assets/integrityshield-overview.mp4" data-poster="assets/integrityshield-overview-poster.jpg" aria-label="IntegrityShield overview video"></video>
+        <div class="vid-ph">
+          <span class="vid-tag">Overview · 0:42</span>
           <div class="vid-c">
             <div class="vid-play"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M8 5.5v13l11-6.5z" fill="#fff"/></svg></div>
-            <b class="vid-title">Watch Intro Video</b>
-            <span class="vid-sub">Placeholder. Your IntegrityShield video plays here.</span>
+            <b class="vid-title">Watch the overview</b>
+            <span class="vid-sub">See how IntegrityShield screens every record, every night.</span>
           </div>
-          <div class="vid-bar"><span id="vidTime">0:00</span><div class="vid-track"><span id="vidProg"></span></div><span>0:30</span></div>
+          <div class="vid-bar"><span id="vidTime">0:00</span><div class="vid-track"><span id="vidProg"></span></div><span>0:42</span></div>
         </div>
-        <button type="button" class="film-hit" id="filmPlay" aria-label="Play the IntegrityShield intro video"></button>
+        <button type="button" class="film-hit" id="filmPlay" aria-label="Play the IntegrityShield overview video"></button>
         <button type="button" class="film-close" id="filmClose" aria-label="Close the video"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3.5 3.5l9 9M12.5 3.5l-9 9" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></button>
       </div>
       </div>
@@ -114,52 +113,18 @@
     </div>
 
     <div class="wrap stage intro" style="--d:4">
-      <div class="console" id="heroConsole">
-        <div class="chrome"><i></i><i></i><i></i><span class="ttl">IntegrityShield · Tonight's screening run</span></div>
-        <span class="sample">Sample data</span>
-        <div class="app">
-          <aside class="side" aria-hidden="true">
-            <p>Watchlists</p>
-            <span class="on">Contractors <em>388</em></span>
-            <span>Employees <em>2,941</em></span>
-            <span>Vendors <em>612</em></span>
-            <span>Providers <em>1,284</em></span>
-            <span>New hires <em>27</em></span>
-            <p>Modules</p>
-            <span>Exclusions <em>on</em></span>
-            <span>Conflict of interest <em>on</em></span>
-            <span>Licensure <em>soon</em></span>
-          </aside>
-          <div class="mainp">
-            <div class="kpis">
-              <div class="kpi"><b id="kScreened">5,252</b><span>Screened tonight</span></div>
-              <div class="kpi"><b>63</b><span>Sources checked</span></div>
-              <div class="kpi o"><b id="kRes">2</b><span>Auto-resolved</span></div>
-              <div class="kpi f"><b id="kRev">1</b><span>Needs review</span></div>
-            </div>
-            <div class="tbl">
-              <table class="rows">
-                <thead><tr><th>Record</th><th class="hide-s">Type</th><th class="hide-s">Sources</th><th>Result</th></tr></thead>
-                <tbody id="rows"></tbody>
-              </table>
-            </div>
-          </div>
-          <aside class="detail" aria-hidden="true">
-            <div><span class="chip match">Needs review</span></div>
-            <div><h4>Jane Doe</h4><p class="muted">Contractor · Facilities</p></div>
-            <dl class="kv">
-              <dt>Source</dt><dd>OIG LEIE</dd>
-              <dt>Listed</dt><dd>2026-09-14</dd>
-              <dt>Matched on</dt><dd>Name, DOB, address</dd>
-            </dl>
-            <div><div class="vhead" style="margin-bottom:6px"><span>Match score</span><span style="font-family:var(--font-mono)">96%</span></div><div class="meter"><span></span></div></div>
-            <div class="acts"><span class="p">Confirm match</span><span>False positive</span></div>
-            <div class="log">
-              <span><b>02:14</b> screened, 63 sources</span>
-              <span><b>02:14</b> flagged, OIG LEIE</span>
-              <span><b>02:15</b> alert sent</span>
-            </div>
-          </aside>
+      <div class="console dshow" id="heroConsole">
+        <div class="chrome"><i></i><i></i><i></i><span class="ttl" id="dshowTtl">IntegrityShield · Sanctions &amp; Exclusions dashboard</span></div>
+        <span class="sample dshow-tag">Illustrative data</span>
+        <div class="dshow-stage" aria-live="polite">
+          <img class="on" data-src="assets/dash-ses.webp" alt="IntegrityShield-SES dashboard: screening matches, matched case worklist, poor quality records and integrity violations" width="1860" height="765" decoding="async">
+          <img data-src="assets/dash-coi.webp" alt="IntegrityShield-COI dashboard: providers receiving payments from supply chain vendors, matched vendors and potential COI issues" width="1860" height="765" decoding="async">
+          <img data-src="assets/dash-lic.webp" alt="IntegrityShield-Licensure dashboard: credentials validity, professional conduct, verification and license records" width="1860" height="765" decoding="async">
+        </div>
+        <div class="dshow-tabs" role="tablist" aria-label="Dashboard views">
+          <button type="button" role="tab" aria-selected="true" class="on" data-i="0"><span class="l">Sanctions &amp; Exclusions</span><span class="s">SES</span><i></i></button>
+          <button type="button" role="tab" aria-selected="false" data-i="1"><span class="l">Conflict of Interest</span><span class="s">COI</span><i></i></button>
+          <button type="button" role="tab" aria-selected="false" data-i="2"><span class="l">Licensure &amp; Credentials</span><span class="s">Licensure</span><i></i></button>
         </div>
       </div>
     </div>
@@ -329,7 +294,7 @@
       <div><h4>Company</h4><ul><li><a href="../about/">About IntegrityShield</a></li><li><a href="../team/">Our team</a></li><li><a href="../blog/">Blog</a></li><li><a href="../contact/">Contact us</a></li></ul></div>
       <div><h4>Contact</h4><address>3343 Peachtree Rd NE, Ste 145-1564<br>Atlanta, GA 30326<br><span class="sel">1-800-604-1354</span><br><span class="sel">info@sureshield.ai</span></address></div>
     </div>
-    <div class="fbase"><span>© 2026 SureShield, Inc.</span><span>Design concept. Product views use sample data. <button type="button" class="replay" data-replay>Replay intro</button></span></div>
+    <div class="fbase"><span>© 2026 SureShield, Inc.</span><span>Design concept. Product views use sample data. <button type="button" class="replay" data-replay>Replay intro</button> · <a class="replay" href="404.html" data-404-link>View 404 page</a></span></div>
   </div>
 </footer>
 <script src="../assets/site.js"></script>

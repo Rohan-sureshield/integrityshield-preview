@@ -837,26 +837,44 @@ function onEnter() {
   if (route === 'ses') $$('#page-ses .ses-scan form[data-assess]').forEach(licGateInit);
 }
 
-/* ---------- console stream ---------- */
-const PEOPLE = [['Alex Doe','Employee'],['Acme Linen Co.','Vendor'],['Sam Roe','Contractor'],['Pat Example','Provider'],['Globex Courier LLC','Vendor'],['Jamie Sample','New hire'],['Chris Doe','Contractor'],['Initech Supply Co.','Vendor'],['Taylor Roe','Provider'],['Example Staffing Group','Contractor'],['Jordan Test','Employee'],['Casey Example','Employee'],['Sample Systems Inc','Vendor'],['Morgan Doe','Contractor']];
-const tbody = $('#rows');
-let pi = 0, screened = 5252, resolved = 2, review = 1;
-const resultFor = i => i % 11 === 6 ? ['match','Match · OIG LEIE'] : i % 5 === 3 ? ['res','Resolved'] : ['','Clear'];
-const rowHTML = (p, i) => { const [c, t] = resultFor(i); return `<td>${p[0]}</td><td class="t hide-s">${p[1]}</td><td class="s hide-s">63/63</td><td><span class="chip ${c}">${t}</span></td>`; };
-for (let i = 0; i < 7; i++) { const tr = document.createElement('tr'); tr.innerHTML = rowHTML(PEOPLE[i % PEOPLE.length], i + 100); tbody.appendChild(tr); }
-pi = 7;
-function streamRow() {
-  if (route !== 'home' || document.hidden) return;
-  const i = pi++, tr = document.createElement('tr');
-  tr.className = 'fresh'; tr.innerHTML = rowHTML(PEOPLE[i % PEOPLE.length], i);
-  tbody.insertBefore(tr, tbody.firstChild);
-  if (tbody.children.length > 7) tbody.lastElementChild.remove();
-  screened++;
-  const [c] = resultFor(i); if (c === 'res') resolved++; if (c === 'match') review++;
-  $('#kScreened').textContent = screened.toLocaleString('en-US');
-  $('#kRes').textContent = resolved; $('#kRev').textContent = review;
+/* ---------- dashboard showcase: real product views rotate (illustrative data) ---------- */
+const dshow = $('#heroConsole.dshow');
+if (dshow) {
+  const DROOT = document.documentElement.dataset.root || '';
+  const dSrc = u => /^(data:|https?:|\/)/.test(u) ? u : DROOT + u;
+  const imgs = $$('.dshow-stage img', dshow), tabs = $$('.dshow-tabs button', dshow), ttl = $('#dshowTtl');
+  const DT = 6000; let di = 0, dTimer = 0, held = false;
+  imgs.forEach((im, i) => { if (i === 0) im.src = dSrc(im.dataset.src); });
+  const loadAll = () => imgs.forEach(im => { if (!im.getAttribute('src')) im.src = dSrc(im.dataset.src); });
+  const label = i => tabs[i].querySelector('.l').textContent;
+  function dGo(i, user) {
+    di = (i + imgs.length) % imgs.length; loadAll();
+    imgs.forEach((im, j) => im.classList.toggle('on', j === di));
+    tabs.forEach((b, j) => { b.classList.toggle('on', j === di); b.setAttribute('aria-selected', j === di); const bar = b.querySelector('i'); bar.style.transition = 'none'; bar.style.width = '0'; });
+    if (ttl) ttl.textContent = 'IntegrityShield · ' + label(di) + ' dashboard';
+    dArm();
+  }
+  function dArm() {
+    clearTimeout(dTimer);
+    const bar = tabs[di].querySelector('i');
+    if (reduce || held) { bar.style.transition = 'none'; bar.style.width = reduce ? '100%' : '0'; return; }
+    bar.offsetWidth; bar.style.transition = `width ${DT}ms linear`; bar.style.width = '100%';
+    dTimer = setTimeout(() => { if (route === 'home' && !document.hidden) dGo(di + 1); else dArm(); }, DT);
+  }
+  tabs.forEach((b, i) => b.addEventListener('click', () => dGo(i, true)));
+  dshow.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') { held = true; dshow.classList.add('held'); dArm(); } });
+  dshow.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') { held = false; dshow.classList.remove('held'); dArm(); } });
+  dshow.addEventListener('keydown', e => { if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') { e.preventDefault(); dGo(di + (e.key === 'ArrowRight' ? 1 : -1), true); tabs[di].focus(); } });
+  setTimeout(loadAll, 2500);
+  dArm();
 }
-if (!reduce) setInterval(streamRow, 2200);
+/* the footer button opens the 404 page */
+$$('[data-404-link]').forEach(a => {
+  const root = document.documentElement.dataset.root;
+  const multi = root !== undefined, base = multi ? root : '';
+  const home = new URL(multi ? (root || './') : location.pathname.split('/').pop() || './', location.href).href;
+  a.href = base + '404.html?home=' + encodeURIComponent(home) + (multi ? '' : '&spa=1');
+});
 
 /* ---------- solutions accordion ---------- */
 $$('.sol-card').forEach(card => {
@@ -2508,7 +2526,19 @@ markAbout();
 /* ---------- film: click to zoom in and play ---------- */
 const film = $('#film'), fCard = $('#filmCard');
 let fOn = false, fElapsed = 0, fLast = 0;
-const FILM_LEN = 30;
+let FILM_LEN = 42.6;
+const FILM_ROOT = document.documentElement.dataset.root || '';
+const fVid = $('#introVideo');
+const fSrc = u => /^(data:|https?:|\/)/.test(u) ? u : FILM_ROOT + u;
+if (fVid) {
+  if (fVid.dataset.poster) fVid.poster = fSrc(fVid.dataset.poster);
+  fVid.addEventListener('loadedmetadata', () => { if (isFinite(fVid.duration)) FILM_LEN = fVid.duration; });
+  fVid.addEventListener('timeupdate', () => { fElapsed = fVid.currentTime; fPaint(); });
+  fVid.addEventListener('click', () => {
+    if (!film.classList.contains('playing') || film.classList.contains('ended')) return;
+    const p = !fVid.paused; film.classList.toggle('paused', p); filmPlay(!p);
+  });
+}
 function fPaint() {
   const pr = $('#vidProg'), tm = $('#vidTime');
   if (pr) pr.style.width = (fElapsed / FILM_LEN * 100) + '%';
@@ -2524,7 +2554,7 @@ function filmPlay(on) {
   try { if (on === fOn) return; } catch (err) { return; }
   fOn = on;
   const v = $('#introVideo');
-  if (v) { if (on) v.play().catch(() => {}); else v.pause(); return; }
+  if (v) { if (on) { if (!v.getAttribute('src') && v.dataset.src) v.src = fSrc(v.dataset.src); film.classList.remove('paused'); v.play().catch(() => {}); } else v.pause(); return; }
   if (on) { fLast = performance.now(); requestAnimationFrame(fTick); }
 }
 function filmFlip(change) {
@@ -2554,7 +2584,7 @@ function filmOpen() {
 function filmClose() {
   clearTimeout(fEndT);
   filmPlay(false);
-  film.classList.remove('ended');
+  film.classList.remove('ended', 'paused');
   fElapsed = 0; fPaint(); const v = $('#introVideo'); if (v) v.currentTime = 0;
   filmFlip(() => { film.classList.remove('playing'); if (heroGrid) heroGrid.classList.remove('vplay'); });
 }
