@@ -20,7 +20,7 @@ const scrollToY = (y, immediate) => window.scrollTo({top: y, behavior: immediate
 /* ---------- content ---------- */
 const ROUTES = {
   home: {title: "IntegrityShield | All-in-One Sanctions, Exclusion & Conflict of Interest Screening Software", desc: "All-in-one screening software for employees, vendors and healthcare providers: OFAC, OIG, SAM and 63 official sanctions and exclusion lists every night, plus conflict of interest monitoring with CMS Open Payments."},
-  ses: {title: "Sanctions & Exclusion Screening Software for Employees, Vendors & Healthcare Providers (OFAC, OIG, SAM) | IntegrityShield-SES", desc: "All-in-one sanctions and exclusion screening software for your workforce, vendors and healthcare providers. Screens against OFAC, OIG LEIE, SAM.gov and state exclusion lists from official sources, every night. Features, free check, demo and pricing."},
+  ses: {title: "Sanctions & Exclusion Screening Software for Employees, Vendors & Healthcare Providers (OFAC, OIG, SAM) | IntegrityShield-SES", desc: "All-in-one sanctions and exclusion screening software for your workforce, vendors and healthcare providers. Screens against OFAC, OIG LEIE, SAM.gov and state exclusion lists from official sources, every night. Features, free assessment, demo and pricing."},
   coi: {title: "Healthcare Conflict of Interest Monitoring Software | CMS Open Payments | IntegrityShield-COI", desc: "Detect and monitor hidden financial relationships between vendors and healthcare practitioners. IntegrityShield-COI matches vendors and credentialed practitioners against CMS Open Payments: an Open Payments compliance platform for Stark Law and Anti-Kickback."},
   licensure: {title: 'Licensure Verification and Monitoring | IntegrityShield-Licensure', desc: 'IntegrityShield-Licensure: license and certification monitoring for compliance teams. Details coming soon.'},
   about: {title: "About IntegrityShield | Sanctions, Exclusion & Conflict of Interest Screening Software by SureShield", desc: "IntegrityShield is SureShield's integrity screening platform for compliance officers: continuous sanctions and exclusion screening against OFAC, OIG and SAM, and conflict of interest monitoring with CMS Open Payments."},
@@ -231,7 +231,7 @@ function assessHTML(k) {
   if (k === 'licensure' && scanApi()) return licLiveFormHTML();
   if (k === 'ses' && scanApi()) return sesLiveFormHTML();
   if (k === 'licensure') return `<div class="console assess lic-scan" data-reveal>
-      <div class="assess-top"><span class="bar">Free one-time scan</span><h3>One-time licensure scan</h3><p>Check a practitioner’s license at the source: status, expiration date and disciplinary actions. No account needed.</p></div>
+      <div class="assess-top"><span class="bar">Free licensure assessment</span><h3>Verify a license at the source</h3><p>Check a practitioner’s license at the source: status, expiration date and disciplinary actions. No account needed.</p></div>
       <form data-assess="licensure" novalidate>
         <label for="lic-q">Practitioner name<input id="lic-q" name="q" placeholder="e.g. Dr. Jane Example" autocomplete="off"></label>
         <div class="af-row"><label for="lic-type">License type<select id="lic-type" name="ltype">${LIC_TYPES.map(([v]) => `<option>${v}</option>`).join('')}</select></label><label for="lic-state">State<select id="lic-state" name="state"><option value="">Select a state</option>${LIC_STATES.map(s => `<option>${s}</option>`).join('')}</select></label></div>
@@ -242,7 +242,7 @@ function assessHTML(k) {
       <div class="ck-out" aria-live="polite"><div class="ck-head">${FACE.ok}<b>Dr. J. Example</b><span class="chip res">Active, no actions found</span></div><div class="ck-res">${licRows([['License', 'Physician (MD/DO) · Georgia'], ['Status', 'Active'], ['Expires', 'Dec 31, 2027'], ['Disciplinary actions', 'None found'], ['Verified with', 'State licensing board']])}<span class="note">Example result. Try a name.</span>${reportCTA('licensure')}</div></div>
     </div>`;
   if (k === 'ses') return `<div class="console assess" data-reveal>
-      <div class="assess-top"><span class="bar">Free assessment</span><h3>Integrity violation screening check</h3><p>Search any person or business across all screening data sources. No account needed.</p></div>
+      <div class="assess-top"><span class="bar">Free exclusion assessment</span><h3>Screen a name against the exclusion lists</h3><p>Search any person or business across all screening data sources. No account needed.</p></div>
       <form data-assess="ses" novalidate>
         <label for="ses-q">Name or business<input id="ses-q" name="q" placeholder="e.g. Jordan Ellis" autocomplete="off"></label>
         <div class="af-row"><label for="ses-type">Record type<select id="ses-type" name="type"><option>Individual</option><option>Business</option></select></label><label for="ses-state">State<select id="ses-state" name="state"><option>All states</option><option>Florida</option><option>Georgia</option><option>New York</option><option>Ohio</option><option>Texas</option></select></label></div>
@@ -251,7 +251,7 @@ function assessHTML(k) {
       <div class="ck-out" aria-live="polite"><div class="ck-head">${FACE.ok}<b>Jordan Ellis</b><span class="chip res">No match found</span></div><div class="ck-res"><span>Checked against all screening data sources, including OIG LEIE, SAM.gov and OFAC.</span><span class="note">Example result. Try a name.</span>${reportCTA('ses')}</div></div>
     </div>`;
   return `<div class="console assess" data-reveal>
-      <div class="assess-top"><span class="bar">Free assessment</span><h3>Run a free payment lookup</h3><p>See whether a practitioner has reported industry payments in CMS Open Payments.</p></div>
+      <div class="assess-top"><span class="bar">Free payments assessment</span><h3>Look up a practitioner’s industry payments</h3><p>See whether a practitioner has reported industry payments in CMS Open Payments.</p></div>
       <form data-assess="coi" novalidate>
         <div class="af-row"><label for="coi-q">Practitioner name<input id="coi-q" name="q" placeholder="e.g. Dr. Jane Example" autocomplete="off"></label><label for="coi-v">Vendor name<input id="coi-v" name="vendor" placeholder="e.g. Acme Ortho" autocomplete="off"></label></div>
         <button class="btn primary" type="submit">Search for payments made or received</button>
@@ -319,7 +319,7 @@ function renderModule(k) {
       ${d.title ? `<p class="m-title">${d.title}</p>` : ''}
       <h1>${d.h1}</h1>
       <p class="lede">${d.lede}</p>
-      <div class="cta-row"><button class="btn primary" data-go="demo">Book a demo</button>${d.scanCta ? '<button class="btn ghost" data-go="assess">Run a free one-time scan</button>' : '<button class="btn ghost" data-go="plans">See pricing</button>'}</div>
+      <div class="cta-row"><button class="btn primary" data-go="demo">Book a demo</button>${d.scanCta ? '<button class="btn ghost" data-go="assess">Try a free assessment</button>' : '<button class="btn ghost" data-go="plans">See pricing</button>'}</div>
       ${d.laws ? `<div class="laws">${d.laws.map(l=>`<span>${l}</span>`).join('')}</div>` : ''}
     </div>
     <div class="mvis" data-s3="${({ses: 'sieve', coi: 'web', licensure: 'vgrid'})[k]}" role="img" aria-label="${({ses: 'Index cards fall through printed exclusion lists; clean ones land in Clear, one stops on OIG LEIE as a match', coi: 'Vendors and practitioners joined by payment lines; one $48,200 payment rises as an undisclosed relationship', licensure: 'A verification grid for one practitioner: five record types (state license, DEA, controlled substance, board certification, NPI) pass three checks: found at source, status validated and disciplinary check. One record is due for renewal and one has a disciplinary action'})[k]}"></div>
@@ -1051,7 +1051,7 @@ function licVid() {
 function licQuota(f) {
   const q = f.querySelector('[data-lic-quota]'); if (!q) return;
   const left = Math.max(0, LIC_FREE - licUsed());
-  q.textContent = left >= LIC_FREE ? `${LIC_FREE} free scans included. No account needed.` : `${left} of ${LIC_FREE} free scans left.`;
+  q.textContent = left >= LIC_FREE ? `${LIC_FREE} free assessments included.` : `${left} of ${LIC_FREE} free assessments left.`;
 }
 const LIC_BTNS = {
   subscribe: t => `<button type="button" class="btn primary" data-lic-cta="subscribe">${t}</button>`,
@@ -1061,16 +1061,16 @@ const LIC_BTNS = {
 function licNextHTML(f) {
   const prod = f && f.dataset.assess === 'ses' ? 'IntegrityShield-SES' : 'IntegrityShield-Licensure';
   const left = Math.max(0, LIC_FREE - licUsed());
-  return `<div class="lic-next"><p class="lic-left">${left ? `<b>${left} of ${LIC_FREE}</b> free scans left` : 'That was your last free scan'}</p><div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to ' + prod)}${LIC_BTNS.call()}${LIC_BTNS.again()}</div></div>`;
+  return `<div class="lic-next"><p class="lic-left">${left ? `<b>${left} of ${LIC_FREE}</b> free assessments left` : 'That was your last free assessment'}</p><div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to ' + prod)}${LIC_BTNS.call()}${LIC_BTNS.again()}</div></div>`;
 }
 function licLimitHTML() {
-  return `<div class="ck-head">${FACE.maybe}<b>You’ve used your ${LIC_FREE} free scans</b></div><div class="ck-res"><span>Subscribe to verify and monitor every practitioner’s licenses continuously, or set up a call and we’ll walk you through it.</span><div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to our platform')}${LIC_BTNS.call()}</div></div>`;
+  return `<div class="ck-head">${FACE.maybe}<b>You’ve used your ${LIC_FREE} free assessments</b></div><div class="ck-res"><span>Subscribe to verify and monitor every practitioner’s licenses continuously, or set up a call and we’ll walk you through it.</span><div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to our platform')}${LIC_BTNS.call()}</div></div>`;
 }
 function licLock(f, out) {
   if (!f) return;
   f.classList.add('locked');
   f.querySelectorAll('input, select, button').forEach(x => { x.disabled = true; });
-  const b = f.querySelector('button[type=submit]'); if (b) b.textContent = 'Free scans used';
+  const b = f.querySelector('button[type=submit]'); if (b) b.textContent = 'Free assessments used';
   licQuota(f);
   if (out) out.innerHTML = licLimitHTML();
 }
@@ -1164,7 +1164,7 @@ document.addEventListener('click', e => {
   if (k === 'again') {
     if (licUsed() >= LIC_FREE) { licLock(f, out); scrollToEl(a); return; }
     f.querySelectorAll('input').forEach(i => { if (!i.classList.contains('hp') && i.type !== 'checkbox' && i.type !== 'radio') i.value = ''; });
-    out.innerHTML = `<div class="ck-head"><b>Ready for your next scan</b></div><p class="note">${LIC_FREE - licUsed()} of ${LIC_FREE} free scans left. Complete the security check, then run the scan.</p>`;
+    out.innerHTML = `<div class="ck-head"><b>Ready for your next scan</b></div><p class="note">${LIC_FREE - licUsed()} of ${LIC_FREE} free assessments left. Complete the security check, then run the scan.</p>`;
     licTsReset(f);
     scrollToEl(a);
     const first = f.querySelector('input:not(.hp):not([type=checkbox]):not([type=radio])'); if (first) setTimeout(() => first.focus({preventScroll: true}), 500);
@@ -1211,7 +1211,7 @@ async function licGet(p) {
 }
 function licLiveFormHTML() {
   return `<div class="console assess lic-scan" data-reveal>
-      <div class="assess-top"><span class="bar">Free one-time scan</span><h3>One-time licensure scan</h3><p>Check a practitioner’s license with the state licensing board: status, expiration date, discipline and public complaints. No account needed.</p></div>
+      <div class="assess-top"><span class="bar">Free licensure assessment</span><h3>Verify a license at the source</h3><p>Check a practitioner’s license with the state licensing board: status, expiration date, discipline and public complaints. No account needed.</p></div>
       <form data-assess="licensure" data-live novalidate>
         <div class="af-row"><label for="lic-st">State<select id="lic-st" name="state" data-lic-state><option value="">Loading states…</option></select></label><label for="lic-src" data-lic-srcwrap hidden>Licensing board<select id="lic-src" name="sourceId" data-lic-src></select></label></div>
         <div class="af-row"><label for="lic-fn">First name<input id="lic-fn" name="firstName" autocomplete="off"></label><label for="lic-ln">Last name<input id="lic-ln" name="lastName" autocomplete="off"></label></div>
@@ -1220,7 +1220,7 @@ function licLiveFormHTML() {
         <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="lic-ts" data-lic-ts></div>
         <button class="btn primary" type="submit" disabled>Run licensure scan</button>
-        <p class="lic-fine">A one-time scan of public licensing board records. For information only: it is not a consumer report and should not be the only basis for employment, credentialing or contracting decisions.</p>
+        <p class="lic-fine">This assessment reads public licensing board records. For information only: it is not a consumer report and should not be the only basis for employment, credentialing or contracting decisions.</p>
       </form>
       <div class="ck-out" aria-live="polite"><div class="ck-head"><b>How it works</b></div><div class="ck-res"><span>Pick the state, then enter the license number, or the practitioner’s first and last name. IntegrityShield checks the board’s records and shows the license status, expiration date and any discipline on file.</span><span class="note">Most scans take 10 to 60 seconds, because each board is checked live.</span></div></div>
     </div>`;
@@ -1360,7 +1360,7 @@ document.addEventListener('submit', async e => {
   if (res && res.ok && data.ok) { out.innerHTML = licResultHTML(q, data); licAfterScan(f, out, data.remaining); return; }
   const err = (data && data.error) || '';
   if (res && res.status === 429 && data.scope === 'free') { licCookie('is_lic_scans', LIC_FREE); licLock(f, out); return; }
-  if (res && res.status === 429) { say('Daily limit reached', data.scope === 'site' ? 'Free scans are busy today. Please try again tomorrow, or subscribe for unlimited checks.' : 'Too many free scans from this network today. Please try again tomorrow, or subscribe for unlimited checks.'); out.insertAdjacentHTML('beforeend', `<div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to our platform')}${LIC_BTNS.call()}</div>`); return; }
+  if (res && res.status === 429) { say('Daily limit reached', data.scope === 'site' ? 'Free assessments are busy today. Please try again tomorrow, or subscribe for unlimited checks.' : 'Too many free assessments from this network today. Please try again tomorrow, or subscribe for unlimited checks.'); out.insertAdjacentHTML('beforeend', `<div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to our platform')}${LIC_BTNS.call()}</div>`); return; }
   if (err === 'bot_check') return say('Please confirm you’re human', 'Complete the quick check above the button, then scan again.');
   if (err === 'missing_fields' || err === 'invalid') return say('Check the details', licEsc(data.message || data.detail || 'The board couldn’t search with these details. Check the license number or name and try again.'));
   say('The board didn’t respond', `${licEsc(src.authority)} didn’t answer in time. Some boards are slow or briefly offline; please try again in a minute.`);
@@ -1372,7 +1372,7 @@ $$('.lic-scan form[data-assess]').forEach(licGateInit);
 function sesStates() { return [['AL','Alabama'],['AK','Alaska'],['AZ','Arizona'],['AR','Arkansas'],['CA','California'],['CO','Colorado'],['CT','Connecticut'],['DE','Delaware'],['DC','District of Columbia'],['FL','Florida'],['GA','Georgia'],['HI','Hawaii'],['ID','Idaho'],['IL','Illinois'],['IN','Indiana'],['IA','Iowa'],['KS','Kansas'],['KY','Kentucky'],['LA','Louisiana'],['ME','Maine'],['MD','Maryland'],['MA','Massachusetts'],['MI','Michigan'],['MN','Minnesota'],['MS','Mississippi'],['MO','Missouri'],['MT','Montana'],['NE','Nebraska'],['NV','Nevada'],['NH','New Hampshire'],['NJ','New Jersey'],['NM','New Mexico'],['NY','New York'],['NC','North Carolina'],['ND','North Dakota'],['OH','Ohio'],['OK','Oklahoma'],['OR','Oregon'],['PA','Pennsylvania'],['RI','Rhode Island'],['SC','South Carolina'],['SD','South Dakota'],['TN','Tennessee'],['TX','Texas'],['UT','Utah'],['VT','Vermont'],['VA','Virginia'],['WA','Washington'],['WV','West Virginia'],['WI','Wisconsin'],['WY','Wyoming']]; }
 function sesLiveFormHTML() {
   return `<div class="console assess ses-scan" data-reveal>
-      <div class="assess-top"><span class="bar">Free one-time check</span><h3>Integrity violation screening check</h3><p>Search a person or business across IntegrityShield’s sanctions and exclusion lists, including OIG LEIE, SAM.gov and OFAC. No account needed.</p></div>
+      <div class="assess-top"><span class="bar">Free exclusion assessment</span><h3>Screen a name against the exclusion lists</h3><p>Search a person or business across IntegrityShield’s sanctions and exclusion lists, including OIG LEIE, SAM.gov and OFAC. No account needed.</p></div>
       <form data-assess="ses" data-live novalidate>
         <div class="ses-type" role="radiogroup" aria-label="Search for">
           <label><input type="radio" name="type" value="individual" checked><span>Individual</span></label>
@@ -1384,7 +1384,7 @@ function sesLiveFormHTML() {
         <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
         <div class="lic-ts" data-lic-ts></div>
         <button class="btn primary" type="submit">Search now</button>
-        <p class="note lic-disc">Results come from public sanctions and exclusion lists. A name match is not a confirmed identity: compare the details before acting. This free check is for evaluating IntegrityShield and is not a substitute for your own screening program.</p>
+        <p class="note lic-disc">Results come from public sanctions and exclusion lists. A name match is not a confirmed identity: compare the details before acting. This free assessment is for evaluating IntegrityShield and is not a substitute for your own screening program.</p>
       </form>
       <div class="ck-out" aria-live="polite"></div>
     </div>`;
@@ -1445,7 +1445,7 @@ document.addEventListener('submit', async e => {
   licTsReset(f);
   if (res && res.ok && data.ok) { out.innerHTML = sesResultHTML(q, data); licAfterScan(f, out, data.remaining); return; }
   if (res && res.status === 429 && data.scope === 'free') { licCookie('is_lic_scans', LIC_FREE); licLock(f, out); return; }
-  if (res && res.status === 429) { say('Daily limit reached', 'Free checks are busy today. Please try again tomorrow, or subscribe for unlimited screening.'); out.insertAdjacentHTML('beforeend', `<div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to our platform')}${LIC_BTNS.call()}</div>`); return; }
+  if (res && res.status === 429) { say('Daily limit reached', 'Free assessments are busy today. Please try again tomorrow, or subscribe for unlimited screening.'); out.insertAdjacentHTML('beforeend', `<div class="lic-ctas">${LIC_BTNS.subscribe('Subscribe to our platform')}${LIC_BTNS.call()}</div>`); return; }
   if (data.error === 'bot_check') return say('Please confirm you’re human', 'Complete the quick check above the button, then search again.');
   if (data.error === 'missing_fields' || data.error === 'invalid') return say('Check the details', licEsc(data.message || data.detail || 'The search couldn’t run with these details. Check the spelling and try again.'));
   say('The search didn’t finish', 'The screening service didn’t answer in time. Please try again in a minute.');
