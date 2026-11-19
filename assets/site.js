@@ -120,10 +120,13 @@ const TIERS = [
   {k: 'max', n: 'Essential PRO', m: 799, eff: true, cap: 'Up to 750', rec: 'Up to 750 active monitoring records', blurb: 'Lowest cost per record, with third-party and one-way integrations.'},
   {k: 'ent', n: 'Enterprise', cap: 'Unlimited', rec: 'Unlimited records', blurb: 'For complex or high-volume needs.'}
 ];
+/* monthly list prices (USD) set by Tom, 2026-11-16: Essential, Essential Plus, Essential PRO */
+const PRICES = {ses: [89.99, 199.99, 489.99], licensure: [99.99, 249.99, 529.99], coi: [59.99, 149.99, 449.99]};
+const tiersFor = sol => TIERS.map(t => ({...t, m: {basic: PRICES[sol][0], plus: PRICES[sol][1], max: PRICES[sol][2]}[t.k] ?? t.m}));
 const PLANS = {
-  ses: {cover: 'OFAC, OIG, SAM and state Medicaid exclusion lists', tiers: TIERS},
-  coi: {cover: 'CMS Open Payments matching for practitioners and vendors', tiers: TIERS},
-  licensure: {cover: 'License and credential verification at the source', tiers: TIERS}
+  ses: {cover: 'OFAC, OIG, SAM and state Medicaid exclusion lists', tiers: tiersFor('ses')},
+  coi: {cover: 'CMS Open Payments matching for practitioners and vendors', tiers: tiersFor('coi')},
+  licensure: {cover: 'License and credential verification at the source', tiers: tiersFor('licensure')}
 };
 
 const SOURCES = [{"n": "OIG LEIE", "k": "fed"}, {"n": "Medi-Cal Suspended & Ineligible Provider List", "k": "state"}, {"n": "UN Security Council Consolidated List", "k": "intl"}, {"n": "SAM.gov Exclusions", "k": "fed"}, {"n": "Texas HHSC-OIG Exclusions", "k": "state"}, {"n": "CMS Open Payments", "k": "data"}, {"n": "OFAC SDN List", "k": "fed"}, {"n": "New York OMIG Exclusion List", "k": "state"}, {"n": "UK OFSI Consolidated List", "k": "intl"}, {"n": "FDA Debarment List", "k": "fed"}, {"n": "Pennsylvania Medicheck List", "k": "state"}, {"n": "NPPES NPI Registry", "k": "data"}, {"n": "Ohio Medicaid Exclusion & Suspension List", "k": "state"}, {"n": "CMS Preclusion List", "k": "fed"}, {"n": "Illinois HFS-OIG Sanctions", "k": "state"}, {"n": "EU Consolidated Financial Sanctions List", "k": "intl"}, {"n": "Georgia OIG Exclusions List", "k": "state"}, {"n": "Michigan Sanctioned Provider List", "k": "state"}, {"n": "North Carolina Medicaid Excluded Providers", "k": "state"}, {"n": "TennCare Terminated Provider List", "k": "state"}, {"n": "Washington HCA Termination & Exclusion List", "k": "state"}, {"n": "New Jersey Consolidated Debarment Report", "k": "state"}, {"n": "MassHealth Suspended & Excluded Providers", "k": "state"}, {"n": "Kentucky Medicaid Terminated & Excluded Providers", "k": "state"}, {"n": "Louisiana Adverse Actions List", "k": "state"}, {"n": "Florida AHCA Sanctioned Providers", "k": "state"}];
@@ -615,10 +618,18 @@ function renderFaqPage() {
   return `${pageHero('FAQs', 'Answers about <span class="mark">IntegrityShield.</span>', 'Common questions about screening, data sources, pricing, setup and support, grouped by solution.')}
     ${groups.map(([t, list]) => `<section class="sec faqpage" data-faqsec>${faqHTML(list, t)}</section>`).join('')}`;
 }
+const AGREEMENT = {"title": "IntegrityShield Software Subscription Agreement", "sections": [["Preamble", ["This Software Subscription and Maintenance Agreement (“Agreement”) is effective as of {{DATE}} (“Effective Date”), between SureShield, Inc. (“Company”) and {{LICENSEE}} (“Licensee”). It governs Licensee’s subscription to the hosted IntegrityShield software, made up of IntegrityShield-SES (sanctions and exclusion screening), IntegrityShield-COI (conflict of interest monitoring) and IntegrityShield-LCM (licensure and credential monitoring), as selected by Licensee (“Software”), and related services (“Services”)."]], ["1. Service", ["Company grants Licensee a nonexclusive, nontransferable right, subject to Section 16, for its authorized users to access and use the hosted Software during the Term for Licensee’s internal sanctions and exclusion screening, conflict of interest monitoring, and licensure and credential monitoring, limited to the solutions and plans Licensee selects.", "For IntegrityShield-SES, Company shall screen records of employees, vendors, and providers maintained in Licensee’s active screening population nightly against the latest data Company has obtained from the selected sources, including newly added records in the next scheduled cycle after successful ingestion. Nightly screening does not mean that each source publishes or is refreshed nightly. Company shall use commercially reasonable efforts to retrieve and incorporate source updates promptly after publication and shall identify relevant source and screening dates in the results.", "For IntegrityShield-COI, Company shall match the practitioners and vendors in Licensee’s active monitoring population against CMS Open Payments data and identify potential financial relationships between them, and shall check newly added or changed practitioners and vendors when they are added or changed. Open Payments data is published by CMS once a year for the previous calendar year; Company shall incorporate each publication using commercially reasonable efforts after it is released.", "For IntegrityShield-LCM, Company shall verify the licenses and credentials in Licensee’s active monitoring population at the issuing primary source where Company supports that source, monitor them for expiration and recorded disciplinary actions, and send reminders before a license expires. Primary sources publish and update their records on their own schedules, and coverage of states, countries and license types is limited to the sources Company supports at the time.", "The Services shall provide reports, potential-match alerts to designated authorized users after processing, and workflows for documenting review and follow-up. Historical information is limited to information captured or retained by the Service and supplied by sources; the Services do not promise a complete history of every sanction or exclusion. Source outages, delayed publications, and unavailable data shall not be represented as a clear screening result. Company shall notify Licensee of material interruptions to selected source coverage and restore coverage using commercially reasonable efforts.", "Potential matches and alerts require identity verification and review; a name match alone is not a final determination. Licensee remains responsible for accurate and lawfully obtained input data, selecting appropriate databases, reviewing alerts, confirming matches with the issuing authority where appropriate, and making employment, contracting, payment, and compliance decisions. The Services support, but do not guarantee, legal compliance or replace professional advice. Solutions, plans and services that Licensee has not selected, including credentialing services beyond license verification and monitoring, are excluded unless separately agreed in writing.", "New databases added to Company’s platform are not automatically included. Additions, removals, substitutions, or fees affecting selected coverage require a written amendment to be approved by both parties. Company may update source names or access methods without changing the underlying agreed scope; it shall notify Licensee of material changes."]], ["2. Restrictions", ["Licensee shall not share credentials or permit unauthorized access, copy or distribute the Software, sublicense or resell the Services, reverse engineer the Software except as permitted by applicable law, interfere with security, or use the Services unlawfully. Company retains ownership of the Software and its intellectual property. Licensee retains ownership of its submitted data, screening populations, and its case notes and decisions (“Licensee Data”); Company receives only the rights necessary to provide and secure the Services."]], ["3. Fees", ["Licensee shall pay undisputed fees per service selection. Pre-approved, documented travel expenses for onsite visits shall be invoiced separately with an expense report. Additional work or charges require Licensee’s prior written approval."]], ["4. Warranty of Title", ["Company warrants that it owns or has sufficient rights to provide the Software and grant the rights in this Agreement. For a breach or threatened breach, Company shall, at its expense, promptly obtain continued use rights, provide a non-infringing replacement with comparable functionality, or refund the full license fees paid. This remedy does not limit Company’s indemnification obligations under Section 12."]], ["5. Warranty of Functionality", ["Company warrants that the Software will perform in all material respects according to its written specifications supplied to Licensee when used as specified. Licensee shall promptly notify Company of a material nonconformity, and Company shall promptly correct it. This warranty does not apply to unauthorized modifications or misuse by Licensee. Source publication accuracy or completeness is not warranted by Company; Company remains responsible for materially accurate processing of the source data it obtains and the screening functions described in this Agreement."]], ["6. Malicious Code", ["Company shall not knowingly introduce malicious code, undisclosed disabling mechanisms, or unauthorized access features into the Services and shall maintain commercially reasonable safeguards to detect and prevent them. Ordinary software defects are governed by Section 5."]], ["7. Excluded Provider", ["Company represents that neither Company nor its directors, officers, or personnel assigned to the Services is excluded, debarred, or otherwise ineligible to participate in applicable federal or state health care programs. Company shall promptly notify Licensee if this representation ceases to be accurate and shall remove affected personnel from the Services."]], ["8. Maintenance and Support", ["Undisputed subscription fees include corrections and generally available enhancements to the subscribed Software, user documentation, and support. Separately priced products, modules, or professional services are not included unless agreed in writing. Support availability and response objectives are governed by the prevailing Support policy of the Company."]], ["9. Payment", ["Undisputed invoices are payable upon receipt unless otherwise stated in the invoice. Licensee shall promptly identify disputed charges and the basis for the dispute and shall pay the undisputed portion on time. The parties shall work in good faith to resolve billing disputes"]], ["10. Warranty Disclaimer", ["Except for the express warranties in this Agreement, Company disclaims other warranties to the extent permitted by law, including implied warranties of merchantability and fitness for a particular purpose. No disclaimer reduces an express obligation under this Agreement."]], ["11. Limitation of Liability", ["Neither party is liable for incidental, consequential, or other indirect damages, including lost revenue, even if advised of their possibility. Each party’s aggregate liability under this Agreement shall not exceed the fees paid by Licensee under this Agreement, regardless of the theory of liability. These limitations do not apply to Company’s indemnification obligations, Company’s breach of confidentiality obligations, or either party’s gross negligence, fraud, or willful misconduct."]], ["12. Indemnification", ["Company shall indemnify, defend, and hold harmless Licensee and its officers, directors, agents, employees, successors, and assigns against claims, proceedings, damages, judgments, liabilities, penalties, fines, and reasonable costs and attorneys’ fees arising from Company’s breach of confidentiality, gross negligence or willful misconduct, or a third-party allegation that the Software, Services, or supplied materials, or their authorized use, infringe, misappropriate, or violate intellectual property rights.", "Licensee shall promptly notify Company of a claim and reasonably cooperate at Company’s expense. Company may control the defense with counsel reasonably acceptable to Licensee, subject to Licensee’s applicable public-entity requirements. No settlement may admit fault, impose an obligation on Licensee, or fail to fully release Licensee without Licensee’s written consent. A delay in notice reduces Company’s obligations only to the extent materially prejudiced.", "For an intellectual property claim, Company shall obtain continued use rights or modify or replace the affected Services without materially reducing their agreed functionality. If neither is commercially feasible, either party may terminate the affected Services, and Company shall refund all fees and expenses paid in connection with those Services. These steps do not eliminate the defense and indemnification obligations above."]], ["13. Confidentiality", ["Confidential Information includes nonpublic business, technical, financial, and personal information disclosed by either party that is identified as confidential or reasonably understood to be confidential, including Licensee Data. It excludes information that is public without breach, already lawfully known without restriction, lawfully received from a third party without restriction, or independently developed without use of the other party’s Confidential Information.", "Each party shall protect the other’s Confidential Information with at least reasonable care, use it only to perform or exercise rights under this Agreement, and disclose it only to representatives who need access and are bound by equivalent confidentiality obligations. Each party is responsible for its representatives.", "Compelled disclosures are permitted to the extent required by law; where legally permitted, the receiving party shall give advance notice and reasonable assistance with protective measures. Licensee’s public-records duties are not displaced by this Agreement; a confidentiality label alone does not establish an exemption.", "On termination or a lawful written request, each party shall return or securely delete the other’s Confidential Information, subject to Section 14 and legal retention requirements. Retained legal and backup copies remain protected, shall not be used for other purposes, and shall be deleted under applicable retention schedules. A party may seek equitable relief for an actual or threatened breach, subject to applicable law."]], ["14. Data Protection and Security", ["Company shall maintain a documented information security program with safeguards appropriate to the sensitivity of Licensee Data, including encryption in transit and at rest, access controls and least privilege, multifactor authentication for privileged access, logging, vulnerability management, secure backups, incident response, and personnel confidentiality obligations. Company shall use Licensee Data only to provide, support, and secure the Services or as required by law, and shall not sell it, use it for advertising, or train general- purpose artificial intelligence models on it without Licensee’s prior written consent.", "Company shall notify Licensee without undue delay and no later than forty-eight (48) hours after becoming aware of unauthorized access to, acquisition of, disclosure of, or material loss of Licensee Data. Initial notice may be preliminary; Company shall provide available details, investigation updates, mitigation steps, and reasonable cooperation. Company shall not delay notice pending completion of an investigation. Applicable law or an executed business associate agreement may require additional or earlier notice.", "Licensee shall provide only data reasonably necessary for screening and shall not submit patient or member clinical information unless the parties expressly authorize that processing in writing. If the Services involve protected health information for which Company is a business associate, the parties shall execute an appropriate HIPAA business associate agreement before that processing begins. This Agreement does not itself constitute a business associate agreement. Each party shall comply with privacy and data protection laws applicable to its activities.", "Licensee may export its data and available screening and case records during the Term. For thirty (30) days after termination, Company shall make those records available in a commonly usable electronic format upon request, subject to lawful restrictions. Company shall then securely delete active copies within sixty (60) days after the export period, except for legally required retention. Backup copies shall remain protected and be deleted on Company’s documented backup rotation. Company shall confirm deletion in writing on request."]], ["15. Notices", ["Notices shall be in writing and delivered personally, by certified mail, by recognized overnight carrier, or by email to an address designated for contractual notices, with affirmative acknowledgment of receipt. Automated replies alone are insufficient. Notices take effect upon documented receipt. Each party may update its notice details in writing.", "Company: SureShield, Inc., 16025 Manor Club Drive, Milton, GA 30004. Contract notice email: sales@sureshield.ai", "Licensee: {{LICENSEE_NOTICE}}", "Licensee and Company support and emergency contacts shall be provided at implementation and maintained during the Term."]], ["16. Governing Law and Assignment", ["Delaware law governs, without regard to conflict-of-law principles. Neither party may assign this Agreement without the other’s written consent, except to an affiliate or in connection with a merger, acquisition, corporate reorganization, or sale of all or substantially all assets. The assignee must assume the obligations in writing; assignment shall not reduce Licensee’s data protections or agreed Services."]], ["17. Entire Agreement and Order of Precedence", ["This Agreement and its exhibits supersede prior understandings on the same subject. Amendments and waivers require a writing approved by both parties. Purchase orders may identify renewal and billing details but do not amend other terms unless expressly accepted in a signed amendment. Website or click-through terms do not amend this Agreement. No failure to enforce a right is a waiver. Electronic signatures and counterparts are permitted to the extent allowed by law."]], ["18. Severability and Headings", ["An unenforceable provision shall be severed to the extent necessary, and the remaining provisions remain effective. Headings are for convenience and do not alter meaning."]], ["19. Subcontractors", ["Company remains responsible for subcontractors’ and hosting providers’ performance and compliance with this Agreement. Subcontractors accessing Licensee Data shall be subject to written confidentiality and security obligations at least as protective as this Agreement and any applicable business associate agreement. Company shall provide its current list of material hosting and data-processing subcontractors on reasonable written request and notify Licensee before a material change affecting Licensee Data."]], ["20. Termination", ["Either party may elect not to renew by giving at least thirty (30) days’ written notice before the current Term ends. Auto-renewal takes effect at the end date stated for that Term. Either party may terminate for a material breach remaining uncured thirty (30) days after written notice describing the breach. Rights under an applicable business associate agreement are preserved.", "Upon termination, access ends except for the data export arrangements in Section 14. Undisputed accrued fees remain payable. If Licensee terminates for Company’s uncured material breach, Company shall refund prepaid subscription fees for the unused portion of the Term. Company may temporarily restrict access only as reasonably necessary to address an actual security threat or unlawful use, shall promptly notify Licensee where legally permitted, and shall restore access promptly when the cause is resolved."]], ["21. Survival", ["Payment obligations accrued before termination, ownership, confidentiality, data return and deletion, indemnification, liability limitations, governing law, and provisions intended by their nature to survive shall survive expiration or termination."]]]};
+const PRIVACY_POLICY = {"updated": "November 16, 2026", "sections": [["Who we are", ["IntegrityShield is a product of SureShield, Inc. (“SureShield”, “we”, “us”). This Privacy Policy explains how we collect, use and protect personal information through the IntegrityShield website and when you contact us, book a demo, register for a webinar, run a free assessment, or sign up for or buy an IntegrityShield plan.", "Records that customers screen inside the IntegrityShield platform (for example employee, vendor and provider records) are handled under the customer’s IntegrityShield Software Subscription Agreement, including its Confidentiality and Data Protection and Security sections."]], ["Information we collect", ["<b>Information you give us.</b> When you use a form on this website we collect what you enter, such as your name, work email, phone number, organization, job title or role, industry and message. Demo bookings also collect the meeting time you choose and your answers to the booking questions. Webinar registrations and alerts collect your email and, if you give them, your name, organization, role and industry.", "<b>Sign-ups and purchases.</b> For a free plan, a paid plan or an Enterprise request we collect your organization’s details (name, address, organization type, website and industries served), the contact details of your system administrator and key contacts, the plans you choose, and the name, title, email and date of the person who signs the agreement electronically.", "<b>Free assessments.</b> To run a free sanctions and exclusion check or a free licensure check, we send the details you enter (for example a name, license number or state) to the relevant public data sources and show you the result. We record that a check ran, when and for which solution, but not the names you searched.", "<b>Collected automatically.</b> We set a random visitor ID and counters for free assessments in your browser (see Cookies below). When you run a free assessment, Google reCAPTCHA collects technical information from your browser to check that you are a person."]], ["How we use information", ["We use personal information to: respond to your questions and requests; schedule demos and send meeting details; register you for webinars and send confirmations, reminders, recordings and webinar alerts; set up and provide your IntegrityShield account and subscription, including agreements, invoices and support; process payments; send our newsletter if you asked for it; keep the website secure and prevent abuse (for example free-assessment limits and bot checks); and comply with the law."]], ["Emails and newsletter", ["We send service emails that you need, such as form and webinar confirmations, meeting details, receipts, signed agreements and account information.", "Forms on this site include a newsletter box that is ticked for you; untick it if you do not want the newsletter. Every newsletter and webinar alert email includes an unsubscribe link, and we honor unsubscribe requests promptly. You can also email us to opt out."]], ["Payments", ["Card payments are processed by our payment provider. Your full card details go directly to that provider and are not stored on our systems. We keep a record of what you bought, what you paid and your invoices."]], ["Cookies", ["This website uses only the cookies it needs to work: a random visitor ID and counters for the free assessments (10 per visitor for each solution), plus the cookies Google reCAPTCHA sets when the human check runs. We do not currently use analytics or advertising cookies. The Cookie Policy lists each cookie. You can block or delete cookies in your browser settings, but some parts of the site, such as the free assessments, may then not work."]], ["Sharing and service providers", ["We do not sell or trade your personal information.", "We share it only with service providers that help us run IntegrityShield and this website, under confidentiality obligations: Google Workspace (email, and the Google Sheets and Google Apps Script service that stores and processes form submissions), Calendly (demo scheduling), Zoom (meetings and webinars), Google reCAPTCHA (bot checks), our payment provider, and the public data sources that a free assessment queries.", "We may also disclose information when the law requires it, to protect the rights, property or safety of SureShield, our customers or others, or as part of a merger, acquisition or sale of assets, in which case this policy continues to apply. We may use aggregated or de-identified information, which does not identify you, for research and to improve our services."]], ["Do Not Track", ["We honor Do Not Track signals, and we do not allow third-party behavioral tracking on this website."]], ["Security", ["We protect personal information with measures that include encryption in transit (SSL/TLS), access limited to staff who need it, and regular reviews of our systems. No method of transmission or storage is completely secure, but we work to protect your information.", "If we confirm a breach that affects your personal information, we will tell you by email, phone or another appropriate method as soon as possible."]], ["Data retention", ["We keep personal information only as long as we need it for the purposes above: for example, inquiry and webinar records for as long as they are useful for following up, and customer records for the length of the subscription plus any period the law or the Subscription Agreement requires. After that we delete it or make it anonymous."]], ["Your rights and choices", ["Depending on where you live, you may have the right to access the personal information we hold about you, correct it, delete it, restrict or object to how we use it, receive a copy in a portable format, and withdraw any consent you gave. You can also complain to a data protection authority.", "To make a request, email us at the address below. We do not charge for requests and usually respond within one month."]], ["Children", ["IntegrityShield is sold only to businesses and organizations. This website is not directed to children under 13, and we do not knowingly collect their personal information."]], ["Changes to this policy", ["We may update this policy. When we do, we will change the “Last updated” date above, and if a change is significant we will tell you more prominently."]], ["Contact us", ["SureShield, Inc., 3343 Peachtree Rd NE, Ste 145-1564, Atlanta, GA 30326<br>Phone: <a href=\"tel:18006041354\">1-800-604-1354</a><br>Email: <a href=\"mailto:info@sureshield.ai\">info@sureshield.ai</a>"]]]};
+/* the agreement with this customer's details filled in; o = {licensee, date, notice} (already escaped for HTML when shown) */
+function agreementSections(o) {
+  return AGREEMENT.sections.map(([h, ps]) => [h === 'Preamble' ? '' : h,
+    ps.map(p => p.replace('{{DATE}}', o.date).replace('{{LICENSEE}}', o.licensee).replace('{{LICENSEE_NOTICE}}', o.notice))]);
+}
+const AG_REVIEW = 'Needs legal review: the agreement now covers all three solutions (opening paragraph and Section 1 updated for COI and LCM). Still open: the notice address (Milton, GA) differs from the Atlanta headquarters address, and the source document was marked “Revised draft”.';
 const INFO = {
-  privacy: ['Privacy Policy', 'Privacy <span class="mark">Policy.</span>', 'How SureShield, Inc. handles personal information collected through this website.',
+  privacy: ['Privacy Policy', 'Privacy <span class="mark">Policy.</span>', 'How SureShield, Inc. collects, uses and protects personal information through IntegrityShield.',
     ['Information we collect', 'How we use information', 'Newsletter and marketing emails', 'Cookies', 'Sharing and service providers', 'Data retention', 'Your rights and choices', 'Contact us']],
-  terms: ['Terms & Conditions', 'Terms &amp; <span class="mark">Conditions.</span>', 'The terms for using this website and IntegrityShield services.',
+  terms: ['Terms & Conditions', 'Terms &amp; <span class="mark">Conditions.</span>', 'The IntegrityShield Software Subscription Agreement that every subscription is signed under.',
     ['Acceptance of terms', 'Use of the website', 'Free assessments and free plans', 'Subscriptions and payment', 'Intellectual property', 'Disclaimers and limitation of liability', 'Governing law', 'Contact us']],
   cookies: ['Cookie Policy', 'Cookie <span class="mark">Policy.</span>', 'The cookies this website uses, why, and how to change your choices.', null],
   accessibility: ['Accessibility', 'Accessibility <span class="mark">statement.</span>', 'We want everyone to be able to use this website.', null],
@@ -642,6 +653,13 @@ function renderInfoPage(k) {
     <h2>Our target</h2><p>We aim to meet the Web Content Accessibility Guidelines (WCAG) 2.2, level AA.</p>
     <h2>Known issues</h2><p>${RV('Content needed: list any known issues after an accessibility review')}</p>
     <h2>Report a problem</h2><p>If something on this site is hard to use, email <a href="mailto:support@sureshield.ai">support@sureshield.ai</a> or call <a href="tel:18006041354">1-800-604-1354</a>.</p>`;
+  else if (k === 'privacy') body = `<p>${RV('Needs legal review: adapted from the sure-shield.com Privacy Policy for IntegrityShield; confirm the payment provider and retention periods')}</p>
+    <p class="upd">Last updated: ${PRIVACY_POLICY.updated}</p>` + PRIVACY_POLICY.sections.map(([h, ps]) => `<h2>${h}</h2>${ps.map(x => `<p>${x}</p>`).join('')}`).join('');
+  else if (k === 'terms') body = `<p>${RV(AG_REVIEW)}</p>
+    <p>Every IntegrityShield subscription, including the free plan, is signed under this agreement at checkout. The customer’s name and the signing date are filled in when you sign. Read it together with our <a href="#privacy">Privacy Policy</a>.</p>
+    <p>${RV('Needs legal review: terms of use for website visitors and the free assessments (not covered by the subscription agreement)')}</p>
+    <h2>${AGREEMENT.title}</h2>` + agreementSections({licensee: 'the organization named at checkout', date: 'the date it is signed', notice: 'as given at checkout'})
+      .map(([h, ps]) => `${h ? `<h3>${h}</h3>` : ''}${ps.map(x => `<p>${x.replace(/&/g, '&amp;').replace(/</g, '&lt;')}</p>`).join('')}`).join('');
   else body = `<p>${RV(k === 'security' ? 'Content needed: real facts only (no claims without evidence)' : 'TODO: legal text from counsel')}</p>` +
     secs.map(s => `<h2>${s}</h2><p>${RV(k === 'security' ? 'Content needed' : 'TODO')}</p>`).join('');
   return `${pageHero(label, h1, lede)}<section class="sec info"><div class="wrap legal">${body}</div></section>`;
@@ -1865,25 +1883,27 @@ function initCal(root) {
 /* ---------- pricing ---------- */
 const PR = {sol: 'ses', bill: 'annual', cart: {}};
 const BUNDLE_OFF = .25;
-const priceOf = (t, bill) => bill === 'annual' ? Math.round(t.m * (1 - ANNUAL_OFF)) : t.m;
-const money = n => '$' + Math.round(n).toLocaleString('en-US');
+const r2 = n => Math.round(n * 100 + 1e-6) / 100;
+const priceOf = (t, bill) => bill === 'annual' ? r2(t.m * (1 - ANNUAL_OFF)) : t.m;
+const money = n => '$' + r2(n).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 const CHECK = '<svg class="fx-y" viewBox="0 0 20 20" aria-label="Included" role="img"><circle cx="10" cy="10" r="10"/><path d="m5.6 10.3 2.9 2.9 5.9-6.2"/></svg>';
 const DASH = '<span class="fx-n" role="img" aria-label="Not included">—</span>';
 function cartLines() {
   return SOLS.filter(s => PR.cart[s]).map(s => ({sol: s, t: PLANS[s].tiers.find(x => x.k === PR.cart[s])})).filter(x => x.t && x.t.m);
 }
 function cartTotals(bill) {
-  const lines = cartLines(), list = lines.reduce((a, x) => a + x.t.m, 0);
-  const annual = bill === 'annual' ? Math.round(list * ANNUAL_OFF) : 0;
-  const bundle = lines.length >= 2 ? Math.round((list - annual) * BUNDLE_OFF) : 0;
-  return {lines, list, annual, bundle, total: list - annual - bundle};
+  const lines = cartLines(), list = r2(lines.reduce((a, x) => a + x.t.m, 0));
+  const annual = bill === 'annual' ? r2(list * ANNUAL_OFF) : 0;
+  const bundle = lines.length >= 2 ? r2((list - annual) * BUNDLE_OFF) : 0;
+  return {lines, list, annual, bundle, total: r2(list - annual - bundle)};
 }
 function bundleExample() {
-  const t = PLANS.ses.tiers.find(x => x.k === 'plus'), list = t.m * 2, annual = Math.round(list * ANNUAL_OFF), bundle = Math.round((list - annual) * BUNDLE_OFF), total = list - annual - bundle;
-  return `Example: ${t.n} for two solutions is ${money(list)}/mo at list price. Annual billing saves ${money(annual)} and the bundle saves another ${money(bundle)}, for ${money(total)}/mo: ${Math.round((1 - total / list) * 100)}% off list.`;
+  const a = PLANS.ses.tiers.find(x => x.k === 'plus'), b = PLANS.coi.tiers.find(x => x.k === 'plus');
+  const list = r2(a.m + b.m), annual = r2(list * ANNUAL_OFF), bundle = r2((list - annual) * BUNDLE_OFF), total = r2(list - annual - bundle);
+  return `Example: ${a.n} for IntegrityShield-SES and IntegrityShield-COI is ${money(list)}/mo at list price. Annual billing saves ${money(annual)} and the bundle saves another ${money(bundle)}, for ${money(total)}/mo: ${Math.round((1 - total / list) * 100)}% off list.`;
 }
 function bundleHTML() {
-  return `<div class="bundle"><span class="bd-ic" aria-hidden="true">%</span><div><b>Bundle discount: save an extra 25%</b><span>Subscribe to two or more IntegrityShield solutions and take another 25% off, on top of your annual billing savings.</span><span class="bd-ex">${bundleExample()}</span></div></div><p class="plans-same">Same plans and prices for every IntegrityShield solution. ${RV('Needs clarification (pricing input from Tom): what counts as one active monitoring record (is a person in both SES and COI counted twice?), what happens at the limit, overage pricing, and the gap between 750 records and Enterprise')}</p>`;
+  return `<div class="bundle"><span class="bd-ic" aria-hidden="true">%</span><div><b>Bundle discount: save an extra 25%</b><span>Subscribe to two or more IntegrityShield solutions and take another 25% off, on top of your annual billing savings.</span><span class="bd-ex">${bundleExample()}</span></div></div><p class="plans-same">Same plans for every IntegrityShield solution; prices vary by solution. ${RV('Needs clarification: what counts as one active monitoring record (is a person in both SES and COI counted twice?), what happens at the limit, overage pricing, and the gap between 750 records and Enterprise')}</p>`;
 }
 function checkoutHTML(bill) {
   const c = cartTotals(bill);
@@ -1999,7 +2019,7 @@ function coTotals() {
   if (CO.mode !== 'paid') return {lines: coSolList().map(s => ({sol: s, t: PLANS[s].tiers.find(x => CO.mode === 'free' ? x.free : !x.m && !x.free)})).filter(x => x.t), list: 0, annual: 0, bundle: 0, total: 0};
   return cartTotals(PR.bill);
 }
-function coDueToday(c) { return CO.mode !== 'paid' ? 0 : PR.bill === 'annual' ? c.total * 12 : c.total; }
+function coDueToday(c) { return CO.mode !== 'paid' ? 0 : PR.bill === 'annual' ? r2(c.total * 12) : c.total; }
 function coNewNo(prefix) {
   const d = new Date(), p = n => String(n).padStart(2, '0');
   return `${prefix}-${String(d.getFullYear()).slice(2)}${p(d.getMonth() + 1)}${p(d.getDate())}-${Math.random().toString(36).slice(2, 6).toUpperCase()}`;
@@ -2101,25 +2121,8 @@ function coOrgHTML() {
 }
 
 /* step 2: agreement */
-const TERMS = [
-  ['1. Services', 'Placeholder. SureShield, Inc. ("SureShield") provides the IntegrityShield solutions and plans listed in the order summary. The scope of each plan is described on the IntegrityShield pricing page.'],
-  ['2. Term and renewal', 'Placeholder. Annual subscriptions run for 12 months from the start date and renew for further 12-month terms unless cancelled. Monthly subscriptions renew each month until cancelled.'],
-  ['3. Fees and payment', 'Placeholder. Fees are shown in US dollars in the order summary. Annual subscriptions are billed in advance. Discounts apply only while the qualifying plans remain active.'],
-  ['4. Customer responsibilities', 'Placeholder. The customer is responsible for the accuracy of the records it submits for monitoring and for how it uses screening results.'],
-  ['5. Data and confidentiality', 'Placeholder. Each party will protect the other party’s confidential information. Customer data is handled as described in the Privacy Policy.'],
-  ['6. Warranties and liability', 'Placeholder. Warranty, disclaimer and limitation of liability terms to be provided by SureShield.'],
-  ['7. Termination', 'Placeholder. Termination terms to be provided by SureShield.'],
-  ['8. General', 'Placeholder. Governing law, notices and other general terms to be provided by SureShield.']
-];
-const PRIVACY = [
-  ['Information we collect', 'Placeholder. Organization details, contact details and the monitoring records you submit.'],
-  ['How we use information', 'Placeholder. To provide, support and improve the IntegrityShield solutions you subscribe to.'],
-  ['Sharing', 'Placeholder. Details of service providers and legal disclosures to be provided by SureShield.'],
-  ['Security and retention', 'Placeholder. Security measures and retention periods to be provided by SureShield.'],
-  ['Your choices and contact', 'Placeholder. Questions about privacy can be sent to ' + SUPPORT.email + '.']
-];
 function coDocHTML(id, title, items) {
-  return `<section class="co-doc" aria-labelledby="${id}"><h3 id="${id}">${title}</h3><div class="co-doc-b" tabindex="0">${items.map(([h, p]) => `<h4>${h}</h4><p>${p}</p>`).join('')}</div></section>`;
+  return `<section class="co-doc" aria-labelledby="${id}"><h3 id="${id}">${title}</h3><div class="co-doc-b" tabindex="0">${items.map(([h, p]) => `${h ? `<h4>${h}</h4>` : ''}${(Array.isArray(p) ? p : [p]).map(x => `<p>${x}</p>`).join('')}`).join('')}</div></section>`;
 }
 function coAddress() { const o = CO.org; return [o.addr, o.city, [o.state, o.zip].filter(Boolean).join(' '), o.country].filter(Boolean).join(', '); }
 function coAgreementHTML(c) {
@@ -2128,7 +2131,7 @@ function coAgreementHTML(c) {
   const term = CO.mode === 'free' ? 'Free plan at no charge, until cancelled or upgraded' : PR.bill === 'annual' ? '12 months from the start date, billed annually in advance' : 'Month to month, billed monthly';
   const rows = c.lines.map(x => `<tr><td>${M[x.sol].name}</td><td>${x.t.n}</td><td>${x.t.rec}</td><td class="n">${money(x.t.m)}/mo</td></tr>`).join('');
   return `<div class="co-card">
-    <div class="co-head2"><h2>Review and sign your agreement</h2><p>Read the purchase summary, Terms and Conditions and Privacy Policy, then sign below. <span class="ph-tag">Placeholder content</span></p></div>
+    <div class="co-head2"><h2>Review and sign your agreement</h2><p>Read the purchase summary, the IntegrityShield Software Subscription Agreement and the Privacy Policy, then sign below. ${RV(AG_REVIEW)}</p></div>
     <section class="co-contract" aria-labelledby="co-ct-h">
       <div class="cc-top"><h3 id="co-ct-h">Subscription agreement</h3><span>No. ${CO.contractNo}</span></div>
       <dl class="cc-dl">
@@ -2146,8 +2149,8 @@ function coAgreementHTML(c) {
           ${CO.mode === 'free' ? '<tr class="tt"><td colspan="3">Amount due</td><td class="n">$0, no credit card required</td></tr>' : `<tr class="tt"><td colspan="3">${PR.bill === 'annual' ? 'Amount due today (12 months)' : 'Amount due today (first month)'}</td><td class="n">${money(coDueToday(c))}</td></tr>`}
         </tfoot></table></div>
     </section>
-    ${coDocHTML('co-tc-h', 'Terms and Conditions', TERMS)}
-    ${coDocHTML('co-pp-h', 'Privacy Policy', PRIVACY)}
+    ${coDocHTML('co-tc-h', AGREEMENT.title, agreementSections({licensee: esc(o.name), date: s ? s.date : start, notice: esc([o.name, coAddress(), o.adminEmail].filter(Boolean).join(', '))}))}
+    ${coDocHTML('co-pp-h', 'Privacy Policy', PRIVACY_POLICY.sections)}
     ${s ? coSignedHTML() : `<form class="co-sign" data-co-form="sign" novalidate>
       <h3>Electronic signature</h3>
       <div class="cgrid">
@@ -2156,7 +2159,7 @@ function coAgreementHTML(c) {
         <label class="cf wide" for="co-semail"><span class="cl">Work email <i aria-hidden="true">*</i> <em>The signed contract and receipt go here</em></span><input id="co-semail" name="semail" type="email" autocomplete="email" required aria-required="true" value="${esc(CO.draftSign.semail || o.adminEmail || '')}"><span class="fe" id="co-semail-e" hidden></span></label>
       </div>
       <div class="sig-pad" aria-hidden="true"><span class="sig-l">Signature</span><span class="sig-v" data-sig-v>${esc(CO.draftSign.sname || o.adminName || '')}</span><span class="sig-d">${start}</span></div>
-      <label class="ck"><input type="checkbox" name="tc"${CO.draftSign.tc ? ' checked' : ''}><span>I have read and agree to the Terms and Conditions. <i aria-hidden="true">*</i></span></label>
+      <label class="ck"><input type="checkbox" name="tc"${CO.draftSign.tc ? ' checked' : ''}><span>I have read and agree to the IntegrityShield Software Subscription Agreement. <i aria-hidden="true">*</i></span></label>
       <label class="ck"><input type="checkbox" name="pp"${CO.draftSign.pp ? ' checked' : ''}><span>I have read and agree to the Privacy Policy. <i aria-hidden="true">*</i></span></label>
       <label class="ck"><input type="checkbox" name="es"${CO.draftSign.es ? ' checked' : ''}><span>I am authorized to sign for ${esc(o.name)}, and typing my name above is my electronic signature. <i aria-hidden="true">*</i></span></label>
       ${nlBox(CO.draftSign.newsletter !== false)}
@@ -2183,7 +2186,7 @@ function coPaymentHTML(c) {
     <div class="pay-due"><span>Amount due today</span><b>${money(due)}</b></div>
     <div class="pay-box" role="note">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="4" y="10.5" width="16" height="10" rx="2"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/></svg>
-      <div><b>Secure payment by Stripe</b><span>The Stripe payment form will appear here once payments are connected. This demo does not take payments or ask for card details.</span></div>
+      <div><b>Secure card payment</b><span>Card details go straight to our payment provider and are never stored by IntegrityShield. The payment form will appear here once payments are connected; this demo does not take payments or ask for card details. ${RV('Needs clarification: payment provider name and connection (Gautam)')}</span></div>
     </div>
     <p class="pay-note">The receipt and signed contract go to <b>${esc(CO.sign.email)}</b>.</p>
     <div class="co-nav"><button type="button" class="link" data-co-go="1">← Back</button><button type="button" class="btn primary" data-co-pay>Pay ${money(due)}</button></div>
@@ -2232,13 +2235,24 @@ function coMeetingHTML() {
     <div class="co-nav"><button type="button" class="link" data-co-go="0">← Back</button></div>
   </div>`;
 }
+const PAYMENTS_LIVE = false;          // true once the payment gateway confirms payments (the backend checks too)
+async function pdfB64(blocks) {
+  const buf = new Uint8Array(await buildPDF(blocks).arrayBuffer());
+  let s = ''; for (let i = 0; i < buf.length; i += 0x8000) s += String.fromCharCode.apply(null, buf.subarray(i, i + 0x8000));
+  return btoa(s);
+}
+function coOrderFields() {
+  const c = coTotals(), free = CO.mode === 'free';
+  return {lines: c.lines.map(x => ({sol: M[x.sol].name, plan: free ? 'Free' : x.t.n, records: x.t.rec, price: free ? 0 : x.t.m})),
+    bill: free ? 'free' : PR.bill, list: free ? 0 : c.list, annualOff: free ? 0 : c.annual, bundleOff: free ? 0 : c.bundle, total: free ? 0 : c.total, due: free ? 0 : coDueToday(c)};
+}
 function coSignupBody(extra) {
   const o = CO.org, s = CO.sign || {};
-  return {kind: CO.mode === 'free' ? 'free' : 'enterprise', solutions: coSolList().map(x => M[x].name).join(', '), org: o.name, short: o.short, type: o.type, url: o.url,
+  return {kind: CO.mode === 'free' ? 'free' : CO.mode === 'paid' ? 'paid' : 'enterprise', solutions: coSolList().map(x => M[x].name).join(', '), org: o.name, short: o.short, type: o.type, url: o.url,
     industries: (o.industries || []).join(', '), addr: o.addr, city: o.city, state: o.state, zip: o.zip, country: o.country,
     adminName: o.adminName, adminTitle: o.adminTitle, adminEmail: o.adminEmail, adminPhone: o.adminPhone,
     contacts: CO.contacts.filter(k => k.name || k.email).map(k => [k.name, k.role, k.email, k.phone].filter(Boolean).join(', ')).join('; '),
-    signName: s.name || '', signTitle: s.title || '', signEmail: s.email || '', contractNo: CO.mode === 'free' ? CO.contractNo : '',
+    signName: s.name || '', signTitle: s.title || '', signEmail: s.email || '', contractNo: CO.mode !== 'ent' ? CO.contractNo : '',
     page: location.pathname, utm: Object.entries(bookUtm()).map(([a, b]) => `${a}=${b}`).join('&'), website: o.hp || '', ...extra};
 }
 async function coSignupSend(extra) {
@@ -2266,7 +2280,8 @@ function coDoneAltHTML() {
   if (free) return `<div class="co-card co-done">
     <div class="cd-top"><span class="cd-ic" aria-hidden="true">✓</span><div><h2>Thank you. Your free plan is on its way.</h2><p>Reference <b>${d.no}</b> for ${esc(d.org)}.</p></div></div>
     <div class="cd-next"><h3>What happens next</h3>
-      <p>You’ll receive an email at <b>${esc(d.email)}</b> within the next <b>24 to 48 hours</b> with your account setup details and signed agreement.</p>
+      <p>We’ve emailed your plan details and signed agreement to <b>${esc(d.email)}</b> from <b>sales@sureshield.ai</b>.</p>
+      <p>Keep an eye out for a second email from <b>admin@sureshield.ai</b> with your login details and account setup.</p>
       <p class="cd-spam">Please keep an eye on your spam or junk folder in case the email lands there.</p></div>
     <dl class="cc-dl cd-dl">
       <div><dt>Reference</dt><dd>${d.no}</dd></div><div><dt>Date</dt><dd>${d.date}</dd></div><div><dt>Organization</dt><dd>${esc(d.org)}</dd></div>
@@ -2441,7 +2456,11 @@ document.addEventListener('click', e => {
     if (fr.disabled || !CO.sign) return;
     const label = fr.textContent; fr.disabled = true; fr.textContent = 'Sending…';
     const no = coNewNo('ISF');
-    coSignupSend({ref: no, newsletter: CO.draftSign.newsletter !== false}).then(r => {
+    (async () => {
+      let agreementPdf = '';
+      try { agreementPdf = await pdfB64(coContractBlocks()); } catch (err) { console.warn('agreement PDF failed', err); }
+      return coSignupSend({ref: no, newsletter: CO.draftSign.newsletter !== false, ...coOrderFields(), agreementPdf});
+    })().then(r => {
       fr.disabled = false; fr.textContent = label;
       if (!r.ok) { coSendErr(r); return; }
       const c = coTotals();
@@ -2453,11 +2472,40 @@ document.addEventListener('click', e => {
   if (e.target.closest('[data-co-pay]')) {
     const c = coTotals();
     CO.order = {no: coNewNo('IS'), date: coDate(new Date()), org: CO.org.name, email: CO.sign.email, signer: CO.sign.name, lines: c.lines, bill: PR.bill, paid: coDueToday(c), total: c.total, annual: c.annual, bundle: c.bundle, list: c.list, contractNo: CO.contractNo, address: coAddress()};
+    if (PAYMENTS_LIVE) coPaidSend('').then(r => { if (r && !r.ok) console.warn('order emails failed', r); });   // the gateway's payment reference goes here once connected
     PR.cart = {};
     CO.step = 3; renderCheckout(true); return;
   }
 });
 
+/* invoice for a paid order (d = CO.order) */
+function coInvoiceBlocks(d, paymentRef) {
+  const B = [], o = CO.org, p = (t, gap = 0) => B.push({t: pdfSafe(t), gap});
+  B.push({t: 'IntegrityShield Invoice', b: true, s: 18});
+  p(`Invoice no. ${d.no}   Date: ${d.date}   Status: PAID`, 6);
+  p('From: SureShield, Inc., 3343 Peachtree Rd NE, Ste 145-1564, Atlanta, GA 30326, sales@sureshield.ai, 1-800-604-1354', 6);
+  p(`Bill to: ${o.name}, ${d.address}`, 2);
+  p(`Attention: ${[o.adminName, o.adminEmail].filter(Boolean).join(', ')}`, 2);
+  B.push({t: 'Items (monthly list price)', b: true, gap: 12});
+  d.lines.forEach(x => p(`${M[x.sol].name} - ${x.t.n} (${x.t.rec}): ${money(x.t.m)}/mo`, 3));
+  B.push({t: 'Summary', b: true, gap: 12});
+  p(`Billing: ${d.bill === 'annual' ? 'annual, billed once for 12 months' : 'monthly'}`, 3);
+  p(`List price: ${money(d.list)}/mo`, 3);
+  if (d.annual) p(`Annual billing savings (20%): -${money(d.annual)}/mo`, 3);
+  if (d.bundle) p(`Bundle discount (25%): -${money(d.bundle)}/mo`, 3);
+  p(`Total: ${money(d.total)}/mo`, 3);
+  B.push({t: `Amount paid: ${money(d.paid)}`, b: true, gap: 8});
+  if (paymentRef) p(`Payment reference: ${paymentRef}`, 3);
+  p(`Agreement no. ${d.contractNo}, signed by ${CO.sign.name}.`, 8);
+  return B;
+}
+async function coPaidSend(paymentRef) {
+  const d = CO.order;
+  if (!PAYMENTS_LIVE || d.lines.some(x => x.t.k === 'max')) return {ok: true, skipped: true};
+  let agreementPdf = '', invoicePdf = '';
+  try { agreementPdf = await pdfB64(coContractBlocks()); invoicePdf = await pdfB64(coInvoiceBlocks(d, paymentRef)); } catch (err) { console.warn('order PDFs failed', err); }
+  return coSignupSend({ref: d.no, ...coOrderFields(), agreementPdf, invoicePdf, invoiceNo: d.no, paymentRef: paymentRef || '', newsletter: CO.draftSign && CO.draftSign.newsletter !== false});
+}
 /* ---------- contract PDF (built in the browser, no library) ---------- */
 function pdfSafe(s) {
   return String(s).replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[–—−]/g, '-').replace(/·/g, '-').replace(/…/g, '...').replace(/[^\x20-\x7E]/g, '');
@@ -2514,10 +2562,10 @@ function coContractBlocks() {
   const due = d ? d.paid : coDueToday(c);
   const B = [];
   const h = (t, gap = 14) => B.push({t, b: true, s: 12, gap});
-  const p = (t, gap = 0) => B.push({t, gap});
-  B.push({t: 'IntegrityShield Subscription Agreement', b: true, s: 18});
+  const plain = t => String(t).replace(/<br>/g, ' ').replace(/<[^>]+>/g, '').replace(/&amp;/g, '&').replace(/[“”]/g, '"').replace(/[‘’]/g, "'").replace(/[–—]/g, '-').replace(/[^\x20-\x7e]/g, '');
+  const p = (t, gap = 0) => B.push({t: plain(t), gap});
+  B.push({t: 'IntegrityShield Software Subscription Agreement', b: true, s: 18});
   p(`Agreement no. ${CO.contractNo}${d ? ` - Order no. ${d.no}` : ''}`, 6);
-  p('PLACEHOLDER DOCUMENT: final legal terms to be provided by SureShield, Inc.', 2);
   h('Parties');
   p('Provider: SureShield, Inc., 3343 Peachtree Rd NE, Ste 145-1564, Atlanta, GA 30326');
   p(`Customer: ${o.name}${o.short ? ` (${o.short})` : ''}`);
@@ -2535,12 +2583,14 @@ function coContractBlocks() {
   p(`Billing: ${bill === 'free' || CO.mode === 'free' ? 'Free plan, no charge' : bill === 'annual' ? 'annual, billed in advance for 12 months' : 'monthly'}`);
   p(`Amount due at signing: ${money(due)}`);
   p(`Start date: ${s ? s.date : coDate(new Date())}`);
-  h('Terms and Conditions');
-  TERMS.forEach(([t, x]) => { B.push({t, b: true, gap: 6}); p(x); });
+  h(AGREEMENT.title);
+  agreementSections({licensee: o.name, date: s ? s.date : coDate(new Date()), notice: [o.name, coAddress(), o.adminEmail].filter(Boolean).join(', ')})
+    .forEach(([t, ps]) => { if (t) B.push({t, b: true, gap: 6}); ps.forEach(x => p(x, 3)); });
   h('Privacy Policy');
-  PRIVACY.forEach(([t, x]) => { B.push({t, b: true, gap: 6}); p(x); });
+  p(`Last updated: ${PRIVACY_POLICY.updated}`);
+  PRIVACY_POLICY.sections.forEach(([t, ps]) => { B.push({t, b: true, gap: 6}); ps.forEach(x => p(x, 3)); });
   h('Electronic signature');
-  if (s) { p(`Signed by: ${s.name}, ${s.title}`); p(`Email: ${s.email}`); p(`Date: ${s.date}`); p('The signer confirmed they are authorized to sign for the customer and agreed to the Terms and Conditions and the Privacy Policy. Typing their name is their electronic signature.'); }
+  if (s) { p(`Signed by: ${s.name}, ${s.title}`); p(`Email: ${s.email}`); p(`Date: ${s.date}`); p('The signer confirmed they are authorized to sign for the customer and agreed to the IntegrityShield Software Subscription Agreement and the Privacy Policy. Typing their name is their electronic signature.'); }
   else p('Not signed.');
   return B;
 }
