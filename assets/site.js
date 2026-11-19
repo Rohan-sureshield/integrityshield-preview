@@ -331,7 +331,7 @@ function bookHTML(k) {
           <p class="cal-title" style="margin:0">Enter your details</p>
           <div class="two"><label for="${k}-bk-name">Full name<input id="${k}-bk-name" name="name" autocomplete="name"></label><label for="${k}-bk-email">Work email<input id="${k}-bk-email" name="email" type="email" autocomplete="email"></label></div>
           <label for="${k}-bk-org">Organization<input id="${k}-bk-org" name="org" autocomplete="organization"></label>
-          <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <input class="hp" name="ish_trap_x" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore aria-hidden="true">
           <label for="${k}-bk-note">What would you like to see? (optional)<textarea id="${k}-bk-note" name="note" rows="3"></textarea></label>
           <p class="err" hidden></p>
           <div class="cal-qs" data-cal-qs></div>
@@ -544,7 +544,7 @@ function webinarNextHTML(px = 'home') {
       <div class="web-done" hidden><span class="wd-ic" aria-hidden="true">✓</span><p class="wf-title">You’re registered.</p><p class="wd-t"></p><button type="button" class="btn ghost sm" data-web-again>Register someone else</button></div>
     </div>
     <div class="wnx-panel" data-wnx-panel="alert" hidden>
-      <form class="wnx-alert" novalidate><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <form class="wnx-alert" novalidate><input class="hp" name="ish_trap_x" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore aria-hidden="true">
         <label>Work email<input name="email" type="email" autocomplete="email" placeholder="you@organization.org"></label>
         <label><span>Industry <em class="opt">(optional)</em></span><select name="industry"><option value="">Select your industry</option>${industriesList().map(x => `<option>${x}</option>`).join('')}</select></label>
         <button class="btn primary" type="submit">Notify me</button>
@@ -566,7 +566,7 @@ function webinarCompactHTML(px) {
       <p class="web-chips"><span>Date to be announced</span><span>45 minutes, online</span><span>Recording for every registrant</span></p>
     </div>
     <div class="web-card" data-reveal>
-      <form class="web-form" novalidate><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <form class="web-form" novalidate><input class="hp" name="ish_trap_x" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore aria-hidden="true">
         <label>Session<select name="session"><option value="ses">Sanctions &amp; exclusion screening</option><option value="coi">Conflict of interest monitoring</option><option value="both">Both sessions</option></select></label>
         <div class="two"><label>First name<input name="first" autocomplete="given-name"></label><label>Work email<input name="email" type="email" autocomplete="email"></label></div>
         <label>Organization<input name="org" autocomplete="organization"></label>
@@ -592,7 +592,7 @@ function webinarHTML(px) {
       <ul class="checks sm web-learn" data-wl>${w.learn.map(l => `<li>${l}</li>`).join('')}</ul>
     </div>
     <div class="web-card" data-reveal>
-      <form class="web-form" novalidate><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <form class="web-form" novalidate><input class="hp" name="ish_trap_x" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore aria-hidden="true">
         <p class="wf-title">Save your seat</p>
         <fieldset class="sess"><legend>Choose a session</legend>
           <label class="sess-opt"><input type="radio" name="${px}-session" value="ses" checked><span><b>Sanctions &amp; exclusion screening</b><small>OIG, SAM, OFAC and state lists</small></span></label>
@@ -757,7 +757,7 @@ function renderContact() {
     <div class="copts">${opts.map(o => `<${o[3] ? `a href="${o[3]}"` : 'div'} class="copt" data-reveal><span class="co-k">${o[0]}</span><b>${o[1]}</b><span>${o[2]}</span></${o[3] ? 'a' : 'div'}>`).join('')}</div>
     <div class="cform-wrap" data-reveal>
       <div class="cf-copy"><div class="cf-std"><h2>Send us a message.</h2><p class="lede">Tell us what you screen today and what you need. The right person on our team will get back to you within the next 48 hours.</p></div><div class="cf-ent"><h2>Talk to us about Enterprise.</h2><p class="lede">Leave your name and work email. Our team will contact you to scope your Enterprise plan.</p></div></div>
-      <form class="cform" novalidate><input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <form class="cform" novalidate><input class="hp" name="ish_trap_x" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore aria-hidden="true">
         <p class="ent-tag"><b>Enterprise plan</b><button type="button" class="link" data-ent-off>Not an Enterprise inquiry?</button></p>
         <fieldset class="topics"><legend>What can we help with?</legend>${topics.map((t, i) => `<label class="topic"><input type="radio" name="topic" value="${t}"${i === 0 ? ' checked' : ''}><span>${t}</span></label>`).join('')}</fieldset>
         <div class="two"><label>Full name<input name="name" autocomplete="name"></label><label>Work email<input name="email" type="email" autocomplete="email"></label></div>
@@ -1344,7 +1344,7 @@ function licLiveFormHTML() {
         <div class="af-row"><label for="lic-fn">First name<input id="lic-fn" name="firstName" autocomplete="off"></label><label for="lic-ln">Last name<input id="lic-ln" name="lastName" autocomplete="off"></label></div>
         <label for="lic-num"><span>License number <em class="opt">(or enter the name above)</em></span><input id="lic-num" name="licenseNumber" autocomplete="off"></label>
         <div class="lic-extra" data-lic-extra></div>
-        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input class="hp" name="ish_trap_x" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore aria-hidden="true">
         <div class="lic-ts" data-lic-ts></div>
         <button class="btn primary" type="submit" disabled>Run licensure scan</button>
         <p class="lic-fine">This free assessment uses public licensing board records and is for general information only. Check the details before you act on a result.</p>
@@ -1478,7 +1478,7 @@ document.addEventListener('submit', async e => {
   const to = ctl ? setTimeout(() => ctl.abort(), 110000) : 0;
   let res = null, data = {};
   try {
-    res = await licCall('/lic/scan', {...q, ...extra, sourceId, website: g('website'), turnstile: ts, vid: licVid()}, ctl ? ctl.signal : undefined);
+    res = await licCall('/lic/scan', {...q, ...extra, sourceId, website: g('ish_trap_x'), turnstile: ts, vid: licVid()}, ctl ? ctl.signal : undefined);
     data = res.data || {};
   } catch (x) { res = null; }
   clearInterval(iv); clearTimeout(to);
@@ -1508,7 +1508,7 @@ function sesLiveFormHTML() {
         <div class="af-row" data-ses-person><label for="ses-fn">First name<input id="ses-fn" name="firstName" autocomplete="off" maxlength="60"></label><label for="ses-ln">Last name<input id="ses-ln" name="lastName" autocomplete="off" maxlength="60"></label></div>
         <div class="af-row" data-ses-person><label for="ses-mn"><span>Middle name <em class="opt">(optional)</em></span><input id="ses-mn" name="middleName" autocomplete="off" maxlength="60"></label><label for="ses-st"><span>State <em class="opt">(optional)</em></span><select id="ses-st" name="state"><option value="">Any state</option>${sesStates().map(([c, n]) => `<option value="${c}">${n}</option>`).join('')}</select></label></div>
         <div data-ses-org hidden><label for="ses-org">Business name<input id="ses-org" name="orgName" autocomplete="off" maxlength="120"></label></div>
-        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <input class="hp" name="ish_trap_x" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore aria-hidden="true">
         <div class="lic-ts" data-lic-ts></div>
         <button class="btn primary" type="submit">Search now</button>
         <p class="note lic-disc">This free assessment uses public sanctions and exclusion lists and is for general information only. A name match is not a confirmed identity, so check the details before you act on a result.</p>
@@ -1565,7 +1565,7 @@ document.addEventListener('submit', async e => {
   const ctl = typeof AbortController !== 'undefined' ? new AbortController() : null;
   const to = ctl ? setTimeout(() => ctl.abort(), 90000) : 0;
   let res = null, data = {};
-  try { res = await licCall('/ses/scan', {type, ...q, website: g('website'), turnstile: ts, vid: licVid()}, ctl ? ctl.signal : undefined); data = res.data || {}; }
+  try { res = await licCall('/ses/scan', {type, ...q, website: g('ish_trap_x'), turnstile: ts, vid: licVid()}, ctl ? ctl.signal : undefined); data = res.data || {}; }
   catch (x) { res = null; }
   clearInterval(iv); clearTimeout(to);
   delete f.dataset.busy; if (!f.classList.contains('locked')) btn.disabled = false;
@@ -1771,7 +1771,7 @@ function initCalLive(root) {
     try {
       res = await licCall('/book', {
         type, start: st.time, name, email, org, note: f.elements.note.value.trim(), timezone: LOCAL_TZ, answers: calAnswers(f),
-        utm: bookUtm(), newsletter: NL(f), page: location.pathname, ms: FORM_T0.has(f) ? Date.now() - FORM_T0.get(f) : 0, website: f.elements.website ? f.elements.website.value : ''
+        utm: bookUtm(), newsletter: NL(f), page: location.pathname, ms: FORM_T0.has(f) ? Date.now() - FORM_T0.get(f) : 0, website: f.elements.ish_trap_x ? f.elements.ish_trap_x.value : ''
       });
       data = res.data || {};
     } catch (x) { res = null; }
@@ -2088,7 +2088,7 @@ function coOrgHTML() {
     <div class="co-head2"><h2>Organization details</h2><p>${CO.mode === 'free' ? 'Tell us who the free plan is for. We use these details to set up your account.' : CO.mode === 'ent' ? 'Tell us about your organization. Next, you’ll choose a time to meet our team.' : 'Tell us who the subscription is for.'} Fields marked <i class="req">*</i> are required.</p></div>
     ${CO.mode !== 'paid' ? `<fieldset class="co-fs"><legend>Solutions <i class="req">*</i></legend><p class="co-hint">${CO.mode === 'free' ? 'Choose the solutions you want on the Free plan, up to 25 active monitoring records each.' : 'Choose the solutions you’d like to discuss.'}</p>
       <div class="chips">${SOLS.map(s => `<label class="chip-c"><input type="checkbox" name="sols" value="${s}"${CO.sols[s] ? ' checked' : ''}><span>${M[s].name}</span></label>`).join('')}</div><p class="fe" id="co-sols-e" hidden></p></fieldset>` : ''}
-    <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <input class="hp" name="ish_trap_x" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore aria-hidden="true">
     <fieldset class="co-fs"><legend>Organization</legend><div class="cgrid">
       ${fText('name', 'Organization name', {req: true, ac: 'organization', wide: true})}
       ${fText('short', 'Short form / acronym', {ph: 'e.g. ACME'})}
@@ -2353,7 +2353,7 @@ function coReadOrg(f) {
   const o = CO.org, g = n => (f.elements[n] ? f.elements[n].value.trim() : '');
   ['name', 'short', 'type', 'url', 'addr', 'country', 'state', 'city', 'zip', 'adminName', 'adminTitle', 'adminEmail', 'adminPhone'].forEach(n => { o[n] = g(n); });
   o.industries = $$('input[name=industries]:checked', f).map(x => x.value);
-  o.hp = g('website');
+  o.hp = g('ish_trap_x');
   if (CO.mode !== 'paid') { CO.sols = {}; $$('input[name=sols]:checked', f).forEach(x => { CO.sols[x.value] = true; }); }
   $$('[data-kc]', f).forEach(row => { const i = +row.dataset.kc; $$('[data-kc-f]', row).forEach(inp => { CO.contacts[i][inp.dataset.kcF] = inp.value.trim(); }); });
 }
@@ -2868,7 +2868,7 @@ async function formSend(f, body) {
   let res = null;
   try {
     res = await licCall('/form', {...body, page: location.pathname + location.hash, utm: Object.entries(u).map(([k, v]) => `${k}=${v}`).join('&'),
-      ms: FORM_T0.has(f) ? Date.now() - FORM_T0.get(f) : 0, website: f.elements.website ? f.elements.website.value : ''});
+      ms: FORM_T0.has(f) ? Date.now() - FORM_T0.get(f) : 0, website: f.elements.ish_trap_x ? f.elements.ish_trap_x.value : ''});
   } catch (x) { res = null; }
   delete f.dataset.busy; if (btn) { btn.disabled = false; btn.textContent = label; }
   if (res && res.ok) return {ok: true};
