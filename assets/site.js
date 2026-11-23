@@ -2369,7 +2369,7 @@ function coMeetingHTML() {
     <div class="co-nav"><button type="button" class="link" data-co-go="0">← Back</button></div>
   </div>`;
 }
-const PAYMENTS_LIVE = false;          // true once the payment gateway confirms payments (the backend checks too)
+const PAYMENTS_LIVE = true;           // the backend decides: it refuses paid orders unless its PAYMENTS_LIVE property is 1
 async function pdfB64(blocks) {
   const buf = new Uint8Array(await buildPDF(blocks).arrayBuffer());
   let s = ''; for (let i = 0; i < buf.length; i += 0x8000) s += String.fromCharCode.apply(null, buf.subarray(i, i + 0x8000));
@@ -2637,7 +2637,7 @@ function coInvoiceBlocks(d, paymentRef) {
 }
 async function coPaidSend(paymentRef) {
   const d = CO.order;
-  if (!PAYMENTS_LIVE || d.lines.some(x => x.t.k === 'max')) return {ok: true, skipped: true};
+  if (!PAYMENTS_LIVE) return {ok: true, skipped: true};   // every paid order, Essential PRO included, reaches sales@
   let agreementPdf = '', invoicePdf = '';
   try { agreementPdf = await pdfB64(coContractBlocks()); invoicePdf = await pdfB64(coInvoiceBlocks(d, paymentRef)); } catch (err) { console.warn('order PDFs failed', err); }
   return coSignupSend({ref: d.no, ...coOrderFields(), agreementPdf, invoicePdf, invoiceNo: d.no, paymentRef: paymentRef || '', newsletter: CO.draftSign && CO.draftSign.newsletter !== false});
