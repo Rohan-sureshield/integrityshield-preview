@@ -2382,7 +2382,7 @@ function coOrderFields() {
 }
 function coSignupBody(extra) {
   const o = CO.org, s = CO.sign || {};
-  return {kind: CO.mode === 'free' ? 'free' : CO.mode === 'paid' ? 'paid' : 'enterprise', solutions: coSolList().map(x => M[x].name).join(', '), org: o.name, short: o.short, type: o.type, url: o.url,
+  return {kind: CO.mode === 'free' ? 'free' : CO.mode === 'paid' ? 'paid' : 'enterprise', solutions: (CO.mode === 'paid' ? [...new Set(coTotals().lines.map(x => x.sol))] : coSolList()).map(x => M[x].name).join(', '), org: o.name, short: o.short, type: o.type, url: o.url,
     industries: (o.industries || []).join(', '), addr: o.addr, city: o.city, state: o.state, zip: o.zip, country: o.country,
     adminName: o.adminName, adminFirst: o.adminFirst, adminLast: o.adminLast, adminTitle: '', adminEmail: o.adminEmail, adminPhone: o.adminPhone,
     contacts: CO.contacts.filter(k => k.name || k.email).map(k => [k.name, k.role, k.email, k.phone].filter(Boolean).join(', ')).join('; '),
@@ -2608,8 +2608,8 @@ document.addEventListener('click', e => {
   if (e.target.closest('[data-co-pay]')) {
     const c = coTotals();
     CO.order = {no: coNewNo('IS'), date: coDate(new Date()), org: CO.org.name, email: CO.sign.email, signer: CO.sign.name, lines: c.lines, bill: PR.bill, paid: coDueToday(c), total: c.total, annual: c.annual, bundle: c.bundle, list: c.list, contractNo: CO.contractNo, address: coAddress()};
-    if (PAYMENTS_LIVE) coPaidSend('').then(r => { if (r && !r.ok) console.warn('order emails failed', r); });   // the gateway's payment reference goes here once connected
-    PR.cart = {};
+    // the cart is emptied only after the order has been sent: the order's plans are read from it
+    (PAYMENTS_LIVE ? coPaidSend('') : Promise.resolve(null)).then(r => { if (r && !r.ok) console.warn('order emails failed', r); }).catch(err => console.warn('order send failed', err)).finally(() => { PR.cart = {}; });   // the gateway's payment reference goes here once connected
     CO.step = 3; renderCheckout(true); return;
   }
 });
